@@ -1,0 +1,92 @@
+<div>
+  <h2 id="page-heading" data-cy="MecanicoHeading">
+    <span>Mecanicos</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="reset()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-mecanico"
+        [routerLink]="['/mecanico/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Mecanico </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="mecanicos?.length === 0">
+    <span>No mecanicos found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="mecanicos && mecanicos.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
+          <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="nombre"><span>Nombre</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="apellido"><span>Apellido</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="dNI"><span>D NI</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="telefono"><span>Telefono</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="correo"><span>Correo</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="vehiculo.id"><span>Vehiculo</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+        <tr *ngFor="let mecanico of mecanicos; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/mecanico', mecanico.id, 'view']">{{ mecanico.id }}</a>
+          </td>
+          <td>{{ mecanico.nombre }}</td>
+          <td>{{ mecanico.apellido }}</td>
+          <td>{{ mecanico.dNI }}</td>
+          <td>{{ mecanico.telefono }}</td>
+          <td>{{ mecanico.correo }}</td>
+          <td>
+            <div *ngIf="mecanico.vehiculo">
+              <a [routerLink]="['/vehiculo', mecanico.vehiculo?.id, 'view']">{{ mecanico.vehiculo?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/mecanico', mecanico.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/mecanico', mecanico.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(mecanico)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
