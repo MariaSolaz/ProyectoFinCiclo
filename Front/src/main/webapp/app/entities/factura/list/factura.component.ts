@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { combineLatest } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IFactura } from '../factura.model';
@@ -8,70 +10,69 @@ import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { FacturaService } from '../service/factura.service';
 import { FacturaDeleteDialogComponent } from '../delete/factura-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
-import { ParseLinks } from 'app/core/util/parse-links.service';
+import { FormBuilder } from '@angular/forms';
+import { FacturaFilter } from './factura.filter';
 
 @Component({
   selector: 'jhi-factura',
   templateUrl: './factura.component.html',
 })
 export class FacturaComponent implements OnInit {
-  facturas: IFactura[];
+  facturas?: IFactura[];
   isLoading = false;
-  itemsPerPage: number;
-  links: { [key: string]: number };
-  page: number;
-  predicate: string;
-  ascending: boolean;
+  totalItems = 0;
+  itemsPerPage = ITEMS_PER_PAGE;
+  page?: number;
+  predicate!: string;
+  ascending!: boolean;
+  ngbPaginationPage = 1;
+
+  filterForm = this.fb.group({
+    filterVehiculo: [],
+    
+  })
+
+  filtros: FacturaFilter = new FacturaFilter();
 
   constructor(
     protected facturaService: FacturaService,
+    protected activatedRoute: ActivatedRoute,
     protected dataUtils: DataUtils,
+    protected router: Router,
     protected modalService: NgbModal,
-    protected parseLinks: ParseLinks
-  ) {
-    this.facturas = [];
-    this.itemsPerPage = ITEMS_PER_PAGE;
-    this.page = 0;
-    this.links = {
-      last: 0,
-    };
-    this.predicate = 'id';
-    this.ascending = true;
+    protected fb: FormBuilder
+  ) {}
+
+  filter():void{
+    this.createFilterFromForm();
+    this.loadPage();
   }
 
-  loadAll(): void {
+  loadPage(page?: number, dontNavigate?: boolean): void {
     this.isLoading = true;
+    const pageToLoad: number = page ?? this.page ?? 1;
 
     this.facturaService
       .query({
-        page: this.page,
+        filter: this.filtros.toMap(),
+        page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
       })
       .subscribe(
         (res: HttpResponse<IFactura[]>) => {
           this.isLoading = false;
-          this.paginateFacturas(res.body, res.headers);
+          this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate);
         },
         () => {
           this.isLoading = false;
+          this.onError();
         }
       );
   }
 
-  reset(): void {
-    this.page = 0;
-    this.facturas = [];
-    this.loadAll();
-  }
-
-  loadPage(page: number): void {
-    this.page = page;
-    this.loadAll();
-  }
-
   ngOnInit(): void {
-    this.loadAll();
+    this.handleNavigation();
   }
 
   trackId(index: number, item: IFactura): number {
@@ -92,7 +93,7 @@ export class FacturaComponent implements OnInit {
     // unsubscribe not needed because closed completes on modal close
     modalRef.closed.subscribe(reason => {
       if (reason === 'deleted') {
-        this.reset();
+        this.loadPage();
       }
     });
   }
@@ -105,12 +106,42 @@ export class FacturaComponent implements OnInit {
     return result;
   }
 
-  protected paginateFacturas(data: IFactura[] | null, headers: HttpHeaders): void {
-    this.links = this.parseLinks.parse(headers.get('link') ?? '');
-    if (data) {
-      for (const d of data) {
-        this.facturas.push(d);
+  protected handleNavigation(): void {
+    combineLatest([this.activatedRoute.data, this.activatedRoute.queryParamMap]).subscribe(([data, params]) => {
+      const page = params.get('page');
+      const pageNumber = page !== null ? +page : 1;
+      const sort = (params.get('sort') ?? data['defaultSort']).split(',');
+      const predicate = sort[0];
+      const ascending = sort[1] === 'asc';
+      if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
+        this.predicate = predicate;
+        this.ascending = ascending;
+        this.loadPage(pageNumber, true);
       }
+    });
+  }
+
+  protected onSuccess(data: IFactura[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
+    this.totalItems = Number(headers.get('X-Total-Count'));
+    this.page = page;
+    if (navigate) {
+      this.router.navigate(['/factura'], {
+        queryParams: {
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
+        },
+      });
     }
+    this.facturas = data ?? [];
+    this.ngbPaginationPage = this.page;
+  }
+
+  protected onError(): void {
+    this.ngbPaginationPage = this.page ?? 1;
+  }
+
+  protected createFilterFromForm():void{
+    this.filtros.vehiculo = this.filterForm.get(['filterVehiculo'])?.value;
   }
 }

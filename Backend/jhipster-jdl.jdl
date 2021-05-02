@@ -52,5 +52,5 @@ relationship OneToMany{
 
 dto * with mapstruct
 service all with serviceImpl
-paginate all with infinite-scroll
+paginate all with pagination
 filter all

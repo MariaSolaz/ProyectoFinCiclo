@@ -1,86 +1,117 @@
 <div>
-  <h2 id="page-heading" data-cy="VehiculoHeading">
-    <span>Vehiculos</span>
+    <h2 id="page-heading" data-cy="VehiculoHeading">
+        <span>Vehiculos</span>
 
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-info mr-2" (click)="reset()" [disabled]="isLoading">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span>Refresh List</span>
       </button>
 
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-vehiculo"
-        [routerLink]="['/vehiculo/new']"
-      >
+            <button id="jh-create-entity" data-cy="entityCreateButton" class="btn btn-primary jh-create-entity create-vehiculo" [routerLink]="['/vehiculo/new']">
         <fa-icon icon="plus"></fa-icon>
         <span> Create a new Vehiculo </span>
       </button>
-    </div>
-  </h2>
+        </div>
+    </h2>
 
-  <jhi-alert-error></jhi-alert-error>
+    <jhi-alert-error></jhi-alert-error>
 
-  <jhi-alert></jhi-alert>
+    <jhi-alert></jhi-alert>
 
-  <div class="alert alert-warning" id="no-result" *ngIf="vehiculos?.length === 0">
-    <span>No vehiculos found</span>
-  </div>
-
-  <div class="table-responsive" id="entities" *ngIf="vehiculos && vehiculos.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
-      <thead>
-        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
-          <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="matricula"><span>Matricula</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="marca"><span>Marca</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="modelo"><span>Modelo</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="anyo"><span>Anyo</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="estado"><span>Estado</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-        <tr *ngFor="let vehiculo of vehiculos; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/vehiculo', vehiculo.id, 'view']">{{ vehiculo.id }}</a>
-          </td>
-          <td>{{ vehiculo.matricula }}</td>
-          <td>{{ vehiculo.marca }}</td>
-          <td>{{ vehiculo.modelo }}</td>
-          <td>{{ vehiculo.anyo | formatMediumDate }}</td>
-          <td>{{ vehiculo.estado }}</td>
-          <td class="text-right">
-            <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/vehiculo', vehiculo.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
-              </button>
-
-              <button
-                type="submit"
-                [routerLink]="['/vehiculo', vehiculo.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
-              </button>
-
-              <button type="submit" (click)="delete(vehiculo)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
-              </button>
+    <!--FILTROS-->
+    <form class="form-filter " name="filterForm" role="form" novalidate (ngSubmit)="filter()" [formGroup]="filterForm">
+        <div class="row">
+            <!--Nombre-->
+            <div class="form-group">
+                <label class="form-control-label" for="filterMatricula">Matricula</label>
+                <input type="text" class="form-control" id="filterMatricula" formControlName="filterMatricula" />
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+
+            <!--Apellido-->
+            <div class="form-group">
+                <label class="form-control-label" for="filterMarca">Marca</label>
+                <input type="text" class="form-control" id="filterMarca" formControlName="filterMarca" />
+            </div>
+
+            <!--Enviar-->
+            <div class="form-group">
+                <button type="submit" class="btn btn-dark">
+            <span>FILTRAR</span>
+        </button>
+            </div>
+
+        </div>
+
+
+    </form>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="vehiculos?.length === 0">
+        <span>No se han encontrado vehiculos</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="vehiculos && vehiculos.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col" jhiSortBy="id"><span>ID</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="matricula"><span>Matricula</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="marca"><span>Marca</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="modelo"><span>Modelo</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="anyo"><span>Anyo</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="estado"><span>Estado</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let vehiculo of vehiculos; trackBy: trackId" data-cy="entityTable">
+                    <td>
+                        <a [routerLink]="['/vehiculo', vehiculo.id, 'edit']">{{ vehiculo.id }}</a>
+                    </td>
+                    <td>{{ vehiculo.matricula }}</td>
+                    <td>{{ vehiculo.marca }}</td>
+                    <td>{{ vehiculo.modelo }}</td>
+                    <td>{{ vehiculo.anyo | formatMediumDate }}</td>
+                    <td>{{ vehiculo.estado }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+
+
+                            <button type="submit" [routerLink]="['/vehiculo', vehiculo.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                
+              </button>
+
+                            <button type="submit" (click)="delete(vehiculo)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                
+              </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="vehiculos && vehiculos.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
 </div>

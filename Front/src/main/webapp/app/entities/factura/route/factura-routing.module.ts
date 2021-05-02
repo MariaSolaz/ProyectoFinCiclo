@@ -11,6 +11,9 @@ const facturaRoute: Routes = [
   {
     path: '',
     component: FacturaComponent,
+    data: {
+      defaultSort: 'id,asc',
+    },
     canActivate: [UserRouteAccessService],
   },
   {

@@ -42,10 +42,10 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call Vehiculo query and add missing value', () => {
         const mecanico: IMecanico = { id: 456 };
-        const vehiculo: IVehiculo = { id: 11508 };
+        const vehiculo: IVehiculo = { id: 75334 };
         mecanico.vehiculo = vehiculo;
 
-        const vehiculoCollection: IVehiculo[] = [{ id: 15097 }];
+        const vehiculoCollection: IVehiculo[] = [{ id: 81505 }];
         spyOn(vehiculoService, 'query').and.returnValue(of(new HttpResponse({ body: vehiculoCollection })));
         const additionalVehiculos = [vehiculo];
         const expectedCollection: IVehiculo[] = [...additionalVehiculos, ...vehiculoCollection];
@@ -61,7 +61,7 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const mecanico: IMecanico = { id: 456 };
-        const vehiculo: IVehiculo = { id: 12088 };
+        const vehiculo: IVehiculo = { id: 84171 };
         mecanico.vehiculo = vehiculo;
 
         activatedRoute.data = of({ mecanico });

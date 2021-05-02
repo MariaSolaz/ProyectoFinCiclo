@@ -6,12 +6,14 @@ import { VehiculoComponent } from '../list/vehiculo.component';
 import { VehiculoDetailComponent } from '../detail/vehiculo-detail.component';
 import { VehiculoUpdateComponent } from '../update/vehiculo-update.component';
 import { VehiculoRoutingResolveService } from './vehiculo-routing-resolve.service';
-import { DashboardComponent } from 'app/entities/dashboard/list/dashboard.component';
 
 const vehiculoRoute: Routes = [
   {
     path: '',
     component: VehiculoComponent,
+    data: {
+      defaultSort: 'id,asc',
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -38,16 +40,6 @@ const vehiculoRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
-  {
-    path: '/dashboard',
-    component: DashboardComponent,
-    resolve: {
-      vehiculo: VehiculoRoutingResolveService,
-    },
-    canActivate: [UserRouteAccessService],
-  }
-  
- 
 ];
 
 @NgModule({

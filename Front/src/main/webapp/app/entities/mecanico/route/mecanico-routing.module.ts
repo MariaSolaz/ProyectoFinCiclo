@@ -11,6 +11,9 @@ const mecanicoRoute: Routes = [
   {
     path: '',
     component: MecanicoComponent,
+    data: {
+      defaultSort: 'id,asc',
+    },
     canActivate: [UserRouteAccessService],
   },
   {

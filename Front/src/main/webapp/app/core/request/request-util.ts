@@ -15,7 +15,18 @@ export const createRequestOption = (req?: any): HttpParams => {
         options = options.append('sort', val);
       });
     }
+
+    if(req.filter){
+      const myMap = req.filter;
+      myMap.forEach((value:string, key:string) => {
+        options = options.append(key,value);
+        
+      });
+
+    }
   }
+
+  
 
   return options;
 };
