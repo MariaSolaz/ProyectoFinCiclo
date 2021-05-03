@@ -3,14 +3,14 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize, map} from 'rxjs/operators';
 
 import { IFactura, Factura } from '../factura.model';
 import { FacturaService } from '../service/factura.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
-import { IVehiculo } from 'app/entities/vehiculo/vehiculo.model';
+import { Vehiculo, IVehiculo } from 'app/entities/vehiculo/vehiculo.model';
 import { VehiculoService } from 'app/entities/vehiculo/service/vehiculo.service';
 
 @Component({
@@ -19,7 +19,7 @@ import { VehiculoService } from 'app/entities/vehiculo/service/vehiculo.service'
 })
 export class FacturaUpdateComponent implements OnInit {
   isSaving = false;
-
+  idVehiculo?:number;
   vehiculosSharedCollection: IVehiculo[] = [];
 
   editForm = this.fb.group({
@@ -43,9 +43,12 @@ export class FacturaUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ factura }) => {
       this.updateForm(factura);
-
       this.loadRelationshipsOptions();
     });
+
+    if(this.activatedRoute.snapshot.params.idVehiculo){
+      this.idVehiculo = this.activatedRoute.snapshot.params.idVehiculo;
+    }
   }
 
   byteSize(base64String: string): string {
@@ -72,6 +75,13 @@ export class FacturaUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const factura = this.createFromForm();
+
+    if(this.idVehiculo){
+      const vehiculo:Vehiculo = new Vehiculo();
+      vehiculo.id = this.idVehiculo;
+      factura.vehiculo = vehiculo;
+    }
+
     if (factura.id !== undefined) {
       this.subscribeToSaveResponse(this.facturaService.update(factura));
     } else {
@@ -118,16 +128,19 @@ export class FacturaUpdateComponent implements OnInit {
     );
   }
 
-  protected loadRelationshipsOptions(): void {
+  protected loadRelationshipsOptions():void{
     this.vehiculoService
-      .query()
-      .pipe(map((res: HttpResponse<IVehiculo[]>) => res.body ?? []))
-      .pipe(
-        map((vehiculos: IVehiculo[]) =>
-          this.vehiculoService.addVehiculoToCollectionIfMissing(vehiculos, this.editForm.get('vehiculo')!.value)
-        )
+    .query({
+      sort:['estado', 'asc']
+    })
+    .pipe(map((res:HttpResponse<IVehiculo[]>) => res.body ?? []))
+    .pipe(
+      map((vehiculos: IVehiculo[]) =>
+        this.vehiculoService.addVehiculoToCollectionIfMissing(vehiculos, this.editForm.get('estado')!.value)
       )
-      .subscribe((vehiculos: IVehiculo[]) => (this.vehiculosSharedCollection = vehiculos));
+    )
+    .subscribe((vehiculos: IVehiculo[]) =>(this.vehiculosSharedCollection = vehiculos));
+
   }
 
   protected createFromForm(): IFactura {

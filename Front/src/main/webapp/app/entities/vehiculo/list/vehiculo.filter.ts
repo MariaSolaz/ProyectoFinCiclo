@@ -1,7 +1,7 @@
 export class VehiculoFilter{
     constructor(
         public matricula?: string,
-        public marca?: string
+        public estado?: string
     ){}
        
     toMap():any{
@@ -13,8 +13,8 @@ export class VehiculoFilter{
         } 
 
         /* Apellido */
-        if(this.marca != null && this.marca !== ""){
-            map.set('marca.contains',this.marca);
+        if(this.estado != null && this.estado !== ""){
+            map.set('estado.equals',this.estado);
         } 
 
         return map;

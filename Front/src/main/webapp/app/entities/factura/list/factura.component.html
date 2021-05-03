@@ -1,14 +1,14 @@
 <div>
     <h2 id="page-heading" data-cy="FacturaHeading">
-        <span>Facturas</span>
+        <span>Facturas de {{vehiculo?.matricula}}</span>
 
         <div class="d-flex justify-content-end">
-            <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+            <button class="btn btn-info mr-2" (click)="reset()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span>Refresh List</span>
       </button>
 
-            <button id="jh-create-entity" data-cy="entityCreateButton" class="btn btn-primary jh-create-entity create-factura" [routerLink]="['/factura/new']">
+            <button id="jh-create-entity" data-cy="entityCreateButton" class="btn btn-primary jh-create-entity create-factura" [routerLink]="['/vehiculo/' + vehiculo?.id + '/facturas/new']">
         <fa-icon icon="plus"></fa-icon>
         <span> Create a new Factura </span>
       </button>
@@ -19,27 +19,6 @@
 
     <jhi-alert></jhi-alert>
 
-    <!--FILTROS-->
-    <form class="form-filter " name="filterForm" role="form" novalidate (ngSubmit)="filter()" [formGroup]="filterForm">
-        <div class="row">
-
-            <!--Estado-->
-            <div class="form-group">
-                <label class="form-control-label" for="filterEstado">Estado</label>
-                <input type="text" class="form-control" id="filterEstado" formControlName="filterEstado" />
-            </div>
-
-            <!--Enviar-->
-            <div class="form-group">
-                <button type="submit" class="btn btn-dark">
-            <span>FILTRAR</span>
-        </button>
-            </div>
-
-        </div>
-
-
-    </form>
 
     <div class="alert alert-warning" id="no-result" *ngIf="facturas?.length === 0">
         <span>No facturas found</span>
@@ -48,7 +27,7 @@
     <div class="table-responsive" id="entities" *ngIf="facturas && facturas.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
                     <th scope="col" jhiSortBy="id"><span>ID</span>
                         <fa-icon icon="sort"></fa-icon>
                     </th>
@@ -64,9 +43,7 @@
                     <th scope="col" jhiSortBy="estado"><span>Estado</span>
                         <fa-icon icon="sort"></fa-icon>
                     </th>
-                    <th scope="col" jhiSortBy="vehiculo.id"><span>Vehiculo</span>
-                        <fa-icon icon="sort"></fa-icon>
-                    </th>
+
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -79,11 +56,6 @@
                     <td>{{ factura.diagnostico }}</td>
                     <td>{{ factura.precio }}</td>
                     <td>{{ factura.estado }}</td>
-                    <td>
-                        <div *ngIf="factura.vehiculo">
-                            <a [routerLink]="['/vehiculo', factura.vehiculo?.id, 'edit']">{{ factura.vehiculo?.id }}</a>
-                        </div>
-                    </td>
                     <td class="text-right">
                         <div class="btn-group">
 
@@ -103,14 +75,8 @@
             </tbody>
         </table>
     </div>
-
-    <div *ngIf="facturas && facturas.length > 0">
-        <div class="row justify-content-center">
-            <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
-        </div>
-
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
-        </div>
-    </div>
+    <button type="submit" [routerLink]="['/vehiculo']" class="btn btn-primary ">
+        <span>Volver</span>
+        
+    </button>
 </div>

@@ -28,10 +28,11 @@ export class VehiculoComponent implements OnInit {
 
   filterForm = this.fb.group({
     filterMatricula: [],
-    filterMarca: []
+    filterEstado: []
   })
 
   filtros: VehiculoFilter = new VehiculoFilter();
+
   constructor(
     protected vehiculoService: VehiculoService,
     protected activatedRoute: ActivatedRoute,
@@ -132,6 +133,6 @@ export class VehiculoComponent implements OnInit {
 
   protected createFilterFromForm():void{
     this.filtros.matricula = this.filterForm.get(['filterMatricula'])?.value;
-    this.filtros.marca = this.filterForm.get(['filterMarca'])?.value
+    this.filtros.estado = this.filterForm.get(['filterEstado'])?.value
   }
 }

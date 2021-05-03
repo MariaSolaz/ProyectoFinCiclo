@@ -30,8 +30,8 @@
 
             <!--Apellido-->
             <div class="form-group">
-                <label class="form-control-label" for="filterMarca">Marca</label>
-                <input type="text" class="form-control" id="filterMarca" formControlName="filterMarca" />
+                <label class="form-control-label" for="filterEstado">Estado</label>
+                <input type="text" class="form-control" id="filterEstado" formControlName="filterEstado" />
             </div>
 
             <!--Enviar-->
@@ -54,9 +54,7 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col" jhiSortBy="id"><span>ID</span>
-                        <fa-icon icon="sort"></fa-icon>
-                    </th>
+
                     <th scope="col" jhiSortBy="matricula"><span>Matricula</span>
                         <fa-icon icon="sort"></fa-icon>
                     </th>
@@ -77,9 +75,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let vehiculo of vehiculos; trackBy: trackId" data-cy="entityTable">
-                    <td>
-                        <a [routerLink]="['/vehiculo', vehiculo.id, 'edit']">{{ vehiculo.id }}</a>
-                    </td>
+
                     <td>{{ vehiculo.matricula }}</td>
                     <td>{{ vehiculo.marca }}</td>
                     <td>{{ vehiculo.modelo }}</td>
@@ -87,7 +83,10 @@
                     <td>{{ vehiculo.estado }}</td>
                     <td class="text-right">
                         <div class="btn-group">
-
+                            <button type="submit" [routerLink]="['/vehiculo', vehiculo.id, 'facturas']" class="btn btn-secondary btn-sm" data-cy="entityEditButton">
+                                <fa-icon icon="file"></fa-icon>
+                                
+                              </button>
 
                             <button type="submit" [routerLink]="['/vehiculo', vehiculo.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
                 <fa-icon icon="pencil-alt"></fa-icon>
@@ -103,15 +102,5 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-
-    <div *ngIf="vehiculos && vehiculos.length > 0">
-        <div class="row justify-content-center">
-            <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
-        </div>
-
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
-        </div>
     </div>
 </div>
