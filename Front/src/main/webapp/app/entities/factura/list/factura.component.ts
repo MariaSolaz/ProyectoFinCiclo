@@ -29,6 +29,7 @@ export class FacturaComponent implements OnInit {
 
   filterForm = this.fb.group({
     filterVehiculo: [],
+    filterEstado:[],
     
   })
 
@@ -142,6 +143,7 @@ export class FacturaComponent implements OnInit {
   }
 
   protected createFilterFromForm():void{
-    this.filtros.vehiculo = this.filterForm.get(['filterVehiculo'])?.value;
+    
+    this.filtros.estado = this.filterForm.get(['filterEstado'])?.value;
   }
 }

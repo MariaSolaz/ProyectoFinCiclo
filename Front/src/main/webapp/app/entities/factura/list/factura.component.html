@@ -22,10 +22,11 @@
     <!--FILTROS-->
     <form class="form-filter " name="filterForm" role="form" novalidate (ngSubmit)="filter()" [formGroup]="filterForm">
         <div class="row">
-            <!--Nombre-->
+
+            <!--Estado-->
             <div class="form-group">
-                <label class="form-control-label" for="filterVehiculo">Vehiculo</label>
-                <input type="text" class="form-control" id="filterVehiculo" formControlName="filterVehiculo" />
+                <label class="form-control-label" for="filterEstado">Estado</label>
+                <input type="text" class="form-control" id="filterEstado" formControlName="filterEstado" />
             </div>
 
             <!--Enviar-->

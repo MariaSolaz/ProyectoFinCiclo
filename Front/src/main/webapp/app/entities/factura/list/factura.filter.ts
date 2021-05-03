@@ -1,18 +1,19 @@
 export class FacturaFilter{
     constructor(
-        public vehiculo?: number,
+        
+        public estado?:string
        
     ){}
        
     toMap():any{
         const map = new Map();
 
-  
-        if(this.vehiculo != null && this.vehiculo !== 0){
-            map.set('vehiculo.contains',this.vehiculo);
-        } 
-
        
+
+        if(this.estado != null && this.estado !== ""){
+            map.set('estado.equals',this.estado);
+        }
+        
         return map;
     }
 }
