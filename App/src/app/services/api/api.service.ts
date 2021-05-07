@@ -1,5 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -42,5 +43,23 @@ export class ApiService {
 
   patch(endpoint: string, body: any, reqOpts?: any) {
     return this.http.put(ApiService.API_URL + '/' + endpoint, body, reqOpts);
+  }
+
+  getCliente(endpoint: string, params?: any, reqOpts?: any) {
+    if (!reqOpts) {
+      reqOpts = {
+        params: new HttpParams()
+      };
+    }
+
+    // Support easy query params for GET requests
+    if (params) {
+      reqOpts.params = new HttpParams();
+      for (let k in params) {
+        reqOpts.params.set(k, params[k]);
+      }
+    }
+
+    return this.http.get(ApiService.API_URL + '/' + endpoint, reqOpts);
   }
 }
