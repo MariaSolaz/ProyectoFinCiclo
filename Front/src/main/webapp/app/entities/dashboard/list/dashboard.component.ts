@@ -4,6 +4,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IDashboard } from '../dashboard.model';
 import { DashboardService } from '../service/dashboard.service';
+import { IVehiculo} from '../../vehiculo/vehiculo.model';
+import { VehiculoService} from '../../vehiculo/service/vehiculo.service';
 import { DashboardDeleteDialogComponent } from '../delete/dashboard-delete-dialog.component';
 
 @Component({
@@ -13,16 +15,19 @@ import { DashboardDeleteDialogComponent } from '../delete/dashboard-delete-dialo
 export class DashboardComponent implements OnInit {
   dashboards?: IDashboard[];
   isLoading = false;
+  vehiculos: IVehiculo[] =[];
 
-  constructor(protected dashboardService: DashboardService, protected modalService: NgbModal) {}
+  constructor(protected dashboardService: DashboardService, protected modalService: NgbModal, protected vehiculoService: VehiculoService) {
+    
+  }
 
   loadAll(): void {
     this.isLoading = true;
 
-    this.dashboardService.query().subscribe(
-      (res: HttpResponse<IDashboard[]>) => {
+    this.vehiculoService.query().subscribe(
+      (res: HttpResponse<IVehiculo[]>) => {
         this.isLoading = false;
-        this.dashboards = res.body ?? [];
+        this.vehiculos = res.body ?? [];
       },
       () => {
         this.isLoading = false;

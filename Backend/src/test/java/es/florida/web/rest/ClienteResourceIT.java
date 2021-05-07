@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import es.florida.IntegrationTest;
 import es.florida.domain.Cliente;
+import es.florida.domain.User;
 import es.florida.domain.Vehiculo;
 import es.florida.repository.ClienteRepository;
 import es.florida.service.criteria.ClienteCriteria;
@@ -81,6 +82,11 @@ class ClienteResourceIT {
             .dNI(DEFAULT_D_NI)
             .telefono(DEFAULT_TELEFONO)
             .correo(DEFAULT_CORREO);
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        cliente.setUser(user);
         return cliente;
     }
 
@@ -97,6 +103,11 @@ class ClienteResourceIT {
             .dNI(UPDATED_D_NI)
             .telefono(UPDATED_TELEFONO)
             .correo(UPDATED_CORREO);
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        cliente.setUser(user);
         return cliente;
     }
 
@@ -124,6 +135,9 @@ class ClienteResourceIT {
         assertThat(testCliente.getdNI()).isEqualTo(DEFAULT_D_NI);
         assertThat(testCliente.getTelefono()).isEqualTo(DEFAULT_TELEFONO);
         assertThat(testCliente.getCorreo()).isEqualTo(DEFAULT_CORREO);
+
+        // Validate the id for MapsId, the ids must be same
+        assertThat(testCliente.getId()).isEqualTo(testCliente.getUser().getId());
     }
 
     @Test
@@ -143,6 +157,48 @@ class ClienteResourceIT {
         // Validate the Cliente in the database
         List<Cliente> clienteList = clienteRepository.findAll();
         assertThat(clienteList).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    void updateClienteMapsIdAssociationWithNewId() throws Exception {
+        // Initialize the database
+        clienteRepository.saveAndFlush(cliente);
+        int databaseSizeBeforeCreate = clienteRepository.findAll().size();
+
+        // Add a new parent entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+
+        // Load the cliente
+        Cliente updatedCliente = clienteRepository.findById(cliente.getId()).get();
+        assertThat(updatedCliente).isNotNull();
+        // Disconnect from session so that the updates on updatedCliente are not directly saved in db
+        em.detach(updatedCliente);
+
+        // Update the User with new association value
+        updatedCliente.setUser(user);
+        ClienteDTO updatedClienteDTO = clienteMapper.toDto(updatedCliente);
+        assertThat(updatedClienteDTO).isNotNull();
+
+        // Update the entity
+        restClienteMockMvc
+            .perform(
+                put(ENTITY_API_URL_ID, updatedClienteDTO.getId())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(updatedClienteDTO))
+            )
+            .andExpect(status().isOk());
+
+        // Validate the Cliente in the database
+        List<Cliente> clienteList = clienteRepository.findAll();
+        assertThat(clienteList).hasSize(databaseSizeBeforeCreate);
+        Cliente testCliente = clienteList.get(clienteList.size() - 1);
+        // Validate the id for MapsId, the ids must be same
+        // Uncomment the following line for assertion. However, please note that there is a known issue and uncommenting will fail the test.
+        // Please look at https://github.com/jhipster/generator-jhipster/issues/9100. You can modify this test as necessary.
+        // assertThat(testCliente.getId()).isEqualTo(testCliente.getUser().getId());
     }
 
     @Test
@@ -679,6 +735,21 @@ class ClienteResourceIT {
 
         // Get all the clienteList where correo does not contain UPDATED_CORREO
         defaultClienteShouldBeFound("correo.doesNotContain=" + UPDATED_CORREO);
+    }
+
+    @Test
+    @Transactional
+    void getAllClientesByUserIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        User user = cliente.getUser();
+        clienteRepository.saveAndFlush(cliente);
+        Long userId = user.getId();
+
+        // Get all the clienteList where user equals to userId
+        defaultClienteShouldBeFound("userId.equals=" + userId);
+
+        // Get all the clienteList where user equals to (userId + 1)
+        defaultClienteShouldNotBeFound("userId.equals=" + (userId + 1));
     }
 
     @Test

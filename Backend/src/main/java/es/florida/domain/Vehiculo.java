@@ -44,7 +44,7 @@ public class Vehiculo implements Serializable {
     private EstadoVehiculo estado;
 
     @OneToMany(mappedBy = "vehiculo")
-    @JsonIgnoreProperties(value = { "vehiculo" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "vehiculo" }, allowSetters = true)
     private Set<Cliente> duenyos = new HashSet<>();
 
     @OneToMany(mappedBy = "vehiculo")

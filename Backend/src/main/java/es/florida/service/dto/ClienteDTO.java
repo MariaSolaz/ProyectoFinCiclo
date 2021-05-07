@@ -26,6 +26,8 @@ public class ClienteDTO implements Serializable {
     @NotNull
     private String correo;
 
+    private UserDTO user;
+
     private VehiculoDTO vehiculo;
 
     public Long getId() {
@@ -76,6 +78,14 @@ public class ClienteDTO implements Serializable {
         this.correo = correo;
     }
 
+    public UserDTO getUser() {
+        return user;
+    }
+
+    public void setUser(UserDTO user) {
+        this.user = user;
+    }
+
     public VehiculoDTO getVehiculo() {
         return vehiculo;
     }
@@ -115,6 +125,7 @@ public class ClienteDTO implements Serializable {
             ", dNI='" + getdNI() + "'" +
             ", telefono='" + getTelefono() + "'" +
             ", correo='" + getCorreo() + "'" +
+            ", user=" + getUser() +
             ", vehiculo=" + getVehiculo() +
             "}";
     }

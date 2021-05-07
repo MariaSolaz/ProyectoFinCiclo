@@ -15,8 +15,6 @@ public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
     @NotNull
@@ -38,6 +36,11 @@ public class Cliente implements Serializable {
     @NotNull
     @Column(name = "correo", nullable = false)
     private String correo;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private User user;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "duenyos", "mecanicos", "matriculas" }, allowSetters = true)
@@ -120,6 +123,19 @@ public class Cliente implements Serializable {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public Cliente user(User user) {
+        this.setUser(user);
+        return this;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Vehiculo getVehiculo() {

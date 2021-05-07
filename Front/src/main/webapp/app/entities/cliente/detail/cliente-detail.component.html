@@ -10,10 +10,6 @@
       <jhi-alert></jhi-alert>
 
       <dl class="row-md jh-entity-details">
-        <dt><span>ID</span></dt>
-        <dd>
-          <span>{{ cliente.id }}</span>
-        </dd>
         <dt><span>Nombre</span></dt>
         <dd>
           <span>{{ cliente.nombre }}</span>
@@ -33,6 +29,10 @@
         <dt><span>Correo</span></dt>
         <dd>
           <span>{{ cliente.correo }}</span>
+        </dd>
+        <dt><span>User</span></dt>
+        <dd>
+          <span>{{ cliente.user?.login }}</span>
         </dd>
         <dt><span>Vehiculo</span></dt>
         <dd>

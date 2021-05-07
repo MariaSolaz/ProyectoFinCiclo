@@ -7,7 +7,6 @@ import { ClienteDetailComponent } from '../detail/cliente-detail.component';
 import { ClienteUpdateComponent } from '../update/cliente-update.component';
 import { ClienteRoutingResolveService } from './cliente-routing-resolve.service';
 
-
 const clienteRoute: Routes = [
   {
     path: '',
@@ -41,7 +40,6 @@ const clienteRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
-  
 ];
 
 @NgModule({

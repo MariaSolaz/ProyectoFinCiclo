@@ -7,7 +7,6 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { createRequestOption } from 'app/core/request/request-util';
 import { ICliente, getClienteIdentifier } from '../cliente.model';
 
-
 export type EntityResponseType = HttpResponse<ICliente>;
 export type EntityArrayResponseType = HttpResponse<ICliente[]>;
 
@@ -36,7 +35,6 @@ export class ClienteService {
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http.get<ICliente[]>(this.resourceUrl, { params: options, observe: 'response' });
-    
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {

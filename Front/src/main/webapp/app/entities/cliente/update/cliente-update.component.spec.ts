@@ -9,6 +9,9 @@ import { of, Subject } from 'rxjs';
 
 import { ClienteService } from '../service/cliente.service';
 import { ICliente, Cliente } from '../cliente.model';
+
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 import { IVehiculo } from 'app/entities/vehiculo/vehiculo.model';
 import { VehiculoService } from 'app/entities/vehiculo/service/vehiculo.service';
 
@@ -20,6 +23,7 @@ describe('Component Tests', () => {
     let fixture: ComponentFixture<ClienteUpdateComponent>;
     let activatedRoute: ActivatedRoute;
     let clienteService: ClienteService;
+    let userService: UserService;
     let vehiculoService: VehiculoService;
 
     beforeEach(() => {
@@ -34,18 +38,38 @@ describe('Component Tests', () => {
       fixture = TestBed.createComponent(ClienteUpdateComponent);
       activatedRoute = TestBed.inject(ActivatedRoute);
       clienteService = TestBed.inject(ClienteService);
+      userService = TestBed.inject(UserService);
       vehiculoService = TestBed.inject(VehiculoService);
 
       comp = fixture.componentInstance;
     });
 
     describe('ngOnInit', () => {
+      it('Should call User query and add missing value', () => {
+        const cliente: ICliente = { id: 456 };
+        const user: IUser = { id: 87926 };
+        cliente.user = user;
+
+        const userCollection: IUser[] = [{ id: 47918 }];
+        spyOn(userService, 'query').and.returnValue(of(new HttpResponse({ body: userCollection })));
+        const additionalUsers = [user];
+        const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+        spyOn(userService, 'addUserToCollectionIfMissing').and.returnValue(expectedCollection);
+
+        activatedRoute.data = of({ cliente });
+        comp.ngOnInit();
+
+        expect(userService.query).toHaveBeenCalled();
+        expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(userCollection, ...additionalUsers);
+        expect(comp.usersSharedCollection).toEqual(expectedCollection);
+      });
+
       it('Should call Vehiculo query and add missing value', () => {
         const cliente: ICliente = { id: 456 };
-        const vehiculo: IVehiculo = { id: 88029 };
+        const vehiculo: IVehiculo = { id: 32530 };
         cliente.vehiculo = vehiculo;
 
-        const vehiculoCollection: IVehiculo[] = [{ id: 30041 }];
+        const vehiculoCollection: IVehiculo[] = [{ id: 91183 }];
         spyOn(vehiculoService, 'query').and.returnValue(of(new HttpResponse({ body: vehiculoCollection })));
         const additionalVehiculos = [vehiculo];
         const expectedCollection: IVehiculo[] = [...additionalVehiculos, ...vehiculoCollection];
@@ -61,13 +85,16 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const cliente: ICliente = { id: 456 };
-        const vehiculo: IVehiculo = { id: 44927 };
+        const user: IUser = { id: 13820 };
+        cliente.user = user;
+        const vehiculo: IVehiculo = { id: 6549 };
         cliente.vehiculo = vehiculo;
 
         activatedRoute.data = of({ cliente });
         comp.ngOnInit();
 
         expect(comp.editForm.value).toEqual(expect.objectContaining(cliente));
+        expect(comp.usersSharedCollection).toContain(user);
         expect(comp.vehiculosSharedCollection).toContain(vehiculo);
       });
     });
@@ -137,6 +164,14 @@ describe('Component Tests', () => {
     });
 
     describe('Tracking relationships identifiers', () => {
+      describe('trackUserById', () => {
+        it('Should return tracked User primary key', () => {
+          const entity = { id: 123 };
+          const trackResult = comp.trackUserById(0, entity);
+          expect(trackResult).toEqual(entity.id);
+        });
+      });
+
       describe('trackVehiculoById', () => {
         it('Should return tracked Vehiculo primary key', () => {
           const entity = { id: 123 };

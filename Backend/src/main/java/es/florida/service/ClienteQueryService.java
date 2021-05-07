@@ -101,6 +101,12 @@ public class ClienteQueryService extends QueryService<Cliente> {
             if (criteria.getCorreo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCorreo(), Cliente_.correo));
             }
+            if (criteria.getUserId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getUserId(), root -> root.join(Cliente_.user, JoinType.LEFT).get(User_.id))
+                    );
+            }
             if (criteria.getVehiculoId() != null) {
                 specification =
                     specification.and(

@@ -21,7 +21,6 @@ describe('Service Tests', () => {
       httpMock = TestBed.inject(HttpTestingController);
 
       elemDefault = {
-        id: 0,
         nombre: 'AAAAAAA',
         apellido: 'AAAAAAA',
         dNI: 'AAAAAAA',
@@ -61,7 +60,6 @@ describe('Service Tests', () => {
       it('should update a Cliente', () => {
         const returnedFromService = Object.assign(
           {
-            id: 1,
             nombre: 'BBBBBB',
             apellido: 'BBBBBB',
             dNI: 'BBBBBB',
@@ -103,7 +101,6 @@ describe('Service Tests', () => {
       it('should return a list of Cliente', () => {
         const returnedFromService = Object.assign(
           {
-            id: 1,
             nombre: 'BBBBBB',
             apellido: 'BBBBBB',
             dNI: 'BBBBBB',
@@ -160,7 +157,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Cliente to an array', () => {
-          const clienteArray: ICliente[] = [{ id: 123 }, { id: 456 }, { id: 40362 }];
+          const clienteArray: ICliente[] = [{ id: 123 }, { id: 456 }, { id: 27699 }];
           const clienteCollection: ICliente[] = [{ id: 123 }];
           expectedResult = service.addClienteToCollectionIfMissing(clienteCollection, ...clienteArray);
           expect(expectedResult).toHaveLength(3);

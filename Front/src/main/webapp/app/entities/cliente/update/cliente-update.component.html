@@ -1,79 +1,93 @@
 <div class="row justify-content-center">
-    <div class="col-8">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-cliente-heading" data-cy="ClienteCreateUpdateHeading">Create or edit a Cliente</h2>
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-cliente-heading" data-cy="ClienteCreateUpdateHeading">Create or edit a Cliente</h2>
 
-            <div>
-                <jhi-alert-error></jhi-alert-error>
+      <div>
+        <jhi-alert-error></jhi-alert-error>
 
-                <div class="form-group" [hidden]="editForm.get('id')!.value == null">
-                    <label class="form-control-label" for="field_id">ID</label>
-                    <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-                </div>
+        <div class="form-group">
+          <label class="form-control-label" for="field_nombre">Nombre</label>
+          <input type="text" class="form-control" name="nombre" id="field_nombre" data-cy="nombre" formControlName="nombre" />
+          <div *ngIf="editForm.get('nombre')!.invalid && (editForm.get('nombre')!.dirty || editForm.get('nombre')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('nombre')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_nombre">Nombre</label>
-                    <input type="text" class="form-control" name="nombre" id="field_nombre" data-cy="nombre" formControlName="nombre" />
-                    <div *ngIf="editForm.get('nombre')!.invalid && (editForm.get('nombre')!.dirty || editForm.get('nombre')!.touched)">
-                        <small class="form-text text-danger" *ngIf="editForm.get('nombre')?.errors?.required"> This field is required. </small>
-                    </div>
-                </div>
+        <div class="form-group">
+          <label class="form-control-label" for="field_apellido">Apellido</label>
+          <input type="text" class="form-control" name="apellido" id="field_apellido" data-cy="apellido" formControlName="apellido" />
+          <div *ngIf="editForm.get('apellido')!.invalid && (editForm.get('apellido')!.dirty || editForm.get('apellido')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('apellido')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_apellido">Apellido</label>
-                    <input type="text" class="form-control" name="apellido" id="field_apellido" data-cy="apellido" formControlName="apellido" />
-                    <div *ngIf="editForm.get('apellido')!.invalid && (editForm.get('apellido')!.dirty || editForm.get('apellido')!.touched)">
-                        <small class="form-text text-danger" *ngIf="editForm.get('apellido')?.errors?.required"> This field is required. </small>
-                    </div>
-                </div>
+        <div class="form-group">
+          <label class="form-control-label" for="field_dNI">D NI</label>
+          <input type="text" class="form-control" name="dNI" id="field_dNI" data-cy="dNI" formControlName="dNI" />
+          <div *ngIf="editForm.get('dNI')!.invalid && (editForm.get('dNI')!.dirty || editForm.get('dNI')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('dNI')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_dNI">D NI</label>
-                    <input type="text" class="form-control" name="dNI" id="field_dNI" data-cy="dNI" formControlName="dNI" />
-                    <div *ngIf="editForm.get('dNI')!.invalid && (editForm.get('dNI')!.dirty || editForm.get('dNI')!.touched)">
-                        <small class="form-text text-danger" *ngIf="editForm.get('dNI')?.errors?.required"> This field is required. </small>
-                    </div>
-                </div>
+        <div class="form-group">
+          <label class="form-control-label" for="field_telefono">Telefono</label>
+          <input type="text" class="form-control" name="telefono" id="field_telefono" data-cy="telefono" formControlName="telefono" />
+          <div *ngIf="editForm.get('telefono')!.invalid && (editForm.get('telefono')!.dirty || editForm.get('telefono')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('telefono')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_telefono">Telefono</label>
-                    <input type="text" class="form-control" name="telefono" id="field_telefono" data-cy="telefono" formControlName="telefono" />
-                    <div *ngIf="editForm.get('telefono')!.invalid && (editForm.get('telefono')!.dirty || editForm.get('telefono')!.touched)">
-                        <small class="form-text text-danger" *ngIf="editForm.get('telefono')?.errors?.required"> This field is required. </small>
-                    </div>
-                </div>
+        <div class="form-group">
+          <label class="form-control-label" for="field_correo">Correo</label>
+          <input type="text" class="form-control" name="correo" id="field_correo" data-cy="correo" formControlName="correo" />
+          <div *ngIf="editForm.get('correo')!.invalid && (editForm.get('correo')!.dirty || editForm.get('correo')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('correo')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_correo">Correo</label>
-                    <input type="text" class="form-control" name="correo" id="field_correo" data-cy="correo" formControlName="correo" />
-                    <div *ngIf="editForm.get('correo')!.invalid && (editForm.get('correo')!.dirty || editForm.get('correo')!.touched)">
-                        <small class="form-text text-danger" *ngIf="editForm.get('correo')?.errors?.required"> This field is required. </small>
-                    </div>
-                </div>
+        <div class="form-group">
+          <label class="form-control-label" for="field_user">User</label>
+          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="userOption.id === editForm.get('user')!.value?.id ? editForm.get('user')!.value : userOption"
+              *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
+            >
+              {{ userOption.login }}
+            </option>
+          </select>
+        </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_vehiculo">Vehiculo</label>
-                    <select class="form-control" id="field_vehiculo" data-cy="vehiculo" name="vehiculo" formControlName="vehiculo">
+        <div class="form-group">
+          <label class="form-control-label" for="field_vehiculo">Vehiculo</label>
+          <select class="form-control" id="field_vehiculo" data-cy="vehiculo" name="vehiculo" formControlName="vehiculo">
             <option [ngValue]="null"></option>
             <option
               [ngValue]="vehiculoOption.id === editForm.get('vehiculo')!.value?.id ? editForm.get('vehiculo')!.value : vehiculoOption"
               *ngFor="let vehiculoOption of vehiculosSharedCollection; trackBy: trackVehiculoById"
             >
-              {{ vehiculoOption.matricula }}
+              {{ vehiculoOption.id }}
             </option>
           </select>
-                </div>
-            </div>
+        </div>
+      </div>
 
-            <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
         </button>
 
-                <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
           <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
         </button>
-            </div>
-        </form>
-    </div>
+      </div>
+    </form>
+  </div>
 </div>

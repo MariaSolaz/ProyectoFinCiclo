@@ -36,6 +36,8 @@ public class ClienteCriteria implements Serializable, Criteria {
 
     private StringFilter correo;
 
+    private LongFilter userId;
+
     private LongFilter vehiculoId;
 
     public ClienteCriteria() {}
@@ -47,6 +49,7 @@ public class ClienteCriteria implements Serializable, Criteria {
         this.dNI = other.dNI == null ? null : other.dNI.copy();
         this.telefono = other.telefono == null ? null : other.telefono.copy();
         this.correo = other.correo == null ? null : other.correo.copy();
+        this.userId = other.userId == null ? null : other.userId.copy();
         this.vehiculoId = other.vehiculoId == null ? null : other.vehiculoId.copy();
     }
 
@@ -145,6 +148,21 @@ public class ClienteCriteria implements Serializable, Criteria {
         this.correo = correo;
     }
 
+    public LongFilter getUserId() {
+        return userId;
+    }
+
+    public LongFilter userId() {
+        if (userId == null) {
+            userId = new LongFilter();
+        }
+        return userId;
+    }
+
+    public void setUserId(LongFilter userId) {
+        this.userId = userId;
+    }
+
     public LongFilter getVehiculoId() {
         return vehiculoId;
     }
@@ -176,13 +194,14 @@ public class ClienteCriteria implements Serializable, Criteria {
             Objects.equals(dNI, that.dNI) &&
             Objects.equals(telefono, that.telefono) &&
             Objects.equals(correo, that.correo) &&
+            Objects.equals(userId, that.userId) &&
             Objects.equals(vehiculoId, that.vehiculoId)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, apellido, dNI, telefono, correo, vehiculoId);
+        return Objects.hash(id, nombre, apellido, dNI, telefono, correo, userId, vehiculoId);
     }
 
     // prettier-ignore
@@ -195,6 +214,7 @@ public class ClienteCriteria implements Serializable, Criteria {
             (dNI != null ? "dNI=" + dNI + ", " : "") +
             (telefono != null ? "telefono=" + telefono + ", " : "") +
             (correo != null ? "correo=" + correo + ", " : "") +
+            (userId != null ? "userId=" + userId + ", " : "") +
             (vehiculoId != null ? "vehiculoId=" + vehiculoId + ", " : "") +
             "}";
     }

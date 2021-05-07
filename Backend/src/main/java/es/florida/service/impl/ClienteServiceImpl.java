@@ -2,6 +2,7 @@ package es.florida.service.impl;
 
 import es.florida.domain.Cliente;
 import es.florida.repository.ClienteRepository;
+import es.florida.repository.UserRepository;
 import es.florida.service.ClienteService;
 import es.florida.service.dto.ClienteDTO;
 import es.florida.service.mapper.ClienteMapper;
@@ -26,15 +27,20 @@ public class ClienteServiceImpl implements ClienteService {
 
     private final ClienteMapper clienteMapper;
 
-    public ClienteServiceImpl(ClienteRepository clienteRepository, ClienteMapper clienteMapper) {
+    private final UserRepository userRepository;
+
+    public ClienteServiceImpl(ClienteRepository clienteRepository, ClienteMapper clienteMapper, UserRepository userRepository) {
         this.clienteRepository = clienteRepository;
         this.clienteMapper = clienteMapper;
+        this.userRepository = userRepository;
     }
 
     @Override
     public ClienteDTO save(ClienteDTO clienteDTO) {
         log.debug("Request to save Cliente : {}", clienteDTO);
         Cliente cliente = clienteMapper.toEntity(clienteDTO);
+        Long userId = clienteDTO.getUser().getId();
+        userRepository.findById(userId).ifPresent(cliente::user);
         cliente = clienteRepository.save(cliente);
         return clienteMapper.toDto(cliente);
     }

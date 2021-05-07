@@ -66,6 +66,9 @@ public class ClienteResource {
         if (clienteDTO.getId() != null) {
             throw new BadRequestAlertException("A new cliente cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if (Objects.isNull(clienteDTO.getUser())) {
+            throw new BadRequestAlertException("Invalid association value provided", ENTITY_NAME, "null");
+        }
         ClienteDTO result = clienteService.save(clienteDTO);
         return ResponseEntity
             .created(new URI("/api/clientes/" + result.getId()))

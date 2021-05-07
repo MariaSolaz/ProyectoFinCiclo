@@ -29,6 +29,16 @@
   ],
   "relationships": [
     {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "cliente",
+      "relationshipName": "user",
+      "otherEntityField": "login",
+      "ownerSide": true,
+      "useJPADerivedIdentifier": true,
+      "id": true
+    },
+    {
       "relationshipType": "many-to-one",
       "otherEntityName": "vehiculo",
       "otherEntityRelationshipName": "duenyo",

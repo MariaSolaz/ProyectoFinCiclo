@@ -50,6 +50,10 @@ relationship OneToMany{
 	Vehiculo {matricula(matricula)} to Factura
 }
 
+relationship OneToOne{
+    Cliente {user(login)} to User with jpaDerivedIdentifier
+}
+
 dto * with mapstruct
 service all with serviceImpl
 paginate all with pagination
