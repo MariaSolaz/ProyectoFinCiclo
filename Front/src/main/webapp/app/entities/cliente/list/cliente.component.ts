@@ -111,6 +111,8 @@ export class ClienteComponent implements OnInit {
     });
   }
 
+ 
+
   protected onSuccess(data: ICliente[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;

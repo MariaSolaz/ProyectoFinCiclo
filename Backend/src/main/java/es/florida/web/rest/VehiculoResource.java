@@ -105,6 +105,7 @@ public class VehiculoResource {
         }
 
         VehiculoDTO result = vehiculoService.save(vehiculoDTO);
+
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, vehiculoDTO.getId().toString()))

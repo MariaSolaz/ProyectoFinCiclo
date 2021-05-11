@@ -1,7 +1,13 @@
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpClientModule, HttpResponse  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ICliente } from 'src/app/interfaces';
 import { environment } from 'src/environments/environment';
+import { createRequestOption } from '../utils/request-utils';
+
+export type EntityResponseType = HttpResponse<ICliente>;
+export type EntityArrayResponseType = HttpResponse<ICliente[]>;
+
 
 @Injectable({
   providedIn: 'root'
@@ -45,21 +51,4 @@ export class ApiService {
     return this.http.put(ApiService.API_URL + '/' + endpoint, body, reqOpts);
   }
 
-  getCliente(endpoint: string, params?: any, reqOpts?: any) {
-    if (!reqOpts) {
-      reqOpts = {
-        params: new HttpParams()
-      };
-    }
-
-    // Support easy query params for GET requests
-    if (params) {
-      reqOpts.params = new HttpParams();
-      for (let k in params) {
-        reqOpts.params.set(k, params[k]);
-      }
-    }
-
-    return this.http.get(ApiService.API_URL + '/' + endpoint, reqOpts);
-  }
 }

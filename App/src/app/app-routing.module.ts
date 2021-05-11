@@ -8,7 +8,8 @@ const routes: Routes = [
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
   { path: 'signup', loadChildren: './pages/signup/signup.module#SignupPageModule' },
   { path: 'accessdenied', redirectTo: '', pathMatch: 'full' },
-  {path: 'cliente', loadChildren: () => import('./pages/entities/Cliente/cliente.module').then(m => m.ClienteModule)}
+  {path: 'cliente/:nameuser', loadChildren: () => import('./pages/entities/Cliente/cliente.module').then(m => m.ClienteModule)},
+ {path: 'cliente/:nameuser/:idVehiculo', loadChildren:() => import('./pages/entities/Vehiculos/vehiculo.module').then(m => m.VehiculoModule)}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],

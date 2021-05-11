@@ -1,13 +1,19 @@
 <ion-app>
+    <ion-header>
+        <h1>Tus Vehiculos</h1>
+    </ion-header>
     <ion-content>
-        <ion-card>
-            <ion-card-titel></ion-card-titel>
-            <ion-img>
+        <ion-card *ngFor="let vehiculo of vehiculos">
+            <ion-card-title>Coche: {{vehiculo.matricula}}</ion-card-title>
+            <ul>
+                <li>Marca: {{vehiculo.marca}}</li>
+                <li>Modelo: {{vehiculo.modelo}}</li>
+                <li>Año: {{vehiculo.anyo}}</li>
+                <li><strong>Estado: {{vehiculo.estado}}</strong></li>
 
-            </ion-img>
+            </ul>
 
-            <ion-button></ion-button>
-            <ion-button></ion-button>
+            <ion-button routerLink="{{vehiculo.id}}">VER</ion-button>
         </ion-card>
     </ion-content>
 </ion-app>
