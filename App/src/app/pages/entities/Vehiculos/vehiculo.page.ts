@@ -3,11 +3,12 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FacturaService } from 'src/app/services/Factura/factura.service';
 
 
 import { VehiculoService } from 'src/app/services/Vehiculo/vehiculo.service';
 
-import {IVehiculo} from '../../../interfaces'
+import {IFactura, IVehiculo} from '../../../interfaces'
 
 @Component({
     selector: 'app-vehiculo',
@@ -17,8 +18,10 @@ import {IVehiculo} from '../../../interfaces'
 
 export class VehiculoPage implements OnInit{
     
-    vehiculos: IVehiculo[] =[];
+    vehiculos: IVehiculo[] = [];
+    facturas: IFactura[] = [];
     idVehiculo:number;
+    idFactura:number;
     user:string;
     isLoading = false;
     totalItems: number;
@@ -27,6 +30,7 @@ export class VehiculoPage implements OnInit{
 
     constructor(
         protected servicioVehiculo: VehiculoService,
+        protected servicoFactura: FacturaService,
         protected activatedRoute: ActivatedRoute,
         protected router: Router,
         protected modalService: NgbModal,
@@ -45,6 +49,7 @@ export class VehiculoPage implements OnInit{
             (res: HttpResponse<IVehiculo[]>) => {
 
                 this.pagianteVehiculo(res.body);
+                console.log(res.body);
             },
             (error) =>{
                 console.error(error);
@@ -52,8 +57,28 @@ export class VehiculoPage implements OnInit{
         );
     }
 
+    cargarFacturas(){
+        this.isLoading = true;
+        
+        const filtros:Map<string,any> = new Map();
+       filtros.set('vehiculoId.equals', this.idVehiculo)
+console.log(filtros)
+        this.servicoFactura.obtenerFacturas({
+            filter:filtros
+        }).subscribe(
+            (res: HttpResponse<IFactura[]>) => {
+                this.pagianteFactura(res.body);
+                console.log(res.body);
+            },
+            (error) =>{
+                console.log(error);
+            }
+        )
+    }
+
     loadAll(){
       this.cargarVehiculos();
+      this.cargarFacturas();
     }
 
     hideEstado(){
@@ -76,6 +101,14 @@ export class VehiculoPage implements OnInit{
         if(data){
             for(const d of data){
                this.vehiculos.push(d);             
+            }
+        }
+    }
+
+    protected pagianteFactura(data: IFactura[] | null):void{
+        if(data){
+            for(const d of data){
+               this.facturas.push(d);             
             }
         }
     }

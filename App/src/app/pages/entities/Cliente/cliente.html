@@ -6,7 +6,7 @@
     </ion-header>
     <ion-content>
         <div class="btn-actualizar">
-            <ion-button color="tertiary">Actualizar</ion-button>
+            <ion-button color="tertiary" (click)="reset()">Actualizar</ion-button>
         </div>
 
         <ion-card *ngFor="let vehiculo of vehiculos">

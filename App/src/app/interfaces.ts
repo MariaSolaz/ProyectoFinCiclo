@@ -53,6 +53,16 @@ export interface IFactura {
     estado?: EstadoFactura | null;
     vehiculo?: IVehiculo | null;
 }
+export class Factura implements IFactura{
+    constructor(
+        public id?: number,
+        public fecha?: Date,
+        public diagnostico?: string,
+        public precio?: number,
+        public estado?: EstadoFactura | null,
+        public vehiculo?: IVehiculo | null
+    ){}
+}
 
 export interface IMecanico {
     id?: number;

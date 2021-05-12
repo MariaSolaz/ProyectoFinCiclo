@@ -31,8 +31,6 @@ export class ClientePage implements OnInit{
 
     idDuenyo?:IVehiculo;
   
-
-
     constructor(
         protected servicioCliente: ClienteService,
         protected servicioVehiculo: VehiculoService,
@@ -72,19 +70,20 @@ export class ClientePage implements OnInit{
         );
     }
 
-    loadAllclientes(){
+    loadAll(){
       this.cargarUsuario();
       this.cargarVehiculos();
     }
   
     ngOnInit(): void {
         this.nameUser = this.activatedRoute.snapshot.params.nameuser;
-
-       
-        this.loadAllclientes();
+        this.loadAll();
     }
 
-    
+    reset():void{
+        this.vehiculos = [];
+        this.loadAll();
+    }
 
     protected pagianteCliente(data: ICliente[] | null):void{
         if(data){

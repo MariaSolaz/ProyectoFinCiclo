@@ -36,7 +36,14 @@
             <h3>hola estado</h3>
         </div>
         <div *ngIf="hideMeFactura">
-            <h3>hola factura</h3>
+            <ion-card *ngFor="let factura of facturas">
+                <ion-card-title>Factura: {{factura.id}}</ion-card-title>
+                <ul>
+                    <li>Fecha: {{factura.fecha}}</li>
+                    <li>Estado: {{factura.estado}}</li>
+                </ul>
+
+            </ion-card>
         </div>
     </div>
 </ion-content>
