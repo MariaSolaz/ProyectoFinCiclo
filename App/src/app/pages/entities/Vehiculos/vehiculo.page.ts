@@ -19,15 +19,21 @@ export class VehiculoPage implements OnInit{
     
     vehiculos: IVehiculo[] =[];
     idVehiculo:number;
+    user:string;
     isLoading = false;
     totalItems: number;
+    hideMeEstado:boolean;
+    hideMeFactura:boolean;
 
     constructor(
         protected servicioVehiculo: VehiculoService,
         protected activatedRoute: ActivatedRoute,
         protected router: Router,
         protected modalService: NgbModal,
-    ){}
+    ){
+        this.hideMeEstado = true;
+        this.hideMeFactura = false;
+    }
 
     cargarVehiculos(){
         this.isLoading = true;
@@ -49,17 +55,27 @@ export class VehiculoPage implements OnInit{
     loadAll(){
       this.cargarVehiculos();
     }
+
+    hideEstado(){
+        this.hideMeEstado = true;
+        this.hideMeFactura = false;
+    }
+    hideFactura(){
+        this.hideMeEstado = false;
+        this.hideMeFactura = true;
+    }
+
   
     ngOnInit(): void {
         this.idVehiculo = this.activatedRoute.snapshot.params.idVehiculo;
+        this.user = this.activatedRoute.snapshot.params.nameuser;
         this.loadAll();
     }
 
     protected pagianteVehiculo(data: IVehiculo[] | null):void{
         if(data){
             for(const d of data){
-               this.vehiculos.push(d);
-                
+               this.vehiculos.push(d);             
             }
         }
     }

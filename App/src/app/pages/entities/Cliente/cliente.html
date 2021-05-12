@@ -1,8 +1,14 @@
 <ion-app>
-    <ion-header>
-        <h1>Tus Vehiculos</h1>
+    <ion-header class="header">
+        <div class="title">
+            <h1>Tus Vehiculos</h1>
+        </div>
     </ion-header>
     <ion-content>
+        <div class="btn-actualizar">
+            <ion-button color="tertiary">Actualizar</ion-button>
+        </div>
+
         <ion-card *ngFor="let vehiculo of vehiculos">
             <ion-card-title>Coche: {{vehiculo.matricula}}</ion-card-title>
             <ul>
@@ -13,7 +19,7 @@
 
             </ul>
 
-            <ion-button routerLink="{{vehiculo.id}}">VER</ion-button>
+            <ion-button color="tertiary" routerLink="{{vehiculo.id}}">VER</ion-button>
         </ion-card>
     </ion-content>
 </ion-app>

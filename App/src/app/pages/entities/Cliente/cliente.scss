@@ -1,0 +1,23 @@
+ion-app {
+    display: flex;
+    .header {
+        display: flex;
+        flex-flow: row;
+    }
+    .btn-actualizar {
+        overflow: hidden;
+        ion-button {
+            float: right;
+        }
+    }
+    ion-card {
+        ion-card-title {
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        ul li {
+            text-decoration: none;
+            list-style: none;
+        }
+    }
+}
