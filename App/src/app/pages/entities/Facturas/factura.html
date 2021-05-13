@@ -17,15 +17,7 @@
                 <li>Precio: {{factura.precio}} €</li>
             </ul>
 
-            <ion-item>
-                <ion-label>Estado:</ion-label>
-                <ion-select>
-                    <ion-select-option value="p">Pendiente</ion-select-option>
-                    <ion-select-option value="a">Aceptada</ion-select-option>
-                    <ion-select-option value="d">Declinada</ion-select-option>
-                </ion-select>
-            </ion-item>
-            <ion-button color="primary">Actualizar</ion-button>
+            <ion-button color="primary" routerLink="/factura/{{factura.id}}/edit">Editar Estado</ion-button>
         </ion-card-content>
     </ion-card>
 </ion-content>

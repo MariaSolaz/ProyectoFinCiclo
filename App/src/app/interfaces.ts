@@ -1,3 +1,5 @@
+import * as dayjs from 'dayjs';
+
 export interface ICliente {
     id?:number;
     nombre?: string;
@@ -18,13 +20,16 @@ export class Cliente implements ICliente{
         public vehiculo?: IVehiculo | null,
     ){}
 }
+export function getClienteIdentifier(cliente: ICliente): number | undefined {
+    return cliente.id;
+}
 
 export interface IVehiculo {
     id?: number;
     matricula?: string;
     marca?: string;
     modelo?: string;
-    anyo?: Date;
+    anyo?: dayjs.Dayjs;
     estado?: EstadoVehiculo | null;
     duenyos?: ICliente[] | null;
     mecanicos?: IMecanico[] | null;
@@ -37,17 +42,21 @@ export class Vehiculo implements IVehiculo{
         public matricula?: string,
         public marca?: string,
         public modelo?: string,
-        public anyo?: Date,
+        public anyo?: dayjs.Dayjs,
         public estado?: EstadoVehiculo | null,
         public duenyos?: ICliente[] | null,
         public mecanicos?: IMecanico[] | null,
         public factura?: IFactura[] | null,
     ){}
 }
+export function getVehiculoIdentifier(vehiculo: IVehiculo): number | undefined {
+    return vehiculo.id;
+}
+
 
 export interface IFactura {
     id?: number;
-    fecha?: Date;
+    fecha?: dayjs.Dayjs;
     diagnostico?: string;
     precio?: number;
     estado?: EstadoFactura | null;
@@ -56,12 +65,16 @@ export interface IFactura {
 export class Factura implements IFactura{
     constructor(
         public id?: number,
-        public fecha?: Date,
+        public fecha?: dayjs.Dayjs,
         public diagnostico?: string,
         public precio?: number,
         public estado?: EstadoFactura | null,
         public vehiculo?: IVehiculo | null
     ){}
+}
+
+export function getFacturaIdentifier(factura: IFactura): number | undefined {
+    return factura.id;
 }
 
 export interface IMecanico {

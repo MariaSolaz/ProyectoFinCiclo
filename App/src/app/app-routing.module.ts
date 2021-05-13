@@ -8,9 +8,9 @@ const routes: Routes = [
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
   { path: 'signup', loadChildren: './pages/signup/signup.module#SignupPageModule' },
   { path: 'accessdenied', redirectTo: '', pathMatch: 'full' },
-  {path: 'cliente/:nameuser', loadChildren: () => import('./pages/entities/Cliente/cliente.module').then(m => m.ClienteModule)},
-  {path: 'cliente/:nameuser/:idVehiculo', loadChildren:() => import('./pages/entities/Vehiculos/vehiculo.module').then(m => m.VehiculoModule)},
-  {path: 'cliente/:nameuser/:idVehiculo/:idFactura', loadChildren:() => import('./pages/entities/Facturas/factura.module').then(m => m.FacturaModule)}
+  {path: 'cliente', loadChildren: () => import('./pages/entities/Cliente/cliente.module').then(m => m.ClienteModule)},
+  {path: 'factura', loadChildren:() => import('./pages/entities/Facturas/factura.module').then(m => m.FacturaModule)},
+  {path: 'vehiculo', loadChildren:() => import('./pages/entities/Vehiculos/vehiculo.module').then(m => m.VehiculoModule)},
 
 ];
 @NgModule({

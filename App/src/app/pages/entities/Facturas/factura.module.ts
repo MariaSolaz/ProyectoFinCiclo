@@ -7,9 +7,11 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiService } from 'src/app/services/api/api.service';
 
-import { FacturaRoutingModule } from './factura.routing.module';
+
+import { FacturaRoutingModule } from './router/factura.routing.module';
 import { FacturaPage } from './factura.page';
 import { RouteReuseStrategy } from '@angular/router';
+import { FacturaUpdate} from './update/factura-update.page';
 
 
 @NgModule({
@@ -26,6 +28,6 @@ import { RouteReuseStrategy } from '@angular/router';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ApiService,
   ],
-  declarations: [FacturaPage]
+  declarations: [FacturaPage, FacturaUpdate]
 })
 export class FacturaModule {}

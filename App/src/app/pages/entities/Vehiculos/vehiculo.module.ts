@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiService } from 'src/app/services/api/api.service';
 
-import { VehiculoRoutingModule } from './vehiculo.routing.module';
+import { VehiculoRoutingModule } from './router/vehiculo.routing.module';
 import { RouteReuseStrategy } from '@angular/router';
 import { VehiculoPage } from './vehiculo.page';
 
