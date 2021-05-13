@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>DATOS FACTURA</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content *ngFor="let factura of facturas">
+    <ion-card>
+        <ion-card-title>FACTURA NÚMERO: {{factura.id}}</ion-card-title>
+        <ion-card-content>
+            <ul>
+                <li>Fecha: {{factura.fecha}}</li>
+                <li>Diagnostico: {{factura.diagnostico}}</li>
+                <li>Precio: {{factura.precio}} €</li>
+            </ul>
+
+            <ion-item>
+                <ion-label>Estado:</ion-label>
+                <ion-select>
+                    <ion-select-option value="p">Pendiente</ion-select-option>
+                    <ion-select-option value="a">Aceptada</ion-select-option>
+                    <ion-select-option value="d">Declinada</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-button color="primary">Actualizar</ion-button>
+        </ion-card-content>
+    </ion-card>
+</ion-content>
