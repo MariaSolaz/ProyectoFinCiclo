@@ -28,7 +28,8 @@ const facturaroutes: Routes = [
 
 @NgModule({
     imports: [RouterModule.forChild(facturaroutes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
+    
 })
 
 export class FacturaRoutingModule {}

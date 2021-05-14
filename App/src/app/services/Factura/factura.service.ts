@@ -16,13 +16,13 @@ export type EntityArrayResponseType = HttpResponse<IFactura[]>;
   providedIn: 'root'
 })
 export class FacturaService {
-  public static API_URL = environment.apiUrl;
+  public static API_URL = environment.apiUrl + "/facturas";
 
   constructor(public http: HttpClient) {}
 
   obtenerFacturas(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http.get<IFactura[]>(FacturaService.API_URL + "/facturas", { params: options, observe: 'response' });
+    return this.http.get<IFactura[]>(FacturaService.API_URL , { params: options, observe: 'response' });
   }
 
   create(factura: IFactura): Observable<EntityResponseType> {

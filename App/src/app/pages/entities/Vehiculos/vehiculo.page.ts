@@ -104,6 +104,11 @@ console.log(filtros)
             }
         }
     }
+    reset():void{
+        this.facturas = [];
+        this.vehiculos = [];
+        this.loadAll();
+    }
 
     protected pagianteFactura(data: IFactura[] | null):void{
         if(data){
