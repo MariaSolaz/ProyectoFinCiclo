@@ -19,6 +19,10 @@ ion-content {
                     list-style: none;
                 }
             }
+            ion-button {
+                float: right;
+                margin-top: -80px;
+            }
         }
         .menu {
             width: 100%;

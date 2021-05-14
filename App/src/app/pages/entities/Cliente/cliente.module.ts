@@ -8,7 +8,7 @@ import { ClientePage } from './cliente.page';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiService } from 'src/app/services/api/api.service';
 
-import { ClienteRoutingModule } from './cliente.routing.module';
+import { ClienteRoutingModule } from './router/cliente.routing.module';
 import { RouteReuseStrategy } from '@angular/router';
 
 

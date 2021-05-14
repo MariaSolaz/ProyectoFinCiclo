@@ -1,0 +1,43 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>DATOS FACTURA</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <form>
+        <div class="formgrup">
+            <ion-label for="idFactura">ID</ion-label>
+            <ion-input type="number" id="idFactura" name="idFactura" [(ngModel)]="factura.id" [readonly]="true"></ion-input>
+        </div>
+
+        <div class="formgrup">
+            <ion-label for="fecha">Fecha</ion-label>
+            <ion-input type="text" id="fecha" name="fecha" [(ngModel)]="factura.fecha" [readonly]="true"></ion-input>
+        </div>
+
+        <div class="formgrup">
+            <ion-label for="diagnostico">Diagnostico</ion-label>
+            <ion-input type="text" id="diagnostico" name="diagnostico" [(ngModel)]="factura.diagnostico" [readonly]="true"></ion-input>
+        </div>
+
+        <div class="formgrup">
+            <ion-label for="precio">Precio</ion-label>
+            <ion-input type="number" id="precio" name="precio" [(ngModel)]="factura.precio" [readonly]="true"></ion-input>
+        </div>
+
+        <div class="formgrup">
+            <ion-label for="estado">Estado</ion-label>
+            <ion-select name="estado" id="estado" [(ngModel)]="factura.estado">
+                <ion-select-option value="Aceptada">Aceptada</ion-select-option>
+                <ion-select-option value="Declinada">Declinada</ion-select-option>
+                <ion-select-option value="Pendiente">Pendiente</ion-select-option>
+            </ion-select>
+        </div>
+
+        <ion-button color="medium" (click)="previousState()">Cancelar</ion-button>
+        <ion-button color="primary" (click)="saveFactura()">Guaradr</ion-button>
+    </form>
+</ion-content>
