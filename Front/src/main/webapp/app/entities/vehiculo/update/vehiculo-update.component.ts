@@ -7,6 +7,10 @@ import { finalize } from 'rxjs/operators';
 
 import { IVehiculo, Vehiculo } from '../vehiculo.model';
 import { VehiculoService } from '../service/vehiculo.service';
+import{ IRegistro, Registro} from '../../registro/registro.model';
+import { RegistroService} from '../../registro/service/registro.service'
+import * as dayjs from 'dayjs';
+
 
 @Component({
   selector: 'jhi-vehiculo-update',
@@ -14,6 +18,7 @@ import { VehiculoService } from '../service/vehiculo.service';
 })
 export class VehiculoUpdateComponent implements OnInit {
   isSaving = false;
+  registro: Registro = new Registro();
 
   editForm = this.fb.group({
     id: [],
@@ -24,7 +29,9 @@ export class VehiculoUpdateComponent implements OnInit {
     estado: [],
   });
 
-  constructor(protected vehiculoService: VehiculoService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
+  constructor(protected vehiculoService: VehiculoService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder, protected registroservice:RegistroService) {
+   
+  }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ vehiculo }) => {
@@ -36,13 +43,29 @@ export class VehiculoUpdateComponent implements OnInit {
     window.history.back();
   }
 
+  newRegistro():void{
+    const registro = this.createRegistro();
+    /*eslint-disable*/
+    console.log(registro)
+    this.subscribeToSaveResponse(this.vehiculoService.create(registro));
+  }
+
+  updateRegistro():void{
+    const registro = this.createRegistro();
+    /*eslint-disable*/
+    console.log(registro)
+    this.subscribeToSaveResponse(this.vehiculoService.update(registro));
+  }
+
   save(): void {
     this.isSaving = true;
     const vehiculo = this.createFromForm();
     if (vehiculo.id !== undefined) {
       this.subscribeToSaveResponse(this.vehiculoService.update(vehiculo));
+      this.updateRegistro();
     } else {
       this.subscribeToSaveResponse(this.vehiculoService.create(vehiculo));
+      this.newRegistro();
     }
   }
 
@@ -86,5 +109,14 @@ export class VehiculoUpdateComponent implements OnInit {
       anyo: this.editForm.get(['anyo'])!.value,
       estado: this.editForm.get(['estado'])!.value,
     };
+  }
+
+  protected createRegistro(): IRegistro{
+    return{
+      ...new Registro(),
+      fecha: dayjs(new Date()),
+      estadoActual: this.editForm.get(['estado'])!.value,
+      vehiculo: this.editForm.get(['id'])!.value,
+    }
   }
 }

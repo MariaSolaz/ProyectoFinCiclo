@@ -34,7 +34,7 @@ import { RouterModule } from '@angular/router';
         path: 'registro',
         data: { pageTitle: 'Registros' },
         loadChildren: () => import('./registro/registro.module').then(m => m.RegistroModule),
-      },
+      }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

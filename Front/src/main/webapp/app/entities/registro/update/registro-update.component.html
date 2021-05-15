@@ -35,19 +35,13 @@
 
         <div class="form-group">
           <label class="form-control-label" for="field_estadoActual">Estado Actual</label>
-          <input
-            type="text"
-            class="form-control"
-            name="estadoActual"
-            id="field_estadoActual"
-            data-cy="estadoActual"
-            formControlName="estadoActual"
-          />
-          <div
-            *ngIf="editForm.get('estadoActual')!.invalid && (editForm.get('estadoActual')!.dirty || editForm.get('estadoActual')!.touched)"
-          >
-            <small class="form-text text-danger" *ngIf="editForm.get('estadoActual')?.errors?.required"> This field is required. </small>
-          </div>
+          <select class="form-control" name="estadoActual" formControlName="estadoActual" id="field_estadoActual" data-cy="estadoActual">
+            <option [ngValue]="null"></option>
+            <option value="NoRevisado">NoRevisado</option>
+            <option value="Revisado">Revisado</option>
+            <option value="Reparando">Reparando</option>
+            <option value="Finalizado">Finalizado</option>
+          </select>
         </div>
 
         <div class="form-group">

@@ -22,7 +22,7 @@ export class RegistroUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     fecha: [null, [Validators.required]],
-    estadoActual: [null, [Validators.required]],
+    estadoActual: [],
     vehiculo: [],
   });
 

@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import * as dayjs from 'dayjs';
 
 import { DATE_FORMAT } from 'app/config/input.constants';
+import { EstadoVehiculo } from 'app/entities/enumerations/estado-vehiculo.model';
 import { IRegistro, Registro } from '../registro.model';
 
 import { RegistroService } from './registro.service';
@@ -27,7 +28,7 @@ describe('Service Tests', () => {
       elemDefault = {
         id: 0,
         fecha: currentDate,
-        estadoActual: 'AAAAAAA',
+        estadoActual: EstadoVehiculo.NoRevisado,
       };
     });
 

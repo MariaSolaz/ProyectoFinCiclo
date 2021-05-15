@@ -8,8 +8,8 @@
     },
     {
       "fieldName": "estadoActual",
-      "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldType": "EstadoVehiculo",
+      "fieldValues": "NoRevisado,Revisado,Reparando,Finalizado"
     }
   ],
   "relationships": [

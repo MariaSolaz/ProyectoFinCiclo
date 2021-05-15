@@ -29,11 +29,7 @@ export class FacturaComponent implements OnInit {
   ascending?: boolean;
   link:{[key:string]: number};
  
-
   vehiculo?: IVehiculo;
-
-  
-
 
   constructor(
     protected facturaService: FacturaService,

@@ -32,7 +32,7 @@ entity Factura{
 
 entity Registro{
 	Fecha LocalDate required
-    EstadoActual String required
+    EstadoActual EstadoVehiculo
 
 }
 
