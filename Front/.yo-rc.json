@@ -37,7 +37,7 @@
     "enableHibernateCache": true,
     "reactive": false,
     "languages": ["en", "fr"],
-    "entities": ["Cliente", "Mecanico", "Vehiculo", "Factura", "Dashboard"],
-    "lastLiquibaseTimestamp": 1619797950000
+    "entities": ["Cliente", "Mecanico", "Vehiculo", "Factura", "Dashboard", "RegistroEstado", "Registro"],
+    "lastLiquibaseTimestamp": 1621072997000
   }
 }

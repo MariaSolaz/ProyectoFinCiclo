@@ -30,6 +30,13 @@
   "relationships": [
     {
       "relationshipType": "one-to-many",
+      "otherEntityName": "registro",
+      "otherEntityRelationshipName": "vehiculo",
+      "relationshipName": "registro",
+      "otherEntityField": "matricula"
+    },
+    {
+      "relationshipType": "one-to-many",
       "otherEntityName": "cliente",
       "otherEntityRelationshipName": "vehiculo",
       "relationshipName": "duenyo",

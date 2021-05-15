@@ -67,9 +67,6 @@
                     <th scope="col" jhiSortBy="anyo"><span>Anyo</span>
                         <fa-icon icon="sort"></fa-icon>
                     </th>
-                    <th scope="col" jhiSortBy="estado"><span>Estado</span>
-                        <fa-icon icon="sort"></fa-icon>
-                    </th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -80,7 +77,6 @@
                     <td>{{ vehiculo.marca }}</td>
                     <td>{{ vehiculo.modelo }}</td>
                     <td>{{ vehiculo.anyo | formatMediumDate }}</td>
-                    <td>{{ vehiculo.estado }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit" [routerLink]="['/vehiculo', vehiculo.id, 'facturas']" class="btn btn-secondary btn-sm" data-cy="entityEditButton">
@@ -88,8 +84,8 @@
                                 
                               </button>
 
-                            <button type="submit" [routerLink]="['/vehiculo', vehiculo.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
-                <fa-icon icon="pencil-alt"></fa-icon>
+                            <button type="submit" [routerLink]="['/vehiculo', vehiculo.id, 'registro']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="wrench"></fa-icon>
                 
               </button>
 

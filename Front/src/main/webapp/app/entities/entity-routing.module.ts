@@ -30,6 +30,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'Dashboards' },
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
       },
+      {
+        path: 'registro',
+        data: { pageTitle: 'Registros' },
+        loadChildren: () => import('./registro/registro.module').then(m => m.RegistroModule),
+      }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

@@ -28,6 +28,8 @@ export class DashboardComponent implements OnInit {
       (res: HttpResponse<IVehiculo[]>) => {
         this.isLoading = false;
         this.vehiculos = res.body ?? [];
+        /*eslint-disable*/
+    console.log(res.body);
       },
       () => {
         this.isLoading = false;
@@ -37,6 +39,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAll();
+    
   }
 
   trackId(index: number, item: IDashboard): number {

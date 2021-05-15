@@ -1,0 +1,70 @@
+{
+  "name": "Vehiculo",
+  "fields": [
+    {
+      "fieldName": "matricula",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "marca",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "modelo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "anyo",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "estado",
+      "fieldType": "EstadoVehiculo",
+      "fieldValues": "NoRevisado,Revisado,Reparando,Finalizado"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "registro",
+      "otherEntityRelationshipName": "vehiculo",
+      "relationshipName": "registro",
+      "otherEntityField": "matricula"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "cliente",
+      "otherEntityRelationshipName": "vehiculo",
+      "relationshipName": "duenyo",
+      "otherEntityField": "nombre"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "mecanico",
+      "otherEntityRelationshipName": "vehiculo",
+      "relationshipName": "mecanico",
+      "otherEntityField": "nombre"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "factura",
+      "otherEntityRelationshipName": "vehiculo",
+      "relationshipName": "matricula",
+      "otherEntityField": "matricula"
+    }
+  ],
+  "entityTableName": "vehiculo",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210515103026"
+}

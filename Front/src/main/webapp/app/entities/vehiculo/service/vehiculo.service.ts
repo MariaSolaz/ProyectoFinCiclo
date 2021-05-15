@@ -22,7 +22,7 @@ export class VehiculoService {
   create(vehiculo: IVehiculo): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(vehiculo);
     return this.http
-      .post<IVehiculo>(this.resourceUrl, copy, { observe: 'response' })
+      .post<IVehiculo>(this.resourceUrl , copy, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
