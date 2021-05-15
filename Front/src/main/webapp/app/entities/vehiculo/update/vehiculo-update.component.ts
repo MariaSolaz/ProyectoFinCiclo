@@ -47,14 +47,14 @@ export class VehiculoUpdateComponent implements OnInit {
     const registro = this.createRegistro();
     /*eslint-disable*/
     console.log(registro)
-    this.subscribeToSaveResponse(this.vehiculoService.create(registro));
+  this.vehiculoService.create(registro);
   }
 
   updateRegistro():void{
     const registro = this.createRegistro();
     /*eslint-disable*/
-    console.log(registro)
-    this.subscribeToSaveResponse(this.vehiculoService.update(registro));
+    console.log("El registro"+registro)
+    this.vehiculoService.update(registro);
   }
 
   save(): void {
@@ -62,10 +62,11 @@ export class VehiculoUpdateComponent implements OnInit {
     const vehiculo = this.createFromForm();
     if (vehiculo.id !== undefined) {
       this.subscribeToSaveResponse(this.vehiculoService.update(vehiculo));
-      this.updateRegistro();
+      this.newRegistro();
+      
     } else {
       this.subscribeToSaveResponse(this.vehiculoService.create(vehiculo));
-      this.newRegistro();
+      
     }
   }
 
@@ -77,6 +78,7 @@ export class VehiculoUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
+    
     this.previousState();
   }
 
@@ -116,7 +118,7 @@ export class VehiculoUpdateComponent implements OnInit {
       ...new Registro(),
       fecha: dayjs(new Date()),
       estadoActual: this.editForm.get(['estado'])!.value,
-      vehiculo: this.editForm.get(['id'])!.value,
+      vehiculo:this.editForm.get(['id'])!.value,
     }
   }
 }

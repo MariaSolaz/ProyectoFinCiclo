@@ -9,6 +9,10 @@ import { VehiculoRoutingResolveService } from './vehiculo-routing-resolve.servic
 import { FacturaComponent } from 'app/entities/factura/list/factura.component';
 import { FacturaUpdateComponent} from '../../factura/update/factura-update.component'
 import { FacturaRoutingResolveService } from 'app/entities/factura/route/factura-routing-resolve.service';
+import { RegistroComponent } from 'app/entities/registro/list/registro.component';
+import { RegistroRoutingResolveService } from 'app/entities/registro/route/registro-routing-resolve.service';
+import { RegistroUpdateComponent } from 'app/entities/registro/update/registro-update.component';
+
 
 const vehiculoRoute: Routes = [
   {
@@ -59,6 +63,22 @@ const vehiculoRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+  {
+    path:':id/registro',
+    component: RegistroComponent,
+    resolve:{
+      vehiculo: VehiculoRoutingResolveService,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path:':idVehiculo/registro/new',
+    component: RegistroUpdateComponent,
+    resolve:{
+      registro: RegistroRoutingResolveService,
+    },
+    canActivate: [UserRouteAccessService],
+  }
 
 ];
 

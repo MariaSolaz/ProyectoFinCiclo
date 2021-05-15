@@ -115,7 +115,9 @@ export class ClienteUpdateComponent implements OnInit {
       .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
 
     this.vehiculoService
-      .query()
+      .query({
+        sort:['matricula', 'asc']
+      })
       .pipe(map((res: HttpResponse<IVehiculo[]>) => res.body ?? []))
       .pipe(
         map((vehiculos: IVehiculo[]) =>

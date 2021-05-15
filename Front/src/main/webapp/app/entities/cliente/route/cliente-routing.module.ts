@@ -12,7 +12,7 @@ const clienteRoute: Routes = [
     path: '',
     component: ClienteComponent,
     data: {
-      defaultSort: 'id,asc',
+      defaultSort: 'nombre,asc',
     },
     canActivate: [UserRouteAccessService],
   },

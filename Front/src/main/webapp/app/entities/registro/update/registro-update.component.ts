@@ -7,7 +7,7 @@ import { finalize, map } from 'rxjs/operators';
 
 import { IRegistro, Registro } from '../registro.model';
 import { RegistroService } from '../service/registro.service';
-import { IVehiculo } from 'app/entities/vehiculo/vehiculo.model';
+import { IVehiculo, Vehiculo } from 'app/entities/vehiculo/vehiculo.model';
 import { VehiculoService } from 'app/entities/vehiculo/service/vehiculo.service';
 
 @Component({
@@ -16,7 +16,7 @@ import { VehiculoService } from 'app/entities/vehiculo/service/vehiculo.service'
 })
 export class RegistroUpdateComponent implements OnInit {
   isSaving = false;
-
+  idVehiculo?:number;
   vehiculosSharedCollection: IVehiculo[] = [];
 
   editForm = this.fb.group({
@@ -36,9 +36,12 @@ export class RegistroUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ registro }) => {
       this.updateForm(registro);
-
       this.loadRelationshipsOptions();
     });
+
+    if(this.activatedRoute.snapshot.params.idVehiculo){
+      this.idVehiculo = this.activatedRoute.snapshot.params.idVehiculo;
+    }
   }
 
   previousState(): void {
@@ -48,6 +51,13 @@ export class RegistroUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const registro = this.createFromForm();
+    
+    if(this.idVehiculo){
+      const vehiculo:Vehiculo = new Vehiculo();
+      vehiculo.id = this.idVehiculo;
+      registro.vehiculo = vehiculo;
+    }
+    
     if (registro.id !== undefined) {
       this.subscribeToSaveResponse(this.registroService.update(registro));
     } else {
