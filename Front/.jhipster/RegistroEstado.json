@@ -1,0 +1,35 @@
+{
+  "name": "RegistroEstado",
+  "fields": [
+    {
+      "fieldName": "fecha",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "estadoActual",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "vehiculo",
+      "otherEntityRelationshipName": "registroEstado",
+      "relationshipName": "matricula",
+      "otherEntityField": "matricula",
+      "ownerSide": true
+    }
+  ],
+  "entityTableName": "registro_estado",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210515094326"
+}
