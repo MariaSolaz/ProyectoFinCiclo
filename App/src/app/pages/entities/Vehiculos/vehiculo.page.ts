@@ -7,8 +7,8 @@ import { FacturaService } from 'src/app/services/Factura/factura.service';
 
 
 import { VehiculoService } from 'src/app/services/Vehiculo/vehiculo.service';
-
-import {IFactura, IVehiculo} from '../../../interfaces'
+import {IFactura, IVehiculo, IRegistro, Registro} from '../../../interfaces'
+import {RegistroService} from 'src/app/services/Registro/registro.service';
 
 @Component({
     selector: 'app-vehiculo',
@@ -20,6 +20,7 @@ export class VehiculoPage implements OnInit{
     
     vehiculos: IVehiculo[] = [];
     facturas: IFactura[] = [];
+    registros: IRegistro [] = [];
     idVehiculo:number;
     idFactura:number;
     user:string;
@@ -30,7 +31,8 @@ export class VehiculoPage implements OnInit{
 
     constructor(
         protected servicioVehiculo: VehiculoService,
-        protected servicoFactura: FacturaService,
+        protected servicioFactura: FacturaService,
+        protected servicioRegistro: RegistroService,
         protected activatedRoute: ActivatedRoute,
         protected router: Router,
         protected modalService: NgbModal,
@@ -57,13 +59,30 @@ export class VehiculoPage implements OnInit{
         );
     }
 
+    cargarRegistros(){
+        this.isLoading = true;
+        const filtros:Map<string,any> = new Map();
+       filtros.set('vehiculoId.equals', this.idVehiculo)
+       this.servicioRegistro.obtenerRegistros({
+           filter: filtros,
+       }).subscribe(
+           (res: HttpResponse<IRegistro[]>) => {
+               this.pagianteRegistro(res.body);
+               console.log(res.body);
+           },
+           (error) =>{
+            console.log(error);
+        }
+       )
+    }
+
     cargarFacturas(){
         this.isLoading = true;
         
         const filtros:Map<string,any> = new Map();
        filtros.set('vehiculoId.equals', this.idVehiculo)
-console.log(filtros)
-        this.servicoFactura.obtenerFacturas({
+        console.log(filtros)
+        this.servicioFactura.obtenerFacturas({
             filter:filtros
         }).subscribe(
             (res: HttpResponse<IFactura[]>) => {
@@ -79,6 +98,7 @@ console.log(filtros)
     loadAll(){
       this.cargarVehiculos();
       this.cargarFacturas();
+      this.cargarRegistros();
     }
 
     hideEstado(){
@@ -114,6 +134,16 @@ console.log(filtros)
         if(data){
             for(const d of data){
                this.facturas.push(d);             
+            }
+        }
+    }
+
+    protected pagianteRegistro(data: IRegistro[] | null):void{
+        if(data){
+            console.log("datos" + data);
+            for(const d of data){
+
+               this.registros.push(d);             
             }
         }
     }
