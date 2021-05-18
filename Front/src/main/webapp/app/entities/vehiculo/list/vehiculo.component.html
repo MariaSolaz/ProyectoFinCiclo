@@ -3,7 +3,7 @@
         <span>Vehiculos</span>
 
         <div class="d-flex justify-content-end">
-            <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+            <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span>Refresh List</span>
       </button>
@@ -19,32 +19,7 @@
 
     <jhi-alert></jhi-alert>
 
-    <!--FILTROS-->
-    <form class="form-filter " name="filterForm" role="form" novalidate (ngSubmit)="filter()" [formGroup]="filterForm">
-        <div class="row">
-            <!--Nombre-->
-            <div class="form-group">
-                <label class="form-control-label" for="filterMatricula">Matricula</label>
-                <input type="text" class="form-control" id="filterMatricula" formControlName="filterMatricula" />
-            </div>
 
-            <!--Apellido-->
-            <div class="form-group">
-                <label class="form-control-label" for="filterEstado">Estado</label>
-                <input type="text" class="form-control" id="filterEstado" formControlName="filterEstado" />
-            </div>
-
-            <!--Enviar-->
-            <div class="form-group">
-                <button type="submit" class="btn btn-dark">
-            <span>FILTRAR</span>
-        </button>
-            </div>
-
-        </div>
-
-
-    </form>
 
     <div class="alert alert-warning" id="no-result" *ngIf="vehiculos?.length === 0">
         <span>No se han encontrado vehiculos</span>
@@ -53,7 +28,7 @@
     <div class="table-responsive" id="entities" *ngIf="vehiculos && vehiculos.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadAll.bind(this)">
 
                     <th scope="col" jhiSortBy="matricula"><span>Matricula</span>
                         <fa-icon icon="sort"></fa-icon>
@@ -67,6 +42,7 @@
                     <th scope="col" jhiSortBy="anyo"><span>Anyo</span>
                         <fa-icon icon="sort"></fa-icon>
                     </th>
+
                     <th scope="col"></th>
                 </tr>
             </thead>

@@ -126,6 +126,7 @@ export class VehiculoPage implements OnInit{
     }
     reset():void{
         this.facturas = [];
+        this.registros = [];
         this.vehiculos = [];
         this.loadAll();
     }
