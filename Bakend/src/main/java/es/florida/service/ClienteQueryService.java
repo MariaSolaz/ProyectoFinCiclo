@@ -50,6 +50,7 @@ public class ClienteQueryService extends QueryService<Cliente> {
         return clienteMapper.toDto(clienteRepository.findAll(specification));
     }
 
+
     /**
      * Return a {@link Page} of {@link ClienteDTO} which matches the criteria from the database.
      * @param criteria The object which holds all the filters, which the entities should match.

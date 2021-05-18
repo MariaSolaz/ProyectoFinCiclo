@@ -6,6 +6,8 @@ import es.florida.repository.UserRepository;
 import es.florida.service.ClienteService;
 import es.florida.service.dto.ClienteDTO;
 import es.florida.service.mapper.ClienteMapper;
+
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,5 +81,19 @@ public class ClienteServiceImpl implements ClienteService {
     public void delete(Long id) {
         log.debug("Request to delete Cliente : {}", id);
         clienteRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<ClienteDTO> findClienteByIdVehiculo(long idVehiculo){
+        log.debug("Request el id del vehiculo: {}", idVehiculo);
+        List<Cliente> clienteList = clienteRepository.findAll();
+        long idCliente = 0;
+        for (Cliente cliente : clienteList){
+            if(cliente.getVehiculo().getId() == idVehiculo){
+                idCliente = cliente.getId();
+            }
+        }
+        return clienteRepository.findById(idCliente).map(clienteMapper::toDto);
     }
 }

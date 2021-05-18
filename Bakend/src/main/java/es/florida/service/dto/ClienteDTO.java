@@ -30,6 +30,8 @@ public class ClienteDTO implements Serializable {
 
     private VehiculoDTO vehiculo;
 
+
+
     public Long getId() {
         return id;
     }

@@ -1,10 +1,11 @@
 package es.florida.web.rest;
 
 import es.florida.repository.RegistroRepository;
-import es.florida.service.RegistroQueryService;
-import es.florida.service.RegistroService;
+import es.florida.service.*;
 import es.florida.service.criteria.RegistroCriteria;
+import es.florida.service.dto.ClienteDTO;
 import es.florida.service.dto.RegistroDTO;
+import es.florida.service.impl.ClienteServiceImpl;
 import es.florida.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -19,7 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -47,14 +47,23 @@ public class RegistroResource {
 
     private final RegistroQueryService registroQueryService;
 
+    private final MailService mailService;
+
+    private final ClienteServiceImpl clienteService;
+
+
     public RegistroResource(
         RegistroService registroService,
         RegistroRepository registroRepository,
-        RegistroQueryService registroQueryService
-    ) {
+        RegistroQueryService registroQueryService,
+        MailService mailService, ClienteServiceImpl clienteService) {
         this.registroService = registroService;
         this.registroRepository = registroRepository;
         this.registroQueryService = registroQueryService;
+        this.mailService = mailService;
+
+
+        this.clienteService = clienteService;
     }
 
     /**
@@ -70,6 +79,13 @@ public class RegistroResource {
         if (registroDTO.getId() != null) {
             throw new BadRequestAlertException("A new registro cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        Optional<ClienteDTO> clienteDTO = clienteService.findClienteByIdVehiculo(registroDTO.getVehiculo().getId());
+        if(!clienteDTO.isPresent()){
+            throw new BadRequestAlertException("No se ha encontrado ninguncliente",ENTITY_NAME,"clienteDoesntExist");
+        }
+        String contenido = "Buenas " +clienteDTO.get().getNombre() + ", le infromamos de que el estado de su vehiculo a cambiado. Puede consultarlo desde la app.";
+        mailService.sendEmail(clienteDTO.get().getCorreo(),"Notificación mecánico", contenido,false, true);
+
         RegistroDTO result = registroService.save(registroDTO);
         return ResponseEntity
             .created(new URI("/api/registros/" + result.getId()))
@@ -128,6 +144,7 @@ public class RegistroResource {
         @NotNull @RequestBody RegistroDTO registroDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Registro partially : {}, {}", id, registroDTO);
+
         if (registroDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -140,6 +157,7 @@ public class RegistroResource {
         }
 
         Optional<RegistroDTO> result = registroService.partialUpdate(registroDTO);
+
 
         return ResponseUtil.wrapOrNotFound(
             result,

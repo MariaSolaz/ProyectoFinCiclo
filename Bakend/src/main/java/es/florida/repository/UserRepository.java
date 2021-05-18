@@ -4,6 +4,8 @@ import es.florida.domain.User;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+
+import es.florida.service.dto.UserDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;

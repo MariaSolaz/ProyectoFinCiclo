@@ -45,13 +45,13 @@
             <tbody>
                 <tr *ngFor="let registro of registros; trackBy: trackId" data-cy="entityTable">
                     <td>
-                        <a [routerLink]="['/registro', registro.id, 'view']">{{ registro.id }}</a>
+                        <a [routerLink]="['/registro', registro.id, 'edit']">{{ registro.id }}</a>
                     </td>
                     <td>{{ registro.fecha | formatMediumDate }}</td>
                     <td>{{ registro.estadoActual }}</td>
                     <td>
                         <div *ngIf="registro.vehiculo">
-                            <a [routerLink]="['/vehiculo', registro.vehiculo?.id, 'view']">{{ registro.vehiculo?.id }}</a>
+                            <a [routerLink]="['/vehiculo', registro.vehiculo?.id, 'edit']">{{ registro.vehiculo?.id }}</a>
                         </div>
                     </td>
                     <td class="text-right">
