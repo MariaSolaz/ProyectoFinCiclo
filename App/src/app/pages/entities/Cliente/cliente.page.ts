@@ -61,7 +61,7 @@ export class ClientePage implements OnInit{
         this.isLoading = true;
         this.servicioVehiculo.obtenerVehiculos().subscribe(
             (res: HttpResponse<IVehiculo[]>) => {
-
+                console.log(res.body);
                 this.pagianteVehiculo(res.body);
             },
             (error) =>{

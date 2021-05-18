@@ -81,7 +81,7 @@ public class RegistroResource {
         }
         Optional<ClienteDTO> clienteDTO = clienteService.findClienteByIdVehiculo(registroDTO.getVehiculo().getId());
         if(!clienteDTO.isPresent()){
-            throw new BadRequestAlertException("No se ha encontrado ninguncliente",ENTITY_NAME,"clienteDoesntExist");
+            throw new BadRequestAlertException("No se ha encontrado ningun cliente",ENTITY_NAME,"clienteDoesntExist");
         }
         String contenido = "Buenas " +clienteDTO.get().getNombre() + ", le infromamos de que el estado de su vehiculo a cambiado. Puede consultarlo desde la app.";
         mailService.sendEmail(clienteDTO.get().getCorreo(),"Notificación mecánico", contenido,false, true);

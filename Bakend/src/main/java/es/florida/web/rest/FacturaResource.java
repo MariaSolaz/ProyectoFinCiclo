@@ -1,10 +1,11 @@
 package es.florida.web.rest;
 
 import es.florida.repository.FacturaRepository;
-import es.florida.service.FacturaQueryService;
-import es.florida.service.FacturaService;
+import es.florida.service.*;
 import es.florida.service.criteria.FacturaCriteria;
 import es.florida.service.dto.FacturaDTO;
+import es.florida.service.dto.MecanicoDTO;
+import es.florida.service.dto.VehiculoDTO;
 import es.florida.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -19,7 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -47,10 +47,19 @@ public class FacturaResource {
 
     private final FacturaQueryService facturaQueryService;
 
-    public FacturaResource(FacturaService facturaService, FacturaRepository facturaRepository, FacturaQueryService facturaQueryService) {
+    private final MailService mailService;
+
+    private final MecanicoService mecanicoService;
+
+    private final VehiculoService vehiculoService;
+
+    public FacturaResource(FacturaService facturaService, FacturaRepository facturaRepository, FacturaQueryService facturaQueryService, MailService mailService, MecanicoService mecanicoService, VehiculoService vehiculoService) {
         this.facturaService = facturaService;
         this.facturaRepository = facturaRepository;
         this.facturaQueryService = facturaQueryService;
+        this.mailService = mailService;
+        this.mecanicoService = mecanicoService;
+        this.vehiculoService = vehiculoService;
     }
 
     /**
@@ -101,6 +110,14 @@ public class FacturaResource {
         }
 
         FacturaDTO result = facturaService.save(facturaDTO);
+        Optional<VehiculoDTO> vehiculo =  vehiculoService.findOne(facturaDTO.getVehiculo().getId());
+        Optional<MecanicoDTO> mecanicoDTO = mecanicoService.findMecanicoByFacturaId(facturaDTO.getVehiculo().getId());
+        if(!mecanicoDTO.isPresent()){
+            throw new BadRequestAlertException("No se ha encontrado ningun mecanico",ENTITY_NAME,"mecanicoDoesntExist");
+        }
+        String subject = "Notificación Factura Mecanico " + mecanicoDTO.get().getNombre();
+        String contenido = "La factura del vehiculo con matricula " + vehiculo.get().getMatricula() + " ha sido " + facturaDTO.getEstado();
+        mailService.sendEmail(mecanicoDTO.get().getCorreo(),subject,contenido,false, true);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, facturaDTO.getId().toString()))

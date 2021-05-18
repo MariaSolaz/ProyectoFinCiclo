@@ -5,6 +5,8 @@ import es.florida.repository.MecanicoRepository;
 import es.florida.service.MecanicoService;
 import es.florida.service.dto.MecanicoDTO;
 import es.florida.service.mapper.MecanicoMapper;
+
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,5 +75,19 @@ public class MecanicoServiceImpl implements MecanicoService {
     public void delete(Long id) {
         log.debug("Request to delete Mecanico : {}", id);
         mecanicoRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<MecanicoDTO> findMecanicoByFacturaId(long idVehiculo){
+        log.debug("Request el id del vehiculo: {}", idVehiculo);
+        List<Mecanico> mecanicoList = mecanicoRepository.findAll();
+        long idMecanico = 0;
+        for(Mecanico mecanico : mecanicoList){
+           if(mecanico.getVehiculo().getId() == idVehiculo){
+               idMecanico = mecanico.getId();
+            }
+        }
+        return mecanicoRepository.findById(idMecanico).map(mecanicoMapper::toDto);
     }
 }
