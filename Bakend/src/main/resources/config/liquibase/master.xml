@@ -15,16 +15,16 @@
     <property name="datetimeType" value="datetime" dbms="oracle, mssql, postgresql, h2"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20210515103024_added_entity_Cliente.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20210515103025_added_entity_Mecanico.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20210515103026_added_entity_Vehiculo.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20210515103027_added_entity_Factura.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20210515103028_added_entity_Registro.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210519163814_added_entity_Cliente.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210519163815_added_entity_Mecanico.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210519163816_added_entity_Vehiculo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210519163817_added_entity_Factura.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210519163818_added_entity_Registro.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <include file="config/liquibase/changelog/20210515103024_added_entity_constraints_Cliente.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20210515103025_added_entity_constraints_Mecanico.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20210515103027_added_entity_constraints_Factura.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20210515103028_added_entity_constraints_Registro.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210519163814_added_entity_constraints_Cliente.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210519163816_added_entity_constraints_Vehiculo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210519163817_added_entity_constraints_Factura.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210519163818_added_entity_constraints_Registro.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

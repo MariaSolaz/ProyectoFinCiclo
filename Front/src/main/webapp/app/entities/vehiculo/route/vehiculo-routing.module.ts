@@ -7,20 +7,16 @@ import { VehiculoDetailComponent } from '../detail/vehiculo-detail.component';
 import { VehiculoUpdateComponent } from '../update/vehiculo-update.component';
 import { VehiculoRoutingResolveService } from './vehiculo-routing-resolve.service';
 import { FacturaComponent } from 'app/entities/factura/list/factura.component';
-import { FacturaUpdateComponent} from '../../factura/update/factura-update.component'
+import { FacturaUpdateComponent } from 'app/entities/factura/update/factura-update.component';
 import { FacturaRoutingResolveService } from 'app/entities/factura/route/factura-routing-resolve.service';
 import { RegistroComponent } from 'app/entities/registro/list/registro.component';
-import { RegistroRoutingResolveService } from 'app/entities/registro/route/registro-routing-resolve.service';
 import { RegistroUpdateComponent } from 'app/entities/registro/update/registro-update.component';
-
+import { RegistroRoutingResolveService } from 'app/entities/registro/route/registro-routing-resolve.service';
 
 const vehiculoRoute: Routes = [
   {
     path: '',
     component: VehiculoComponent,
-    data: {
-      defaultSort: 'id,asc',
-    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -79,7 +75,6 @@ const vehiculoRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   }
-
 ];
 
 @NgModule({

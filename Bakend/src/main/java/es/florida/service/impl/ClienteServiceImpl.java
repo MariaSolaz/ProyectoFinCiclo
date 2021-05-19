@@ -83,17 +83,4 @@ public class ClienteServiceImpl implements ClienteService {
         clienteRepository.deleteById(id);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<ClienteDTO> findClienteByIdVehiculo(long idVehiculo){
-        log.debug("Request el id del vehiculo: {}", idVehiculo);
-        List<Cliente> clienteList = clienteRepository.findAll();
-        long idCliente = 0;
-        for (Cliente cliente : clienteList){
-            if(cliente.getVehiculo().getId() == idVehiculo){
-                idCliente = cliente.getId();
-            }
-        }
-        return clienteRepository.findById(idCliente).map(clienteMapper::toDto);
-    }
 }

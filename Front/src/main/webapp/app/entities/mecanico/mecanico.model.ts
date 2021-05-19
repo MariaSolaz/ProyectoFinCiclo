@@ -7,7 +7,7 @@ export interface IMecanico {
   dNI?: string;
   telefono?: string;
   correo?: string;
-  vehiculo?: IVehiculo | null;
+  mecanicos?: IVehiculo[] | null;
 }
 
 export class Mecanico implements IMecanico {
@@ -18,7 +18,7 @@ export class Mecanico implements IMecanico {
     public dNI?: string,
     public telefono?: string,
     public correo?: string,
-    public vehiculo?: IVehiculo | null
+    public mecanicos?: IVehiculo[] | null
   ) {}
 }
 

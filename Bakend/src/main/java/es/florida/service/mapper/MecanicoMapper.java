@@ -7,8 +7,10 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Mecanico} and its DTO {@link MecanicoDTO}.
  */
-@Mapper(componentModel = "spring", uses = { VehiculoMapper.class })
+@Mapper(componentModel = "spring", uses = {})
 public interface MecanicoMapper extends EntityMapper<MecanicoDTO, Mecanico> {
-    @Mapping(target = "vehiculo", source = "vehiculo", qualifiedByName = "id")
-    MecanicoDTO toDto(Mecanico s);
+    @Named("id")
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "id", source = "id")
+    MecanicoDTO toDtoId(Mecanico mecanico);
 }

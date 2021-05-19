@@ -38,7 +38,7 @@ public class ClienteCriteria implements Serializable, Criteria {
 
     private LongFilter userId;
 
-    private LongFilter vehiculoId;
+    private LongFilter duenyoId;
 
     public ClienteCriteria() {}
 
@@ -50,7 +50,7 @@ public class ClienteCriteria implements Serializable, Criteria {
         this.telefono = other.telefono == null ? null : other.telefono.copy();
         this.correo = other.correo == null ? null : other.correo.copy();
         this.userId = other.userId == null ? null : other.userId.copy();
-        this.vehiculoId = other.vehiculoId == null ? null : other.vehiculoId.copy();
+        this.duenyoId = other.duenyoId == null ? null : other.duenyoId.copy();
     }
 
     @Override
@@ -163,19 +163,19 @@ public class ClienteCriteria implements Serializable, Criteria {
         this.userId = userId;
     }
 
-    public LongFilter getVehiculoId() {
-        return vehiculoId;
+    public LongFilter getDuenyoId() {
+        return duenyoId;
     }
 
-    public LongFilter vehiculoId() {
-        if (vehiculoId == null) {
-            vehiculoId = new LongFilter();
+    public LongFilter duenyoId() {
+        if (duenyoId == null) {
+            duenyoId = new LongFilter();
         }
-        return vehiculoId;
+        return duenyoId;
     }
 
-    public void setVehiculoId(LongFilter vehiculoId) {
-        this.vehiculoId = vehiculoId;
+    public void setDuenyoId(LongFilter duenyoId) {
+        this.duenyoId = duenyoId;
     }
 
     @Override
@@ -195,13 +195,13 @@ public class ClienteCriteria implements Serializable, Criteria {
             Objects.equals(telefono, that.telefono) &&
             Objects.equals(correo, that.correo) &&
             Objects.equals(userId, that.userId) &&
-            Objects.equals(vehiculoId, that.vehiculoId)
+            Objects.equals(duenyoId, that.duenyoId)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, apellido, dNI, telefono, correo, userId, vehiculoId);
+        return Objects.hash(id, nombre, apellido, dNI, telefono, correo, userId, duenyoId);
     }
 
     // prettier-ignore
@@ -215,7 +215,7 @@ public class ClienteCriteria implements Serializable, Criteria {
             (telefono != null ? "telefono=" + telefono + ", " : "") +
             (correo != null ? "correo=" + correo + ", " : "") +
             (userId != null ? "userId=" + userId + ", " : "") +
-            (vehiculoId != null ? "vehiculoId=" + vehiculoId + ", " : "") +
+            (duenyoId != null ? "duenyoId=" + duenyoId + ", " : "") +
             "}";
     }
 }

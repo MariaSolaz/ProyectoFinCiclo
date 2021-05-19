@@ -1,7 +1,6 @@
 package es.florida.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import es.florida.domain.enumeration.EstadoVehiculo;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -39,25 +38,21 @@ public class Vehiculo implements Serializable {
     @Column(name = "anyo", nullable = false)
     private LocalDate anyo;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "estado")
-    private EstadoVehiculo estado;
-
     @OneToMany(mappedBy = "vehiculo")
     @JsonIgnoreProperties(value = { "vehiculo" }, allowSetters = true)
     private Set<Registro> registros = new HashSet<>();
 
     @OneToMany(mappedBy = "vehiculo")
-    @JsonIgnoreProperties(value = { "user", "vehiculo" }, allowSetters = true)
-    private Set<Cliente> duenyos = new HashSet<>();
-
-    @OneToMany(mappedBy = "vehiculo")
-    @JsonIgnoreProperties(value = { "vehiculo" }, allowSetters = true)
-    private Set<Mecanico> mecanicos = new HashSet<>();
-
-    @OneToMany(mappedBy = "vehiculo")
     @JsonIgnoreProperties(value = { "vehiculo" }, allowSetters = true)
     private Set<Factura> matriculas = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "user", "duenyos" }, allowSetters = true)
+    private Cliente cliente;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "mecanicos" }, allowSetters = true)
+    private Mecanico mecanico;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -125,19 +120,6 @@ public class Vehiculo implements Serializable {
         this.anyo = anyo;
     }
 
-    public EstadoVehiculo getEstado() {
-        return this.estado;
-    }
-
-    public Vehiculo estado(EstadoVehiculo estado) {
-        this.estado = estado;
-        return this;
-    }
-
-    public void setEstado(EstadoVehiculo estado) {
-        this.estado = estado;
-    }
-
     public Set<Registro> getRegistros() {
         return this.registros;
     }
@@ -167,68 +149,6 @@ public class Vehiculo implements Serializable {
             registros.forEach(i -> i.setVehiculo(this));
         }
         this.registros = registros;
-    }
-
-    public Set<Cliente> getDuenyos() {
-        return this.duenyos;
-    }
-
-    public Vehiculo duenyos(Set<Cliente> clientes) {
-        this.setDuenyos(clientes);
-        return this;
-    }
-
-    public Vehiculo addDuenyo(Cliente cliente) {
-        this.duenyos.add(cliente);
-        cliente.setVehiculo(this);
-        return this;
-    }
-
-    public Vehiculo removeDuenyo(Cliente cliente) {
-        this.duenyos.remove(cliente);
-        cliente.setVehiculo(null);
-        return this;
-    }
-
-    public void setDuenyos(Set<Cliente> clientes) {
-        if (this.duenyos != null) {
-            this.duenyos.forEach(i -> i.setVehiculo(null));
-        }
-        if (clientes != null) {
-            clientes.forEach(i -> i.setVehiculo(this));
-        }
-        this.duenyos = clientes;
-    }
-
-    public Set<Mecanico> getMecanicos() {
-        return this.mecanicos;
-    }
-
-    public Vehiculo mecanicos(Set<Mecanico> mecanicos) {
-        this.setMecanicos(mecanicos);
-        return this;
-    }
-
-    public Vehiculo addMecanico(Mecanico mecanico) {
-        this.mecanicos.add(mecanico);
-        mecanico.setVehiculo(this);
-        return this;
-    }
-
-    public Vehiculo removeMecanico(Mecanico mecanico) {
-        this.mecanicos.remove(mecanico);
-        mecanico.setVehiculo(null);
-        return this;
-    }
-
-    public void setMecanicos(Set<Mecanico> mecanicos) {
-        if (this.mecanicos != null) {
-            this.mecanicos.forEach(i -> i.setVehiculo(null));
-        }
-        if (mecanicos != null) {
-            mecanicos.forEach(i -> i.setVehiculo(this));
-        }
-        this.mecanicos = mecanicos;
     }
 
     public Set<Factura> getMatriculas() {
@@ -262,6 +182,32 @@ public class Vehiculo implements Serializable {
         this.matriculas = facturas;
     }
 
+    public Cliente getCliente() {
+        return this.cliente;
+    }
+
+    public Vehiculo cliente(Cliente cliente) {
+        this.setCliente(cliente);
+        return this;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Mecanico getMecanico() {
+        return this.mecanico;
+    }
+
+    public Vehiculo mecanico(Mecanico mecanico) {
+        this.setMecanico(mecanico);
+        return this;
+    }
+
+    public void setMecanico(Mecanico mecanico) {
+        this.mecanico = mecanico;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -290,7 +236,6 @@ public class Vehiculo implements Serializable {
             ", marca='" + getMarca() + "'" +
             ", modelo='" + getModelo() + "'" +
             ", anyo='" + getAnyo() + "'" +
-            ", estado='" + getEstado() + "'" +
             "}";
     }
 }

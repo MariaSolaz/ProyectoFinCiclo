@@ -20,11 +20,6 @@
       "fieldName": "anyo",
       "fieldType": "LocalDate",
       "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "estado",
-      "fieldType": "EstadoVehiculo",
-      "fieldValues": "NoRevisado,Revisado,Reparando,Finalizado"
     }
   ],
   "relationships": [
@@ -37,34 +32,32 @@
     },
     {
       "relationshipType": "one-to-many",
-      "otherEntityName": "cliente",
-      "otherEntityRelationshipName": "vehiculo",
-      "relationshipName": "duenyo",
-      "otherEntityField": "nombre"
-    },
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "mecanico",
-      "otherEntityRelationshipName": "vehiculo",
-      "relationshipName": "mecanico",
-      "otherEntityField": "nombre"
-    },
-    {
-      "relationshipType": "one-to-many",
       "otherEntityName": "factura",
       "otherEntityRelationshipName": "vehiculo",
       "relationshipName": "matricula",
       "otherEntityField": "matricula"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "cliente",
+      "otherEntityRelationshipName": "duenyo",
+      "relationshipName": "cliente"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "mecanico",
+      "otherEntityRelationshipName": "mecanico",
+      "relationshipName": "mecanico"
     }
   ],
   "entityTableName": "vehiculo",
   "dto": "mapstruct",
-  "pagination": "pagination",
+  "pagination": "infinite-scroll",
   "service": "serviceImpl",
   "jpaMetamodelFiltering": true,
   "fluentMethods": true,
   "readOnly": false,
   "embedded": false,
   "applications": "*",
-  "changelogDate": "20210515103026"
+  "changelogDate": "20210519163816"
 }

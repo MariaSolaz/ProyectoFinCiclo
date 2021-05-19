@@ -9,8 +9,6 @@ import { ICliente, Cliente } from '../cliente.model';
 import { ClienteService } from '../service/cliente.service';
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
-import { IVehiculo } from 'app/entities/vehiculo/vehiculo.model';
-import { VehiculoService } from 'app/entities/vehiculo/service/vehiculo.service';
 
 @Component({
   selector: 'jhi-cliente-update',
@@ -20,7 +18,6 @@ export class ClienteUpdateComponent implements OnInit {
   isSaving = false;
 
   usersSharedCollection: IUser[] = [];
-  vehiculosSharedCollection: IVehiculo[] = [];
 
   editForm = this.fb.group({
     nombre: [null, [Validators.required]],
@@ -29,13 +26,11 @@ export class ClienteUpdateComponent implements OnInit {
     telefono: [null, [Validators.required]],
     correo: [null, [Validators.required]],
     user: [],
-    vehiculo: [],
   });
 
   constructor(
     protected clienteService: ClienteService,
     protected userService: UserService,
-    protected vehiculoService: VehiculoService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -66,10 +61,6 @@ export class ClienteUpdateComponent implements OnInit {
     return item.id!;
   }
 
-  trackVehiculoById(index: number, item: IVehiculo): number {
-    return item.id!;
-  }
-
   protected subscribeToSaveResponse(result: Observable<HttpResponse<ICliente>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
       () => this.onSaveSuccess(),
@@ -97,14 +88,9 @@ export class ClienteUpdateComponent implements OnInit {
       telefono: cliente.telefono,
       correo: cliente.correo,
       user: cliente.user,
-      vehiculo: cliente.vehiculo,
     });
 
     this.usersSharedCollection = this.userService.addUserToCollectionIfMissing(this.usersSharedCollection, cliente.user);
-    this.vehiculosSharedCollection = this.vehiculoService.addVehiculoToCollectionIfMissing(
-      this.vehiculosSharedCollection,
-      cliente.vehiculo
-    );
   }
 
   protected loadRelationshipsOptions(): void {
@@ -113,18 +99,6 @@ export class ClienteUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
       .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing(users, this.editForm.get('user')!.value)))
       .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
-
-    this.vehiculoService
-      .query({
-        sort:['matricula', 'asc']
-      })
-      .pipe(map((res: HttpResponse<IVehiculo[]>) => res.body ?? []))
-      .pipe(
-        map((vehiculos: IVehiculo[]) =>
-          this.vehiculoService.addVehiculoToCollectionIfMissing(vehiculos, this.editForm.get('vehiculo')!.value)
-        )
-      )
-      .subscribe((vehiculos: IVehiculo[]) => (this.vehiculosSharedCollection = vehiculos));
   }
 
   protected createFromForm(): ICliente {
@@ -136,7 +110,6 @@ export class ClienteUpdateComponent implements OnInit {
       telefono: this.editForm.get(['telefono'])!.value,
       correo: this.editForm.get(['correo'])!.value,
       user: this.editForm.get(['user'])!.value,
-      vehiculo: this.editForm.get(['vehiculo'])!.value,
     };
   }
 }

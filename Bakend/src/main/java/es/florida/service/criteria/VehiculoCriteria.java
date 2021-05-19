@@ -1,6 +1,5 @@
 package es.florida.service.criteria;
 
-import es.florida.domain.enumeration.EstadoVehiculo;
 import java.io.Serializable;
 import java.util.Objects;
 import tech.jhipster.service.Criteria;
@@ -24,23 +23,6 @@ import tech.jhipster.service.filter.StringFilter;
  */
 public class VehiculoCriteria implements Serializable, Criteria {
 
-    /**
-     * Class for filtering EstadoVehiculo
-     */
-    public static class EstadoVehiculoFilter extends Filter<EstadoVehiculo> {
-
-        public EstadoVehiculoFilter() {}
-
-        public EstadoVehiculoFilter(EstadoVehiculoFilter filter) {
-            super(filter);
-        }
-
-        @Override
-        public EstadoVehiculoFilter copy() {
-            return new EstadoVehiculoFilter(this);
-        }
-    }
-
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
@@ -53,15 +35,13 @@ public class VehiculoCriteria implements Serializable, Criteria {
 
     private LocalDateFilter anyo;
 
-    private EstadoVehiculoFilter estado;
-
     private LongFilter registroId;
 
-    private LongFilter duenyoId;
+    private LongFilter matriculaId;
+
+    private LongFilter clienteId;
 
     private LongFilter mecanicoId;
-
-    private LongFilter matriculaId;
 
     public VehiculoCriteria() {}
 
@@ -71,11 +51,10 @@ public class VehiculoCriteria implements Serializable, Criteria {
         this.marca = other.marca == null ? null : other.marca.copy();
         this.modelo = other.modelo == null ? null : other.modelo.copy();
         this.anyo = other.anyo == null ? null : other.anyo.copy();
-        this.estado = other.estado == null ? null : other.estado.copy();
         this.registroId = other.registroId == null ? null : other.registroId.copy();
-        this.duenyoId = other.duenyoId == null ? null : other.duenyoId.copy();
-        this.mecanicoId = other.mecanicoId == null ? null : other.mecanicoId.copy();
         this.matriculaId = other.matriculaId == null ? null : other.matriculaId.copy();
+        this.clienteId = other.clienteId == null ? null : other.clienteId.copy();
+        this.mecanicoId = other.mecanicoId == null ? null : other.mecanicoId.copy();
     }
 
     @Override
@@ -158,21 +137,6 @@ public class VehiculoCriteria implements Serializable, Criteria {
         this.anyo = anyo;
     }
 
-    public EstadoVehiculoFilter getEstado() {
-        return estado;
-    }
-
-    public EstadoVehiculoFilter estado() {
-        if (estado == null) {
-            estado = new EstadoVehiculoFilter();
-        }
-        return estado;
-    }
-
-    public void setEstado(EstadoVehiculoFilter estado) {
-        this.estado = estado;
-    }
-
     public LongFilter getRegistroId() {
         return registroId;
     }
@@ -186,36 +150,6 @@ public class VehiculoCriteria implements Serializable, Criteria {
 
     public void setRegistroId(LongFilter registroId) {
         this.registroId = registroId;
-    }
-
-    public LongFilter getDuenyoId() {
-        return duenyoId;
-    }
-
-    public LongFilter duenyoId() {
-        if (duenyoId == null) {
-            duenyoId = new LongFilter();
-        }
-        return duenyoId;
-    }
-
-    public void setDuenyoId(LongFilter duenyoId) {
-        this.duenyoId = duenyoId;
-    }
-
-    public LongFilter getMecanicoId() {
-        return mecanicoId;
-    }
-
-    public LongFilter mecanicoId() {
-        if (mecanicoId == null) {
-            mecanicoId = new LongFilter();
-        }
-        return mecanicoId;
-    }
-
-    public void setMecanicoId(LongFilter mecanicoId) {
-        this.mecanicoId = mecanicoId;
     }
 
     public LongFilter getMatriculaId() {
@@ -233,6 +167,36 @@ public class VehiculoCriteria implements Serializable, Criteria {
         this.matriculaId = matriculaId;
     }
 
+    public LongFilter getClienteId() {
+        return clienteId;
+    }
+
+    public LongFilter clienteId() {
+        if (clienteId == null) {
+            clienteId = new LongFilter();
+        }
+        return clienteId;
+    }
+
+    public void setClienteId(LongFilter clienteId) {
+        this.clienteId = clienteId;
+    }
+
+    public LongFilter getMecanicoId() {
+        return mecanicoId;
+    }
+
+    public LongFilter mecanicoId() {
+        if (mecanicoId == null) {
+            mecanicoId = new LongFilter();
+        }
+        return mecanicoId;
+    }
+
+    public void setMecanicoId(LongFilter mecanicoId) {
+        this.mecanicoId = mecanicoId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -248,17 +212,16 @@ public class VehiculoCriteria implements Serializable, Criteria {
             Objects.equals(marca, that.marca) &&
             Objects.equals(modelo, that.modelo) &&
             Objects.equals(anyo, that.anyo) &&
-            Objects.equals(estado, that.estado) &&
             Objects.equals(registroId, that.registroId) &&
-            Objects.equals(duenyoId, that.duenyoId) &&
-            Objects.equals(mecanicoId, that.mecanicoId) &&
-            Objects.equals(matriculaId, that.matriculaId)
+            Objects.equals(matriculaId, that.matriculaId) &&
+            Objects.equals(clienteId, that.clienteId) &&
+            Objects.equals(mecanicoId, that.mecanicoId)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, matricula, marca, modelo, anyo, estado, registroId, duenyoId, mecanicoId, matriculaId);
+        return Objects.hash(id, matricula, marca, modelo, anyo, registroId, matriculaId, clienteId, mecanicoId);
     }
 
     // prettier-ignore
@@ -270,11 +233,10 @@ public class VehiculoCriteria implements Serializable, Criteria {
             (marca != null ? "marca=" + marca + ", " : "") +
             (modelo != null ? "modelo=" + modelo + ", " : "") +
             (anyo != null ? "anyo=" + anyo + ", " : "") +
-            (estado != null ? "estado=" + estado + ", " : "") +
             (registroId != null ? "registroId=" + registroId + ", " : "") +
-            (duenyoId != null ? "duenyoId=" + duenyoId + ", " : "") +
-            (mecanicoId != null ? "mecanicoId=" + mecanicoId + ", " : "") +
             (matriculaId != null ? "matriculaId=" + matriculaId + ", " : "") +
+            (clienteId != null ? "clienteId=" + clienteId + ", " : "") +
+            (mecanicoId != null ? "mecanicoId=" + mecanicoId + ", " : "") +
             "}";
     }
 }

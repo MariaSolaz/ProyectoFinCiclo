@@ -42,10 +42,10 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call Vehiculo query and add missing value', () => {
         const registro: IRegistro = { id: 456 };
-        const vehiculo: IVehiculo = { id: 65632 };
+        const vehiculo: IVehiculo = { id: 26626 };
         registro.vehiculo = vehiculo;
 
-        const vehiculoCollection: IVehiculo[] = [{ id: 28877 }];
+        const vehiculoCollection: IVehiculo[] = [{ id: 65632 }];
         spyOn(vehiculoService, 'query').and.returnValue(of(new HttpResponse({ body: vehiculoCollection })));
         const additionalVehiculos = [vehiculo];
         const expectedCollection: IVehiculo[] = [...additionalVehiculos, ...vehiculoCollection];
@@ -61,7 +61,7 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const registro: IRegistro = { id: 456 };
-        const vehiculo: IVehiculo = { id: 47461 };
+        const vehiculo: IVehiculo = { id: 28877 };
         registro.vehiculo = vehiculo;
 
         activatedRoute.data = of({ registro });

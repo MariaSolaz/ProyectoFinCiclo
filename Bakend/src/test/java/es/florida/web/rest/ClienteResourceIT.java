@@ -754,21 +754,21 @@ class ClienteResourceIT {
 
     @Test
     @Transactional
-    void getAllClientesByVehiculoIsEqualToSomething() throws Exception {
+    void getAllClientesByDuenyoIsEqualToSomething() throws Exception {
         // Initialize the database
         clienteRepository.saveAndFlush(cliente);
-        Vehiculo vehiculo = VehiculoResourceIT.createEntity(em);
-        em.persist(vehiculo);
+        Vehiculo duenyo = VehiculoResourceIT.createEntity(em);
+        em.persist(duenyo);
         em.flush();
-        cliente.setVehiculo(vehiculo);
+        cliente.addDuenyo(duenyo);
         clienteRepository.saveAndFlush(cliente);
-        Long vehiculoId = vehiculo.getId();
+        Long duenyoId = duenyo.getId();
 
-        // Get all the clienteList where vehiculo equals to vehiculoId
-        defaultClienteShouldBeFound("vehiculoId.equals=" + vehiculoId);
+        // Get all the clienteList where duenyo equals to duenyoId
+        defaultClienteShouldBeFound("duenyoId.equals=" + duenyoId);
 
-        // Get all the clienteList where vehiculo equals to (vehiculoId + 1)
-        defaultClienteShouldNotBeFound("vehiculoId.equals=" + (vehiculoId + 1));
+        // Get all the clienteList where duenyo equals to (duenyoId + 1)
+        defaultClienteShouldNotBeFound("duenyoId.equals=" + (duenyoId + 1));
     }
 
     /**

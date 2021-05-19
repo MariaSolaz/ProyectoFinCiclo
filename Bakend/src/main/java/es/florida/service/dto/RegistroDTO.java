@@ -1,5 +1,6 @@
 package es.florida.service.dto;
 
+import es.florida.domain.enumeration.EstadoVehiculo;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -15,8 +16,7 @@ public class RegistroDTO implements Serializable {
     @NotNull
     private LocalDate fecha;
 
-    @NotNull
-    private String estadoActual;
+    private EstadoVehiculo estadoActual;
 
     private VehiculoDTO vehiculo;
 
@@ -36,11 +36,11 @@ public class RegistroDTO implements Serializable {
         this.fecha = fecha;
     }
 
-    public String getEstadoActual() {
+    public EstadoVehiculo getEstadoActual() {
         return estadoActual;
     }
 
-    public void setEstadoActual(String estadoActual) {
+    public void setEstadoActual(EstadoVehiculo estadoActual) {
         this.estadoActual = estadoActual;
     }
 

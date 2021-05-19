@@ -16,8 +16,8 @@
                     <div class="input-group">
                         <input id="field_fecha" data-cy="fecha" type="text" class="form-control" name="fecha" ngbDatepicker #fechaDp="ngbDatepicker" formControlName="fecha" />
                         <span class="input-group-append">
-              <button type="button" class="btn btn-secondary" (click)="fechaDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
-            </span>
+            <button type="button" class="btn btn-secondary" (click)="fechaDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </span>
                     </div>
                     <div *ngIf="editForm.get('fecha')!.invalid && (editForm.get('fecha')!.dirty || editForm.get('fecha')!.touched)">
                         <small class="form-text text-danger" *ngIf="editForm.get('fecha')?.errors?.required"> This field is required. </small>
@@ -27,23 +27,23 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_estadoActual">Estado Actual</label>
                     <select class="form-control" name="estadoActual" formControlName="estadoActual" id="field_estadoActual" data-cy="estadoActual">
-            <option [ngValue]="null"></option>
-            <option value="NoRevisado">NoRevisado</option>
-            <option value="Revisado">Revisado</option>
-            <option value="Reparando">Reparando</option>
-            <option value="Finalizado">Finalizado</option>
-          </select>
+          <option [ngValue]="null"></option>
+          <option value="NoRevisado">NoRevisado</option>
+          <option value="Revisado">Revisado</option>
+          <option value="Reparando">Reparando</option>
+          <option value="Finalizado">Finalizado</option>
+        </select>
                 </div>
             </div>
 
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
-        </button>
+        <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+      </button>
 
                 <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
-        </button>
+        <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+      </button>
             </div>
         </form>
     </div>

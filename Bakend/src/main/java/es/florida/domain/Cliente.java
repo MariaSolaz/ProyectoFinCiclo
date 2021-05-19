@@ -2,6 +2,8 @@ package es.florida.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -42,9 +44,9 @@ public class Cliente implements Serializable {
     @JoinColumn(name = "id")
     private User user;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "registros", "duenyos", "mecanicos", "matriculas" }, allowSetters = true)
-    private Vehiculo vehiculo;
+    @OneToMany(mappedBy = "cliente")
+    @JsonIgnoreProperties(value = { "registros", "matriculas", "cliente", "mecanico" }, allowSetters = true)
+    private Set<Vehiculo> duenyos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -138,17 +140,35 @@ public class Cliente implements Serializable {
         this.user = user;
     }
 
-    public Vehiculo getVehiculo() {
-        return this.vehiculo;
+    public Set<Vehiculo> getDuenyos() {
+        return this.duenyos;
     }
 
-    public Cliente vehiculo(Vehiculo vehiculo) {
-        this.setVehiculo(vehiculo);
+    public Cliente duenyos(Set<Vehiculo> vehiculos) {
+        this.setDuenyos(vehiculos);
         return this;
     }
 
-    public void setVehiculo(Vehiculo vehiculo) {
-        this.vehiculo = vehiculo;
+    public Cliente addDuenyo(Vehiculo vehiculo) {
+        this.duenyos.add(vehiculo);
+        vehiculo.setCliente(this);
+        return this;
+    }
+
+    public Cliente removeDuenyo(Vehiculo vehiculo) {
+        this.duenyos.remove(vehiculo);
+        vehiculo.setCliente(null);
+        return this;
+    }
+
+    public void setDuenyos(Set<Vehiculo> vehiculos) {
+        if (this.duenyos != null) {
+            this.duenyos.forEach(i -> i.setCliente(null));
+        }
+        if (vehiculos != null) {
+            vehiculos.forEach(i -> i.setCliente(this));
+        }
+        this.duenyos = vehiculos;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

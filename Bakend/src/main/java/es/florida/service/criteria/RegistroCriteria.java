@@ -1,5 +1,6 @@
 package es.florida.service.criteria;
 
+import es.florida.domain.enumeration.EstadoVehiculo;
 import java.io.Serializable;
 import java.util.Objects;
 import tech.jhipster.service.Criteria;
@@ -23,13 +24,30 @@ import tech.jhipster.service.filter.StringFilter;
  */
 public class RegistroCriteria implements Serializable, Criteria {
 
+    /**
+     * Class for filtering EstadoVehiculo
+     */
+    public static class EstadoVehiculoFilter extends Filter<EstadoVehiculo> {
+
+        public EstadoVehiculoFilter() {}
+
+        public EstadoVehiculoFilter(EstadoVehiculoFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public EstadoVehiculoFilter copy() {
+            return new EstadoVehiculoFilter(this);
+        }
+    }
+
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
 
     private LocalDateFilter fecha;
 
-    private StringFilter estadoActual;
+    private EstadoVehiculoFilter estadoActual;
 
     private LongFilter vehiculoId;
 
@@ -77,18 +95,18 @@ public class RegistroCriteria implements Serializable, Criteria {
         this.fecha = fecha;
     }
 
-    public StringFilter getEstadoActual() {
+    public EstadoVehiculoFilter getEstadoActual() {
         return estadoActual;
     }
 
-    public StringFilter estadoActual() {
+    public EstadoVehiculoFilter estadoActual() {
         if (estadoActual == null) {
-            estadoActual = new StringFilter();
+            estadoActual = new EstadoVehiculoFilter();
         }
         return estadoActual;
     }
 
-    public void setEstadoActual(StringFilter estadoActual) {
+    public void setEstadoActual(EstadoVehiculoFilter estadoActual) {
         this.estadoActual = estadoActual;
     }
 

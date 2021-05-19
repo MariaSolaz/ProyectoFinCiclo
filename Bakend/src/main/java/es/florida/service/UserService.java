@@ -59,7 +59,6 @@ public class UserService {
             );
     }
 
-
     public Optional<User> completePasswordReset(String newPassword, String key) {
         log.debug("Reset user password for reset key {}", key);
         return userRepository
@@ -87,8 +86,6 @@ public class UserService {
                 }
             );
     }
-
-
 
     public User registerUser(AdminUserDTO userDTO, String password) {
         userRepository
@@ -276,8 +273,6 @@ public class UserService {
     public Page<AdminUserDTO> getAllManagedUsers(Pageable pageable) {
         return userRepository.findAll(pageable).map(AdminUserDTO::new);
     }
-
-
 
     @Transactional(readOnly = true)
     public Page<UserDTO> getAllPublicUsers(Pageable pageable) {

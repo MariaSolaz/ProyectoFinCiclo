@@ -1,6 +1,5 @@
 package es.florida.service.dto;
 
-import es.florida.domain.enumeration.EstadoVehiculo;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -25,7 +24,9 @@ public class VehiculoDTO implements Serializable {
     @NotNull
     private LocalDate anyo;
 
-    private EstadoVehiculo estado;
+    private ClienteDTO cliente;
+
+    private MecanicoDTO mecanico;
 
     public Long getId() {
         return id;
@@ -67,12 +68,20 @@ public class VehiculoDTO implements Serializable {
         this.anyo = anyo;
     }
 
-    public EstadoVehiculo getEstado() {
-        return estado;
+    public ClienteDTO getCliente() {
+        return cliente;
     }
 
-    public void setEstado(EstadoVehiculo estado) {
-        this.estado = estado;
+    public void setCliente(ClienteDTO cliente) {
+        this.cliente = cliente;
+    }
+
+    public MecanicoDTO getMecanico() {
+        return mecanico;
+    }
+
+    public void setMecanico(MecanicoDTO mecanico) {
+        this.mecanico = mecanico;
     }
 
     @Override
@@ -105,7 +114,8 @@ public class VehiculoDTO implements Serializable {
             ", marca='" + getMarca() + "'" +
             ", modelo='" + getModelo() + "'" +
             ", anyo='" + getAnyo() + "'" +
-            ", estado='" + getEstado() + "'" +
+            ", cliente=" + getCliente() +
+            ", mecanico=" + getMecanico() +
             "}";
     }
 }

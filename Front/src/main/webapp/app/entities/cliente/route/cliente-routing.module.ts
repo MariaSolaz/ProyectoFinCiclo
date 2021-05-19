@@ -12,9 +12,6 @@ const clienteRoute: Routes = [
   {
     path: '',
     component: ClienteComponent,
-    data: {
-      defaultSort: 'nombre,asc',
-    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -44,11 +41,12 @@ const clienteRoute: Routes = [
   {
     path: ':idCliente/vehiculo',
     component: VehiculoComponent,
-    resolve:{
-      vehiculo: ClienteRoutingResolveService,
+    resolve: {
+      cliente: ClienteRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
-  }
+  },
+
 ];
 
 @NgModule({

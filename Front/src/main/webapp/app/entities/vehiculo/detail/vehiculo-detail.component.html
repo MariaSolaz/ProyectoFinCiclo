@@ -30,9 +30,17 @@
         <dd>
           <span>{{ vehiculo.anyo | formatMediumDate }}</span>
         </dd>
-        <dt><span>Estado</span></dt>
+        <dt><span>Cliente</span></dt>
         <dd>
-          <span>{{ vehiculo.estado }}</span>
+          <div *ngIf="vehiculo.cliente">
+            <a [routerLink]="['/cliente', vehiculo.cliente?.id, 'view']">{{ vehiculo.cliente?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Mecanico</span></dt>
+        <dd>
+          <div *ngIf="vehiculo.mecanico">
+            <a [routerLink]="['/mecanico', vehiculo.mecanico?.id, 'view']">{{ vehiculo.mecanico?.id }}</a>
+          </div>
         </dd>
       </dl>
 

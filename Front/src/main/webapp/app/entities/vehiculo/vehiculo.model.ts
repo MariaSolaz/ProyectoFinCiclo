@@ -1,8 +1,8 @@
 import * as dayjs from 'dayjs';
+import { IRegistro } from 'app/entities/registro/registro.model';
+import { IFactura } from 'app/entities/factura/factura.model';
 import { ICliente } from 'app/entities/cliente/cliente.model';
 import { IMecanico } from 'app/entities/mecanico/mecanico.model';
-import { IFactura } from 'app/entities/factura/factura.model';
-import { EstadoVehiculo } from 'app/entities/enumerations/estado-vehiculo.model';
 
 export interface IVehiculo {
   id?: number;
@@ -10,10 +10,10 @@ export interface IVehiculo {
   marca?: string;
   modelo?: string;
   anyo?: dayjs.Dayjs;
-  estado?: EstadoVehiculo | null;
-  duenyos?: ICliente[] | null;
-  mecanicos?: IMecanico[] | null;
+  registros?: IRegistro[] | null;
   matriculas?: IFactura[] | null;
+  cliente?: ICliente | null;
+  mecanico?: IMecanico | null;
 }
 
 export class Vehiculo implements IVehiculo {
@@ -23,10 +23,10 @@ export class Vehiculo implements IVehiculo {
     public marca?: string,
     public modelo?: string,
     public anyo?: dayjs.Dayjs,
-    public estado?: EstadoVehiculo | null,
-    public duenyos?: ICliente[] | null,
-    public mecanicos?: IMecanico[] | null,
-    public matriculas?: IFactura[] | null
+    public registros?: IRegistro[] | null,
+    public matriculas?: IFactura[] | null,
+    public cliente?: ICliente | null,
+    public mecanico?: IMecanico | null
   ) {}
 }
 

@@ -4,19 +4,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
     <!--
-        Added the constraints for entity Cliente.
+        Added the constraints for entity Factura.
     -->
-    <changeSet id="20210515103024-2" author="jhipster">
-
-        <addForeignKeyConstraint baseColumnNames="id"
-                                 baseTableName="cliente"
-                                 constraintName="fk_cliente__user_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="jhi_user"/>
+    <changeSet id="20210519163817-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="vehiculo_id"
-                                 baseTableName="cliente"
-                                 constraintName="fk_cliente__vehiculo_id"
+                                 baseTableName="factura"
+                                 constraintName="fk_factura__vehiculo_id"
                                  referencedColumnNames="id"
                                  referencedTableName="vehiculo"/>
     </changeSet>

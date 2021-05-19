@@ -90,7 +90,7 @@ public class RegistroQueryService extends QueryService<Registro> {
                 specification = specification.and(buildRangeSpecification(criteria.getFecha(), Registro_.fecha));
             }
             if (criteria.getEstadoActual() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEstadoActual(), Registro_.estadoActual));
+                specification = specification.and(buildSpecification(criteria.getEstadoActual(), Registro_.estadoActual));
             }
             if (criteria.getVehiculoId() != null) {
                 specification =

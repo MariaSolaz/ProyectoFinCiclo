@@ -26,8 +26,6 @@ public class MecanicoDTO implements Serializable {
     @NotNull
     private String correo;
 
-    private VehiculoDTO vehiculo;
-
     public Long getId() {
         return id;
     }
@@ -76,14 +74,6 @@ public class MecanicoDTO implements Serializable {
         this.correo = correo;
     }
 
-    public VehiculoDTO getVehiculo() {
-        return vehiculo;
-    }
-
-    public void setVehiculo(VehiculoDTO vehiculo) {
-        this.vehiculo = vehiculo;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -115,7 +105,6 @@ public class MecanicoDTO implements Serializable {
             ", dNI='" + getdNI() + "'" +
             ", telefono='" + getTelefono() + "'" +
             ", correo='" + getCorreo() + "'" +
-            ", vehiculo=" + getVehiculo() +
             "}";
     }
 }

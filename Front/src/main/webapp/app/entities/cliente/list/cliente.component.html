@@ -3,14 +3,14 @@
         <span>Clientes</span>
 
         <div class="d-flex justify-content-end">
-            <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+            <button class="btn btn-info mr-2" (click)="reset()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh List</span>
+        <span>Actualizar</span>
       </button>
 
             <button id="jh-create-entity" data-cy="entityCreateButton" class="btn btn-primary jh-create-entity create-cliente" [routerLink]="['/cliente/new']">
         <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Cliente </span>
+        <span> Nuevo cliente </span>
       </button>
         </div>
     </h2>
@@ -19,44 +19,14 @@
 
     <jhi-alert></jhi-alert>
 
-    <!--FILTROS-->
-    <form class="form-filter " name="filterForm" role="form" novalidate (ngSubmit)="filter()" [formGroup]="filterForm">
-        <div class="row">
-            <!--Nombre-->
-            <div class="form-group">
-                <label class="form-control-label" for="filterNombre">Nombre</label>
-                <input type="text" class="form-control" id="filterNombre" formControlName="filterNombre" />
-            </div>
-
-            <!--Apellido-->
-            <div class="form-group">
-                <label class="form-control-label" for="filterApellido">Apellido</label>
-                <input type="text" class="form-control" id="filterApellido" formControlName="filterApellido" />
-            </div>
-
-            <!--Enviar-->
-            <div class="form-group">
-                <button type="submit" class="btn btn-dark">
-                <span>FILTRAR</span>
-            </button>
-            </div>
-
-        </div>
-
-
-    </form>
-
     <div class="alert alert-warning" id="no-result" *ngIf="clientes?.length === 0">
-        <span>No clientes found</span>
+        <span>No se encontraron clientes</span>
     </div>
 
     <div class="table-responsive" id="entities" *ngIf="clientes && clientes.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col" jhiSortBy="id"><span>ID</span>
-                        <fa-icon icon="sort"></fa-icon>
-                    </th>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
                     <th scope="col" jhiSortBy="nombre"><span>Nombre</span>
                         <fa-icon icon="sort"></fa-icon>
                     </th>
@@ -72,38 +42,35 @@
                     <th scope="col" jhiSortBy="correo"><span>Correo</span>
                         <fa-icon icon="sort"></fa-icon>
                     </th>
-                    <th scope="col" jhiSortBy="vehiculo.id"><span>Vehiculo</span>
+                    <th scope="col" jhiSortBy="user.login"><span>User</span>
                         <fa-icon icon="sort"></fa-icon>
                     </th>
                     <th scope="col"></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
                 <tr *ngFor="let cliente of clientes; trackBy: trackId" data-cy="entityTable">
-                    <td>
-                        <a [routerLink]="['/cliente', cliente.id, 'edit']">{{ cliente.id }}</a>
-                    </td>
                     <td>{{ cliente.nombre }}</td>
                     <td>{{ cliente.apellido }}</td>
                     <td>{{ cliente.dNI }}</td>
                     <td>{{ cliente.telefono }}</td>
                     <td>{{ cliente.correo }}</td>
                     <td>
-                        <div *ngIf="cliente.vehiculo">
-                            <a [routerLink]="['/vehiculo', cliente.vehiculo?.id, 'edit']">{{ cliente.vehiculo?.id }}</a>
-                        </div>
+                        {{ cliente.user?.login }}
                     </td>
                     <td class="text-right">
                         <div class="btn-group">
+                            <button type="submit" [routerLink]="['/cliente', cliente.id, 'vehiculo']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="car"></fa-icon>
+              </button>
+
                             <button type="submit" [routerLink]="['/cliente', cliente.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
-                                <fa-icon icon="pencil-alt"></fa-icon>
-                                
-                              </button>
+                <fa-icon icon="pencil-alt"></fa-icon>
+              </button>
 
                             <button type="submit" (click)="delete(cliente)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                                <fa-icon icon="times"></fa-icon>
-                                
-                              </button>
+                <fa-icon icon="times"></fa-icon>
+              </button>
                         </div>
                     </td>
                 </tr>

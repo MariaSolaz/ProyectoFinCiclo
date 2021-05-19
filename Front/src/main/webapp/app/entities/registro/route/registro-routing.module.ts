@@ -11,9 +11,6 @@ const registroRoute: Routes = [
   {
     path: '',
     component: RegistroComponent,
-    data: {
-      defaultSort: 'id,asc',
-    },
     canActivate: [UserRouteAccessService],
   },
   {

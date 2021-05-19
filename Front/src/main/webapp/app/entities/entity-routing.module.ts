@@ -24,7 +24,6 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'Facturas' },
         loadChildren: () => import('./factura/factura.module').then(m => m.FacturaModule),
       },
-
       {
         path: 'dashboard',
         data: { pageTitle: 'Dashboards' },
@@ -34,7 +33,7 @@ import { RouterModule } from '@angular/router';
         path: 'registro',
         data: { pageTitle: 'Registros' },
         loadChildren: () => import('./registro/registro.module').then(m => m.RegistroModule),
-      }
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IMecanico } from '../mecanico.model';
@@ -9,67 +7,65 @@ import { IMecanico } from '../mecanico.model';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { MecanicoService } from '../service/mecanico.service';
 import { MecanicoDeleteDialogComponent } from '../delete/mecanico-delete-dialog.component';
-import { FormBuilder } from '@angular/forms';
-import { MecanicoFilter } from './mecanico.filter';
+import { ParseLinks } from 'app/core/util/parse-links.service';
+
 @Component({
   selector: 'jhi-mecanico',
   templateUrl: './mecanico.component.html',
 })
 export class MecanicoComponent implements OnInit {
-  mecanicos?: IMecanico[];
+  mecanicos: IMecanico[];
   isLoading = false;
-  totalItems = 0;
-  itemsPerPage = ITEMS_PER_PAGE;
-  page?: number;
-  predicate!: string;
-  ascending!: boolean;
-  ngbPaginationPage = 1;
+  itemsPerPage: number;
+  links: { [key: string]: number };
+  page: number;
+  predicate: string;
+  ascending: boolean;
 
-  filterForm = this.fb.group({
-    filterNombre: [],
-    filterApellido: []
-  })
-
-  filtros: MecanicoFilter = new MecanicoFilter();
-
-  constructor(
-    protected mecanicoService: MecanicoService,
-    protected activatedRoute: ActivatedRoute,
-    protected router: Router,
-    protected modalService: NgbModal,
-    protected fb: FormBuilder
-  ) {}
-
-  filter():void{
-    this.createFilterFromForm();
-    this.loadPage();
+  constructor(protected mecanicoService: MecanicoService, protected modalService: NgbModal, protected parseLinks: ParseLinks) {
+    this.mecanicos = [];
+    this.itemsPerPage = ITEMS_PER_PAGE;
+    this.page = 0;
+    this.links = {
+      last: 0,
+    };
+    this.predicate = 'id';
+    this.ascending = true;
   }
 
-  loadPage(page?: number, dontNavigate?: boolean): void {
+  loadAll(): void {
     this.isLoading = true;
-    const pageToLoad: number = page ?? this.page ?? 1;
 
     this.mecanicoService
       .query({
-        filter: this.filtros.toMap(),
-        page: pageToLoad - 1,
+        page: this.page,
         size: this.itemsPerPage,
         sort: this.sort(),
       })
       .subscribe(
         (res: HttpResponse<IMecanico[]>) => {
           this.isLoading = false;
-          this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate);
+          this.paginateMecanicos(res.body, res.headers);
         },
         () => {
           this.isLoading = false;
-          this.onError();
         }
       );
   }
 
+  reset(): void {
+    this.page = 0;
+    this.mecanicos = [];
+    this.loadAll();
+  }
+
+  loadPage(page: number): void {
+    this.page = page;
+    this.loadAll();
+  }
+
   ngOnInit(): void {
-    this.handleNavigation();
+    this.loadAll();
   }
 
   trackId(index: number, item: IMecanico): number {
@@ -82,7 +78,7 @@ export class MecanicoComponent implements OnInit {
     // unsubscribe not needed because closed completes on modal close
     modalRef.closed.subscribe(reason => {
       if (reason === 'deleted') {
-        this.loadPage();
+        this.reset();
       }
     });
   }
@@ -95,43 +91,12 @@ export class MecanicoComponent implements OnInit {
     return result;
   }
 
-  protected handleNavigation(): void {
-    combineLatest([this.activatedRoute.data, this.activatedRoute.queryParamMap]).subscribe(([data, params]) => {
-      const page = params.get('page');
-      const pageNumber = page !== null ? +page : 1;
-      const sort = (params.get('sort') ?? data['defaultSort']).split(',');
-      const predicate = sort[0];
-      const ascending = sort[1] === 'asc';
-      if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
-        this.predicate = predicate;
-        this.ascending = ascending;
-        this.loadPage(pageNumber, true);
+  protected paginateMecanicos(data: IMecanico[] | null, headers: HttpHeaders): void {
+    this.links = this.parseLinks.parse(headers.get('link') ?? '');
+    if (data) {
+      for (const d of data) {
+        this.mecanicos.push(d);
       }
-    });
-  }
-
-  protected onSuccess(data: IMecanico[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
-    this.totalItems = Number(headers.get('X-Total-Count'));
-    this.page = page;
-    if (navigate) {
-      this.router.navigate(['/mecanico'], {
-        queryParams: {
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
-        },
-      });
     }
-    this.mecanicos = data ?? [];
-    this.ngbPaginationPage = this.page;
-  }
-
-  protected onError(): void {
-    this.ngbPaginationPage = this.page ?? 1;
-  }
-
-  protected createFilterFromForm():void{
-    this.filtros.nombre = this.filterForm.get(['filterNombre'])?.value;
-    this.filtros.apellido = this.filterForm.get(['filterApellido'])?.value
   }
 }

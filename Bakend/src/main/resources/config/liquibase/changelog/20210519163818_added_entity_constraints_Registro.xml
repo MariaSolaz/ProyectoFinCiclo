@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Registro.
     -->
-    <changeSet id="20210515103028-2" author="jhipster">
+    <changeSet id="20210519163818-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="vehiculo_id"
                                  baseTableName="registro"

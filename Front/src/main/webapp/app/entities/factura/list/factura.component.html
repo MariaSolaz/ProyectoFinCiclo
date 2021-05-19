@@ -4,14 +4,14 @@
 
         <div class="d-flex justify-content-end">
             <button class="btn btn-info mr-2" (click)="reset()" [disabled]="isLoading">
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh List</span>
-      </button>
+      <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+      <span>Actualizar</span>
+    </button>
 
             <button id="jh-create-entity" data-cy="entityCreateButton" class="btn btn-primary jh-create-entity create-factura" [routerLink]="['/vehiculo/' + vehiculo?.id + '/facturas/new']">
-        <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Factura </span>
-      </button>
+      <fa-icon icon="plus"></fa-icon>
+      <span> Nueva factura </span>
+    </button>
         </div>
     </h2>
 
@@ -21,7 +21,7 @@
 
 
     <div class="alert alert-warning" id="no-result" *ngIf="facturas?.length === 0">
-        <span>No facturas found</span>
+        <span>No se han encontrado facturas</span>
     </div>
 
     <div class="table-responsive" id="entities" *ngIf="facturas && facturas.length > 0">
@@ -61,14 +61,14 @@
 
 
                             <button type="submit" [routerLink]="['/factura', factura.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
-                <fa-icon icon="pencil-alt"></fa-icon>
-                
-              </button>
+              <fa-icon icon="pencil-alt"></fa-icon>
+              
+            </button>
 
                             <button type="submit" (click)="delete(factura)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                
-              </button>
+              <fa-icon icon="times"></fa-icon>
+              
+            </button>
                         </div>
                     </td>
                 </tr>
@@ -76,7 +76,7 @@
         </table>
     </div>
     <button type="submit" [routerLink]="['/vehiculo']" class="btn btn-primary ">
-        <span>Volver</span>
-        
-    </button>
+      <span>Volver</span>
+      
+  </button>
 </div>

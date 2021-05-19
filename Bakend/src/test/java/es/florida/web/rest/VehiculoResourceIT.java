@@ -11,7 +11,6 @@ import es.florida.domain.Factura;
 import es.florida.domain.Mecanico;
 import es.florida.domain.Registro;
 import es.florida.domain.Vehiculo;
-import es.florida.domain.enumeration.EstadoVehiculo;
 import es.florida.repository.VehiculoRepository;
 import es.florida.service.criteria.VehiculoCriteria;
 import es.florida.service.dto.VehiculoDTO;
@@ -52,9 +51,6 @@ class VehiculoResourceIT {
     private static final LocalDate UPDATED_ANYO = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_ANYO = LocalDate.ofEpochDay(-1L);
 
-    private static final EstadoVehiculo DEFAULT_ESTADO = EstadoVehiculo.NoRevisado;
-    private static final EstadoVehiculo UPDATED_ESTADO = EstadoVehiculo.Revisado;
-
     private static final String ENTITY_API_URL = "/api/vehiculos";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -82,12 +78,7 @@ class VehiculoResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Vehiculo createEntity(EntityManager em) {
-        Vehiculo vehiculo = new Vehiculo()
-            .matricula(DEFAULT_MATRICULA)
-            .marca(DEFAULT_MARCA)
-            .modelo(DEFAULT_MODELO)
-            .anyo(DEFAULT_ANYO)
-            .estado(DEFAULT_ESTADO);
+        Vehiculo vehiculo = new Vehiculo().matricula(DEFAULT_MATRICULA).marca(DEFAULT_MARCA).modelo(DEFAULT_MODELO).anyo(DEFAULT_ANYO);
         return vehiculo;
     }
 
@@ -98,12 +89,7 @@ class VehiculoResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Vehiculo createUpdatedEntity(EntityManager em) {
-        Vehiculo vehiculo = new Vehiculo()
-            .matricula(UPDATED_MATRICULA)
-            .marca(UPDATED_MARCA)
-            .modelo(UPDATED_MODELO)
-            .anyo(UPDATED_ANYO)
-            .estado(UPDATED_ESTADO);
+        Vehiculo vehiculo = new Vehiculo().matricula(UPDATED_MATRICULA).marca(UPDATED_MARCA).modelo(UPDATED_MODELO).anyo(UPDATED_ANYO);
         return vehiculo;
     }
 
@@ -130,7 +116,6 @@ class VehiculoResourceIT {
         assertThat(testVehiculo.getMarca()).isEqualTo(DEFAULT_MARCA);
         assertThat(testVehiculo.getModelo()).isEqualTo(DEFAULT_MODELO);
         assertThat(testVehiculo.getAnyo()).isEqualTo(DEFAULT_ANYO);
-        assertThat(testVehiculo.getEstado()).isEqualTo(DEFAULT_ESTADO);
     }
 
     @Test
@@ -239,8 +224,7 @@ class VehiculoResourceIT {
             .andExpect(jsonPath("$.[*].matricula").value(hasItem(DEFAULT_MATRICULA)))
             .andExpect(jsonPath("$.[*].marca").value(hasItem(DEFAULT_MARCA)))
             .andExpect(jsonPath("$.[*].modelo").value(hasItem(DEFAULT_MODELO)))
-            .andExpect(jsonPath("$.[*].anyo").value(hasItem(DEFAULT_ANYO.toString())))
-            .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO.toString())));
+            .andExpect(jsonPath("$.[*].anyo").value(hasItem(DEFAULT_ANYO.toString())));
     }
 
     @Test
@@ -258,8 +242,7 @@ class VehiculoResourceIT {
             .andExpect(jsonPath("$.matricula").value(DEFAULT_MATRICULA))
             .andExpect(jsonPath("$.marca").value(DEFAULT_MARCA))
             .andExpect(jsonPath("$.modelo").value(DEFAULT_MODELO))
-            .andExpect(jsonPath("$.anyo").value(DEFAULT_ANYO.toString()))
-            .andExpect(jsonPath("$.estado").value(DEFAULT_ESTADO.toString()));
+            .andExpect(jsonPath("$.anyo").value(DEFAULT_ANYO.toString()));
     }
 
     @Test
@@ -620,58 +603,6 @@ class VehiculoResourceIT {
 
     @Test
     @Transactional
-    void getAllVehiculosByEstadoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        vehiculoRepository.saveAndFlush(vehiculo);
-
-        // Get all the vehiculoList where estado equals to DEFAULT_ESTADO
-        defaultVehiculoShouldBeFound("estado.equals=" + DEFAULT_ESTADO);
-
-        // Get all the vehiculoList where estado equals to UPDATED_ESTADO
-        defaultVehiculoShouldNotBeFound("estado.equals=" + UPDATED_ESTADO);
-    }
-
-    @Test
-    @Transactional
-    void getAllVehiculosByEstadoIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        vehiculoRepository.saveAndFlush(vehiculo);
-
-        // Get all the vehiculoList where estado not equals to DEFAULT_ESTADO
-        defaultVehiculoShouldNotBeFound("estado.notEquals=" + DEFAULT_ESTADO);
-
-        // Get all the vehiculoList where estado not equals to UPDATED_ESTADO
-        defaultVehiculoShouldBeFound("estado.notEquals=" + UPDATED_ESTADO);
-    }
-
-    @Test
-    @Transactional
-    void getAllVehiculosByEstadoIsInShouldWork() throws Exception {
-        // Initialize the database
-        vehiculoRepository.saveAndFlush(vehiculo);
-
-        // Get all the vehiculoList where estado in DEFAULT_ESTADO or UPDATED_ESTADO
-        defaultVehiculoShouldBeFound("estado.in=" + DEFAULT_ESTADO + "," + UPDATED_ESTADO);
-
-        // Get all the vehiculoList where estado equals to UPDATED_ESTADO
-        defaultVehiculoShouldNotBeFound("estado.in=" + UPDATED_ESTADO);
-    }
-
-    @Test
-    @Transactional
-    void getAllVehiculosByEstadoIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        vehiculoRepository.saveAndFlush(vehiculo);
-
-        // Get all the vehiculoList where estado is not null
-        defaultVehiculoShouldBeFound("estado.specified=true");
-
-        // Get all the vehiculoList where estado is null
-        defaultVehiculoShouldNotBeFound("estado.specified=false");
-    }
-
-    @Test
-    @Transactional
     void getAllVehiculosByRegistroIsEqualToSomething() throws Exception {
         // Initialize the database
         vehiculoRepository.saveAndFlush(vehiculo);
@@ -687,44 +618,6 @@ class VehiculoResourceIT {
 
         // Get all the vehiculoList where registro equals to (registroId + 1)
         defaultVehiculoShouldNotBeFound("registroId.equals=" + (registroId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllVehiculosByDuenyoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        vehiculoRepository.saveAndFlush(vehiculo);
-        Cliente duenyo = ClienteResourceIT.createEntity(em);
-        em.persist(duenyo);
-        em.flush();
-        vehiculo.addDuenyo(duenyo);
-        vehiculoRepository.saveAndFlush(vehiculo);
-        Long duenyoId = duenyo.getId();
-
-        // Get all the vehiculoList where duenyo equals to duenyoId
-        defaultVehiculoShouldBeFound("duenyoId.equals=" + duenyoId);
-
-        // Get all the vehiculoList where duenyo equals to (duenyoId + 1)
-        defaultVehiculoShouldNotBeFound("duenyoId.equals=" + (duenyoId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllVehiculosByMecanicoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        vehiculoRepository.saveAndFlush(vehiculo);
-        Mecanico mecanico = MecanicoResourceIT.createEntity(em);
-        em.persist(mecanico);
-        em.flush();
-        vehiculo.addMecanico(mecanico);
-        vehiculoRepository.saveAndFlush(vehiculo);
-        Long mecanicoId = mecanico.getId();
-
-        // Get all the vehiculoList where mecanico equals to mecanicoId
-        defaultVehiculoShouldBeFound("mecanicoId.equals=" + mecanicoId);
-
-        // Get all the vehiculoList where mecanico equals to (mecanicoId + 1)
-        defaultVehiculoShouldNotBeFound("mecanicoId.equals=" + (mecanicoId + 1));
     }
 
     @Test
@@ -746,6 +639,44 @@ class VehiculoResourceIT {
         defaultVehiculoShouldNotBeFound("matriculaId.equals=" + (matriculaId + 1));
     }
 
+    @Test
+    @Transactional
+    void getAllVehiculosByClienteIsEqualToSomething() throws Exception {
+        // Initialize the database
+        vehiculoRepository.saveAndFlush(vehiculo);
+        Cliente cliente = ClienteResourceIT.createEntity(em);
+        em.persist(cliente);
+        em.flush();
+        vehiculo.setCliente(cliente);
+        vehiculoRepository.saveAndFlush(vehiculo);
+        Long clienteId = cliente.getId();
+
+        // Get all the vehiculoList where cliente equals to clienteId
+        defaultVehiculoShouldBeFound("clienteId.equals=" + clienteId);
+
+        // Get all the vehiculoList where cliente equals to (clienteId + 1)
+        defaultVehiculoShouldNotBeFound("clienteId.equals=" + (clienteId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllVehiculosByMecanicoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        vehiculoRepository.saveAndFlush(vehiculo);
+        Mecanico mecanico = MecanicoResourceIT.createEntity(em);
+        em.persist(mecanico);
+        em.flush();
+        vehiculo.setMecanico(mecanico);
+        vehiculoRepository.saveAndFlush(vehiculo);
+        Long mecanicoId = mecanico.getId();
+
+        // Get all the vehiculoList where mecanico equals to mecanicoId
+        defaultVehiculoShouldBeFound("mecanicoId.equals=" + mecanicoId);
+
+        // Get all the vehiculoList where mecanico equals to (mecanicoId + 1)
+        defaultVehiculoShouldNotBeFound("mecanicoId.equals=" + (mecanicoId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -758,8 +689,7 @@ class VehiculoResourceIT {
             .andExpect(jsonPath("$.[*].matricula").value(hasItem(DEFAULT_MATRICULA)))
             .andExpect(jsonPath("$.[*].marca").value(hasItem(DEFAULT_MARCA)))
             .andExpect(jsonPath("$.[*].modelo").value(hasItem(DEFAULT_MODELO)))
-            .andExpect(jsonPath("$.[*].anyo").value(hasItem(DEFAULT_ANYO.toString())))
-            .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO.toString())));
+            .andExpect(jsonPath("$.[*].anyo").value(hasItem(DEFAULT_ANYO.toString())));
 
         // Check, that the count call also returns 1
         restVehiculoMockMvc
@@ -807,7 +737,7 @@ class VehiculoResourceIT {
         Vehiculo updatedVehiculo = vehiculoRepository.findById(vehiculo.getId()).get();
         // Disconnect from session so that the updates on updatedVehiculo are not directly saved in db
         em.detach(updatedVehiculo);
-        updatedVehiculo.matricula(UPDATED_MATRICULA).marca(UPDATED_MARCA).modelo(UPDATED_MODELO).anyo(UPDATED_ANYO).estado(UPDATED_ESTADO);
+        updatedVehiculo.matricula(UPDATED_MATRICULA).marca(UPDATED_MARCA).modelo(UPDATED_MODELO).anyo(UPDATED_ANYO);
         VehiculoDTO vehiculoDTO = vehiculoMapper.toDto(updatedVehiculo);
 
         restVehiculoMockMvc
@@ -826,7 +756,6 @@ class VehiculoResourceIT {
         assertThat(testVehiculo.getMarca()).isEqualTo(UPDATED_MARCA);
         assertThat(testVehiculo.getModelo()).isEqualTo(UPDATED_MODELO);
         assertThat(testVehiculo.getAnyo()).isEqualTo(UPDATED_ANYO);
-        assertThat(testVehiculo.getEstado()).isEqualTo(UPDATED_ESTADO);
     }
 
     @Test
@@ -906,7 +835,7 @@ class VehiculoResourceIT {
         Vehiculo partialUpdatedVehiculo = new Vehiculo();
         partialUpdatedVehiculo.setId(vehiculo.getId());
 
-        partialUpdatedVehiculo.matricula(UPDATED_MATRICULA).modelo(UPDATED_MODELO).estado(UPDATED_ESTADO);
+        partialUpdatedVehiculo.matricula(UPDATED_MATRICULA).modelo(UPDATED_MODELO);
 
         restVehiculoMockMvc
             .perform(
@@ -924,7 +853,6 @@ class VehiculoResourceIT {
         assertThat(testVehiculo.getMarca()).isEqualTo(DEFAULT_MARCA);
         assertThat(testVehiculo.getModelo()).isEqualTo(UPDATED_MODELO);
         assertThat(testVehiculo.getAnyo()).isEqualTo(DEFAULT_ANYO);
-        assertThat(testVehiculo.getEstado()).isEqualTo(UPDATED_ESTADO);
     }
 
     @Test
@@ -939,12 +867,7 @@ class VehiculoResourceIT {
         Vehiculo partialUpdatedVehiculo = new Vehiculo();
         partialUpdatedVehiculo.setId(vehiculo.getId());
 
-        partialUpdatedVehiculo
-            .matricula(UPDATED_MATRICULA)
-            .marca(UPDATED_MARCA)
-            .modelo(UPDATED_MODELO)
-            .anyo(UPDATED_ANYO)
-            .estado(UPDATED_ESTADO);
+        partialUpdatedVehiculo.matricula(UPDATED_MATRICULA).marca(UPDATED_MARCA).modelo(UPDATED_MODELO).anyo(UPDATED_ANYO);
 
         restVehiculoMockMvc
             .perform(
@@ -962,7 +885,6 @@ class VehiculoResourceIT {
         assertThat(testVehiculo.getMarca()).isEqualTo(UPDATED_MARCA);
         assertThat(testVehiculo.getModelo()).isEqualTo(UPDATED_MODELO);
         assertThat(testVehiculo.getAnyo()).isEqualTo(UPDATED_ANYO);
-        assertThat(testVehiculo.getEstado()).isEqualTo(UPDATED_ESTADO);
     }
 
     @Test

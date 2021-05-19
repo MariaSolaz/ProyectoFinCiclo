@@ -683,21 +683,21 @@ class MecanicoResourceIT {
 
     @Test
     @Transactional
-    void getAllMecanicosByVehiculoIsEqualToSomething() throws Exception {
+    void getAllMecanicosByMecanicoIsEqualToSomething() throws Exception {
         // Initialize the database
         mecanicoRepository.saveAndFlush(mecanico);
-        Vehiculo vehiculo = VehiculoResourceIT.createEntity(em);
-        em.persist(vehiculo);
+        Vehiculo mecanico = VehiculoResourceIT.createEntity(em);
+        em.persist(mecanico);
         em.flush();
-        mecanico.setVehiculo(vehiculo);
+        mecanico.addMecanico(mecanico);
         mecanicoRepository.saveAndFlush(mecanico);
-        Long vehiculoId = vehiculo.getId();
+        Long mecanicoId = mecanico.getId();
 
-        // Get all the mecanicoList where vehiculo equals to vehiculoId
-        defaultMecanicoShouldBeFound("vehiculoId.equals=" + vehiculoId);
+        // Get all the mecanicoList where mecanico equals to mecanicoId
+        defaultMecanicoShouldBeFound("mecanicoId.equals=" + mecanicoId);
 
-        // Get all the mecanicoList where vehiculo equals to (vehiculoId + 1)
-        defaultMecanicoShouldNotBeFound("vehiculoId.equals=" + (vehiculoId + 1));
+        // Get all the mecanicoList where mecanico equals to (mecanicoId + 1)
+        defaultMecanicoShouldNotBeFound("mecanicoId.equals=" + (mecanicoId + 1));
     }
 
     /**

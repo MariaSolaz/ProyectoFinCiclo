@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import es.florida.IntegrationTest;
 import es.florida.domain.Registro;
 import es.florida.domain.Vehiculo;
+import es.florida.domain.enumeration.EstadoVehiculo;
 import es.florida.repository.RegistroRepository;
 import es.florida.service.criteria.RegistroCriteria;
 import es.florida.service.dto.RegistroDTO;
@@ -39,8 +40,8 @@ class RegistroResourceIT {
     private static final LocalDate UPDATED_FECHA = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_FECHA = LocalDate.ofEpochDay(-1L);
 
-    private static final String DEFAULT_ESTADO_ACTUAL = "AAAAAAAAAA";
-    private static final String UPDATED_ESTADO_ACTUAL = "BBBBBBBBBB";
+    private static final EstadoVehiculo DEFAULT_ESTADO_ACTUAL = EstadoVehiculo.NoRevisado;
+    private static final EstadoVehiculo UPDATED_ESTADO_ACTUAL = EstadoVehiculo.Revisado;
 
     private static final String ENTITY_API_URL = "/api/registros";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -146,24 +147,6 @@ class RegistroResourceIT {
 
     @Test
     @Transactional
-    void checkEstadoActualIsRequired() throws Exception {
-        int databaseSizeBeforeTest = registroRepository.findAll().size();
-        // set the field null
-        registro.setEstadoActual(null);
-
-        // Create the Registro, which fails.
-        RegistroDTO registroDTO = registroMapper.toDto(registro);
-
-        restRegistroMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(registroDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Registro> registroList = registroRepository.findAll();
-        assertThat(registroList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void getAllRegistros() throws Exception {
         // Initialize the database
         registroRepository.saveAndFlush(registro);
@@ -175,7 +158,7 @@ class RegistroResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(registro.getId().intValue())))
             .andExpect(jsonPath("$.[*].fecha").value(hasItem(DEFAULT_FECHA.toString())))
-            .andExpect(jsonPath("$.[*].estadoActual").value(hasItem(DEFAULT_ESTADO_ACTUAL)));
+            .andExpect(jsonPath("$.[*].estadoActual").value(hasItem(DEFAULT_ESTADO_ACTUAL.toString())));
     }
 
     @Test
@@ -191,7 +174,7 @@ class RegistroResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(registro.getId().intValue()))
             .andExpect(jsonPath("$.fecha").value(DEFAULT_FECHA.toString()))
-            .andExpect(jsonPath("$.estadoActual").value(DEFAULT_ESTADO_ACTUAL));
+            .andExpect(jsonPath("$.estadoActual").value(DEFAULT_ESTADO_ACTUAL.toString()));
     }
 
     @Test
@@ -370,32 +353,6 @@ class RegistroResourceIT {
 
     @Test
     @Transactional
-    void getAllRegistrosByEstadoActualContainsSomething() throws Exception {
-        // Initialize the database
-        registroRepository.saveAndFlush(registro);
-
-        // Get all the registroList where estadoActual contains DEFAULT_ESTADO_ACTUAL
-        defaultRegistroShouldBeFound("estadoActual.contains=" + DEFAULT_ESTADO_ACTUAL);
-
-        // Get all the registroList where estadoActual contains UPDATED_ESTADO_ACTUAL
-        defaultRegistroShouldNotBeFound("estadoActual.contains=" + UPDATED_ESTADO_ACTUAL);
-    }
-
-    @Test
-    @Transactional
-    void getAllRegistrosByEstadoActualNotContainsSomething() throws Exception {
-        // Initialize the database
-        registroRepository.saveAndFlush(registro);
-
-        // Get all the registroList where estadoActual does not contain DEFAULT_ESTADO_ACTUAL
-        defaultRegistroShouldNotBeFound("estadoActual.doesNotContain=" + DEFAULT_ESTADO_ACTUAL);
-
-        // Get all the registroList where estadoActual does not contain UPDATED_ESTADO_ACTUAL
-        defaultRegistroShouldBeFound("estadoActual.doesNotContain=" + UPDATED_ESTADO_ACTUAL);
-    }
-
-    @Test
-    @Transactional
     void getAllRegistrosByVehiculoIsEqualToSomething() throws Exception {
         // Initialize the database
         registroRepository.saveAndFlush(registro);
@@ -423,7 +380,7 @@ class RegistroResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(registro.getId().intValue())))
             .andExpect(jsonPath("$.[*].fecha").value(hasItem(DEFAULT_FECHA.toString())))
-            .andExpect(jsonPath("$.[*].estadoActual").value(hasItem(DEFAULT_ESTADO_ACTUAL)));
+            .andExpect(jsonPath("$.[*].estadoActual").value(hasItem(DEFAULT_ESTADO_ACTUAL.toString())));
 
         // Check, that the count call also returns 1
         restRegistroMockMvc

@@ -12,8 +12,6 @@ import { ICliente, Cliente } from '../cliente.model';
 
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
-import { IVehiculo } from 'app/entities/vehiculo/vehiculo.model';
-import { VehiculoService } from 'app/entities/vehiculo/service/vehiculo.service';
 
 import { ClienteUpdateComponent } from './cliente-update.component';
 
@@ -24,7 +22,6 @@ describe('Component Tests', () => {
     let activatedRoute: ActivatedRoute;
     let clienteService: ClienteService;
     let userService: UserService;
-    let vehiculoService: VehiculoService;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -39,7 +36,6 @@ describe('Component Tests', () => {
       activatedRoute = TestBed.inject(ActivatedRoute);
       clienteService = TestBed.inject(ClienteService);
       userService = TestBed.inject(UserService);
-      vehiculoService = TestBed.inject(VehiculoService);
 
       comp = fixture.componentInstance;
     });
@@ -64,38 +60,16 @@ describe('Component Tests', () => {
         expect(comp.usersSharedCollection).toEqual(expectedCollection);
       });
 
-      it('Should call Vehiculo query and add missing value', () => {
-        const cliente: ICliente = { id: 456 };
-        const vehiculo: IVehiculo = { id: 32530 };
-        cliente.vehiculo = vehiculo;
-
-        const vehiculoCollection: IVehiculo[] = [{ id: 91183 }];
-        spyOn(vehiculoService, 'query').and.returnValue(of(new HttpResponse({ body: vehiculoCollection })));
-        const additionalVehiculos = [vehiculo];
-        const expectedCollection: IVehiculo[] = [...additionalVehiculos, ...vehiculoCollection];
-        spyOn(vehiculoService, 'addVehiculoToCollectionIfMissing').and.returnValue(expectedCollection);
-
-        activatedRoute.data = of({ cliente });
-        comp.ngOnInit();
-
-        expect(vehiculoService.query).toHaveBeenCalled();
-        expect(vehiculoService.addVehiculoToCollectionIfMissing).toHaveBeenCalledWith(vehiculoCollection, ...additionalVehiculos);
-        expect(comp.vehiculosSharedCollection).toEqual(expectedCollection);
-      });
-
       it('Should update editForm', () => {
         const cliente: ICliente = { id: 456 };
         const user: IUser = { id: 13820 };
         cliente.user = user;
-        const vehiculo: IVehiculo = { id: 6549 };
-        cliente.vehiculo = vehiculo;
 
         activatedRoute.data = of({ cliente });
         comp.ngOnInit();
 
         expect(comp.editForm.value).toEqual(expect.objectContaining(cliente));
         expect(comp.usersSharedCollection).toContain(user);
-        expect(comp.vehiculosSharedCollection).toContain(vehiculo);
       });
     });
 
@@ -168,14 +142,6 @@ describe('Component Tests', () => {
         it('Should return tracked User primary key', () => {
           const entity = { id: 123 };
           const trackResult = comp.trackUserById(0, entity);
-          expect(trackResult).toEqual(entity.id);
-        });
-      });
-
-      describe('trackVehiculoById', () => {
-        it('Should return tracked Vehiculo primary key', () => {
-          const entity = { id: 123 };
-          const trackResult = comp.trackVehiculoById(0, entity);
           expect(trackResult).toEqual(entity.id);
         });
       });

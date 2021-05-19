@@ -28,10 +28,6 @@ public class ClienteDTO implements Serializable {
 
     private UserDTO user;
 
-    private VehiculoDTO vehiculo;
-
-
-
     public Long getId() {
         return id;
     }
@@ -88,14 +84,6 @@ public class ClienteDTO implements Serializable {
         this.user = user;
     }
 
-    public VehiculoDTO getVehiculo() {
-        return vehiculo;
-    }
-
-    public void setVehiculo(VehiculoDTO vehiculo) {
-        this.vehiculo = vehiculo;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -128,7 +116,6 @@ public class ClienteDTO implements Serializable {
             ", telefono='" + getTelefono() + "'" +
             ", correo='" + getCorreo() + "'" +
             ", user=" + getUser() +
-            ", vehiculo=" + getVehiculo() +
             "}";
     }
 }

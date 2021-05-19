@@ -1,16 +1,16 @@
 <div>
     <h2 id="page-heading" data-cy="MecanicoHeading">
-        <span>Mecanicos</span>
+        <span>Mecánicos</span>
 
         <div class="d-flex justify-content-end">
-            <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+            <button class="btn btn-info mr-2" (click)="reset()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh List</span>
+        <span>Actualizar</span>
       </button>
 
             <button id="jh-create-entity" data-cy="entityCreateButton" class="btn btn-primary jh-create-entity create-mecanico" [routerLink]="['/mecanico/new']">
         <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Mecanico </span>
+        <span> Nuevo mecánico </span>
       </button>
         </div>
     </h2>
@@ -19,44 +19,14 @@
 
     <jhi-alert></jhi-alert>
 
-    <!--FILTROS-->
-    <form class="form-filter " name="filterForm" role="form" novalidate (ngSubmit)="filter()" [formGroup]="filterForm">
-        <div class="row">
-            <!--Nombre-->
-            <div class="form-group">
-                <label class="form-control-label" for="filterNombre">Nombre</label>
-                <input type="text" class="form-control" id="filterNombre" formControlName="filterNombre" />
-            </div>
-
-            <!--Apellido-->
-            <div class="form-group">
-                <label class="form-control-label" for="filterApellido">Apellido</label>
-                <input type="text" class="form-control" id="filterApellido" formControlName="filterApellido" />
-            </div>
-
-            <!--Enviar-->
-            <div class="form-group">
-                <button type="submit" class="btn btn-dark">
-            <span>FILTRAR</span>
-        </button>
-            </div>
-
-        </div>
-
-
-    </form>
-
     <div class="alert alert-warning" id="no-result" *ngIf="mecanicos?.length === 0">
-        <span>No se han encontrado mecanicos</span>
+        <span>No se encontraron mecánicos</span>
     </div>
 
     <div class="table-responsive" id="entities" *ngIf="mecanicos && mecanicos.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col" jhiSortBy="id"><span>ID</span>
-                        <fa-icon icon="sort"></fa-icon>
-                    </th>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
                     <th scope="col" jhiSortBy="nombre"><span>Nombre</span>
                         <fa-icon icon="sort"></fa-icon>
                     </th>
@@ -72,27 +42,17 @@
                     <th scope="col" jhiSortBy="correo"><span>Correo</span>
                         <fa-icon icon="sort"></fa-icon>
                     </th>
-                    <th scope="col" jhiSortBy="vehiculo.id"><span>Vehiculo</span>
-                        <fa-icon icon="sort"></fa-icon>
-                    </th>
                     <th scope="col"></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
                 <tr *ngFor="let mecanico of mecanicos; trackBy: trackId" data-cy="entityTable">
-                    <td>
-                        <a [routerLink]="['/mecanico', mecanico.id, 'edit']">{{ mecanico.id }}</a>
-                    </td>
+
                     <td>{{ mecanico.nombre }}</td>
                     <td>{{ mecanico.apellido }}</td>
                     <td>{{ mecanico.dNI }}</td>
                     <td>{{ mecanico.telefono }}</td>
                     <td>{{ mecanico.correo }}</td>
-                    <td>
-                        <div *ngIf="mecanico.vehiculo">
-                            <a [routerLink]="['/vehiculo', mecanico.vehiculo?.id, 'view']">{{ mecanico.vehiculo?.id }}</a>
-                        </div>
-                    </td>
                     <td class="text-right">
                         <div class="btn-group">
 
@@ -104,7 +64,7 @@
 
                             <button type="submit" (click)="delete(mecanico)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                 <fa-icon icon="times"></fa-icon>
-                
+               
               </button>
                         </div>
                     </td>

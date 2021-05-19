@@ -4,9 +4,9 @@
 
         <div class="d-flex justify-content-end">
             <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
-                <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-                  <span>Refresh List</span>
-            </button>
+              <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+                <span>Refresh List</span>
+          </button>
         </div>
     </h2>
 
@@ -43,15 +43,15 @@
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit" [routerLink]="['/vehiculo', vehiculo.id, 'facturas']" class="btn btn-secondary btn-sm" data-cy="entityEditButton">
-                              <fa-icon icon="file"></fa-icon>
-                              
-                            </button>
+                            <fa-icon icon="file"></fa-icon>
+                            
+                          </button>
                         </div>
                         <div class="btn-group">
                             <button type="submit" [routerLink]="['/vehiculo', vehiculo.id, 'registro']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
-                              <fa-icon icon="wrench"></fa-icon>
-                              
-                            </button>
+                            <fa-icon icon="wrench"></fa-icon>
+                            
+                          </button>
                         </div>
                     </td>
                 </tr>

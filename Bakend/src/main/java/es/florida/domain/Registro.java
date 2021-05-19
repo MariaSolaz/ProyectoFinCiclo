@@ -1,6 +1,7 @@
 package es.florida.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import es.florida.domain.enumeration.EstadoVehiculo;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.*;
@@ -24,12 +25,12 @@ public class Registro implements Serializable {
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
 
-    @NotNull
-    @Column(name = "estado_actual", nullable = false)
-    private String estadoActual;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado_actual")
+    private EstadoVehiculo estadoActual;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "registros", "duenyos", "mecanicos", "matriculas" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "registros", "matriculas", "cliente", "mecanico" }, allowSetters = true)
     private Vehiculo vehiculo;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -59,16 +60,16 @@ public class Registro implements Serializable {
         this.fecha = fecha;
     }
 
-    public String getEstadoActual() {
+    public EstadoVehiculo getEstadoActual() {
         return this.estadoActual;
     }
 
-    public Registro estadoActual(String estadoActual) {
+    public Registro estadoActual(EstadoVehiculo estadoActual) {
         this.estadoActual = estadoActual;
         return this;
     }
 
-    public void setEstadoActual(String estadoActual) {
+    public void setEstadoActual(EstadoVehiculo estadoActual) {
         this.estadoActual = estadoActual;
     }
 

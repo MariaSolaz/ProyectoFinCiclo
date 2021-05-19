@@ -20,7 +20,6 @@ entity Vehiculo{
     Marca String required
     Modelo String required
     Anyo LocalDate required
-    Estado EstadoVehiculo
 }
 
 entity Factura{
@@ -33,7 +32,6 @@ entity Factura{
 entity Registro{
 	Fecha LocalDate required
     EstadoActual EstadoVehiculo
-
 }
 
 enum EstadoVehiculo{
@@ -49,11 +47,11 @@ relationship OneToMany{
 }
 
 relationship OneToMany{
-	Vehiculo {duenyo(nombre)} to Cliente
+	Cliente {duenyo(nombre)} to Vehiculo
 }
 
 relationship OneToMany{
-	Vehiculo {mecanico(nombre)} to Mecanico
+	Mecanico {mecanico(nombre)} to Vehiculo
 }
 
 relationship OneToMany{
@@ -66,5 +64,5 @@ relationship OneToOne{
 
 dto * with mapstruct
 service all with serviceImpl
-paginate all with pagination
+paginate all with infinite-scroll
 filter all

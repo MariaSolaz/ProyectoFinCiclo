@@ -50,7 +50,6 @@ public class ClienteQueryService extends QueryService<Cliente> {
         return clienteMapper.toDto(clienteRepository.findAll(specification));
     }
 
-
     /**
      * Return a {@link Page} of {@link ClienteDTO} which matches the criteria from the database.
      * @param criteria The object which holds all the filters, which the entities should match.
@@ -108,10 +107,10 @@ public class ClienteQueryService extends QueryService<Cliente> {
                         buildSpecification(criteria.getUserId(), root -> root.join(Cliente_.user, JoinType.LEFT).get(User_.id))
                     );
             }
-            if (criteria.getVehiculoId() != null) {
+            if (criteria.getDuenyoId() != null) {
                 specification =
                     specification.and(
-                        buildSpecification(criteria.getVehiculoId(), root -> root.join(Cliente_.vehiculo, JoinType.LEFT).get(Vehiculo_.id))
+                        buildSpecification(criteria.getDuenyoId(), root -> root.join(Cliente_.duenyos, JoinType.LEFT).get(Vehiculo_.id))
                     );
             }
         }

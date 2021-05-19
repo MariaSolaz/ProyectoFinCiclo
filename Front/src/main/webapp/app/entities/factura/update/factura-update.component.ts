@@ -3,7 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize, map} from 'rxjs/operators';
+import { finalize} from 'rxjs/operators';
 
 import { IFactura, Factura } from '../factura.model';
 import { FacturaService } from '../service/factura.service';
@@ -43,7 +43,7 @@ export class FacturaUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ factura }) => {
       this.updateForm(factura);
-      this.loadRelationshipsOptions();
+      
     });
 
     if(this.activatedRoute.snapshot.params.idVehiculo){
@@ -122,26 +122,10 @@ export class FacturaUpdateComponent implements OnInit {
       vehiculo: factura.vehiculo,
     });
 
-    this.vehiculosSharedCollection = this.vehiculoService.addVehiculoToCollectionIfMissing(
-      this.vehiculosSharedCollection,
-      factura.vehiculo
-    );
+   
   }
 
-  protected loadRelationshipsOptions():void{
-    this.vehiculoService
-    .query({
-      sort:['estado', 'asc']
-    })
-    .pipe(map((res:HttpResponse<IVehiculo[]>) => res.body ?? []))
-    .pipe(
-      map((vehiculos: IVehiculo[]) =>
-        this.vehiculoService.addVehiculoToCollectionIfMissing(vehiculos, this.editForm.get('estado')!.value)
-      )
-    )
-    .subscribe((vehiculos: IVehiculo[]) =>(this.vehiculosSharedCollection = vehiculos));
-
-  }
+ 
 
   protected createFromForm(): IFactura {
     return {

@@ -101,10 +101,13 @@ public class MecanicoQueryService extends QueryService<Mecanico> {
             if (criteria.getCorreo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCorreo(), Mecanico_.correo));
             }
-            if (criteria.getVehiculoId() != null) {
+            if (criteria.getMecanicoId() != null) {
                 specification =
                     specification.and(
-                        buildSpecification(criteria.getVehiculoId(), root -> root.join(Mecanico_.vehiculo, JoinType.LEFT).get(Vehiculo_.id))
+                        buildSpecification(
+                            criteria.getMecanicoId(),
+                            root -> root.join(Mecanico_.mecanicos, JoinType.LEFT).get(Vehiculo_.id)
+                        )
                     );
             }
         }

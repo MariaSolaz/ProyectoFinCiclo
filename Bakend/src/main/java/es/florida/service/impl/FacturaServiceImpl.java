@@ -1,14 +1,10 @@
 package es.florida.service.impl;
 
 import es.florida.domain.Factura;
-import es.florida.domain.Mecanico;
 import es.florida.repository.FacturaRepository;
 import es.florida.service.FacturaService;
 import es.florida.service.dto.FacturaDTO;
-import es.florida.service.dto.MecanicoDTO;
 import es.florida.service.mapper.FacturaMapper;
-
-import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,6 +74,4 @@ public class FacturaServiceImpl implements FacturaService {
         log.debug("Request to delete Factura : {}", id);
         facturaRepository.deleteById(id);
     }
-
-
 }

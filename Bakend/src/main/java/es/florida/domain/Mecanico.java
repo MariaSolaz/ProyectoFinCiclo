@@ -2,6 +2,8 @@ package es.florida.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -39,9 +41,9 @@ public class Mecanico implements Serializable {
     @Column(name = "correo", nullable = false)
     private String correo;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "registros", "duenyos", "mecanicos", "matriculas" }, allowSetters = true)
-    private Vehiculo vehiculo;
+    @OneToMany(mappedBy = "mecanico")
+    @JsonIgnoreProperties(value = { "registros", "matriculas", "cliente", "mecanico" }, allowSetters = true)
+    private Set<Vehiculo> mecanicos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -122,17 +124,35 @@ public class Mecanico implements Serializable {
         this.correo = correo;
     }
 
-    public Vehiculo getVehiculo() {
-        return this.vehiculo;
+    public Set<Vehiculo> getMecanicos() {
+        return this.mecanicos;
     }
 
-    public Mecanico vehiculo(Vehiculo vehiculo) {
-        this.setVehiculo(vehiculo);
+    public Mecanico mecanicos(Set<Vehiculo> vehiculos) {
+        this.setMecanicos(vehiculos);
         return this;
     }
 
-    public void setVehiculo(Vehiculo vehiculo) {
-        this.vehiculo = vehiculo;
+    public Mecanico addMecanico(Vehiculo vehiculo) {
+        this.mecanicos.add(vehiculo);
+        vehiculo.setMecanico(this);
+        return this;
+    }
+
+    public Mecanico removeMecanico(Vehiculo vehiculo) {
+        this.mecanicos.remove(vehiculo);
+        vehiculo.setMecanico(null);
+        return this;
+    }
+
+    public void setMecanicos(Set<Vehiculo> vehiculos) {
+        if (this.mecanicos != null) {
+            this.mecanicos.forEach(i -> i.setMecanico(null));
+        }
+        if (vehiculos != null) {
+            vehiculos.forEach(i -> i.setMecanico(this));
+        }
+        this.mecanicos = vehiculos;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

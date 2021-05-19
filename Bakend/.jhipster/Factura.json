@@ -33,12 +33,12 @@
   ],
   "entityTableName": "factura",
   "dto": "mapstruct",
-  "pagination": "pagination",
+  "pagination": "infinite-scroll",
   "service": "serviceImpl",
   "jpaMetamodelFiltering": true,
   "fluentMethods": true,
   "readOnly": false,
   "embedded": false,
   "applications": "*",
-  "changelogDate": "20210515103027"
+  "changelogDate": "20210519163817"
 }

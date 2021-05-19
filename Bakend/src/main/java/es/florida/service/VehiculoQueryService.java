@@ -98,30 +98,12 @@ public class VehiculoQueryService extends QueryService<Vehiculo> {
             if (criteria.getAnyo() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getAnyo(), Vehiculo_.anyo));
             }
-            if (criteria.getEstado() != null) {
-                specification = specification.and(buildSpecification(criteria.getEstado(), Vehiculo_.estado));
-            }
             if (criteria.getRegistroId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
                             criteria.getRegistroId(),
                             root -> root.join(Vehiculo_.registros, JoinType.LEFT).get(Registro_.id)
-                        )
-                    );
-            }
-            if (criteria.getDuenyoId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getDuenyoId(), root -> root.join(Vehiculo_.duenyos, JoinType.LEFT).get(Cliente_.id))
-                    );
-            }
-            if (criteria.getMecanicoId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getMecanicoId(),
-                            root -> root.join(Vehiculo_.mecanicos, JoinType.LEFT).get(Mecanico_.id)
                         )
                     );
             }
@@ -132,6 +114,18 @@ public class VehiculoQueryService extends QueryService<Vehiculo> {
                             criteria.getMatriculaId(),
                             root -> root.join(Vehiculo_.matriculas, JoinType.LEFT).get(Factura_.id)
                         )
+                    );
+            }
+            if (criteria.getClienteId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getClienteId(), root -> root.join(Vehiculo_.cliente, JoinType.LEFT).get(Cliente_.id))
+                    );
+            }
+            if (criteria.getMecanicoId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getMecanicoId(), root -> root.join(Vehiculo_.mecanico, JoinType.LEFT).get(Mecanico_.id))
                     );
             }
         }

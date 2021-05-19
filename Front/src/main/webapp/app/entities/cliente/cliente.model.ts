@@ -2,14 +2,14 @@ import { IUser } from 'app/entities/user/user.model';
 import { IVehiculo } from 'app/entities/vehiculo/vehiculo.model';
 
 export interface ICliente {
-  id?:number;
+  id?:number,
   nombre?: string;
   apellido?: string;
   dNI?: string;
   telefono?: string;
   correo?: string;
   user?: IUser | null;
-  vehiculo?: IVehiculo | null;
+  duenyos?: IVehiculo[] | null;
 }
 
 export class Cliente implements ICliente {
@@ -21,7 +21,7 @@ export class Cliente implements ICliente {
     public telefono?: string,
     public correo?: string,
     public user?: IUser | null,
-    public vehiculo?: IVehiculo | null
+    public duenyos?: IVehiculo[] | null
   ) {}
 }
 

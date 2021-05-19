@@ -36,7 +36,7 @@ public class MecanicoCriteria implements Serializable, Criteria {
 
     private StringFilter correo;
 
-    private LongFilter vehiculoId;
+    private LongFilter mecanicoId;
 
     public MecanicoCriteria() {}
 
@@ -47,7 +47,7 @@ public class MecanicoCriteria implements Serializable, Criteria {
         this.dNI = other.dNI == null ? null : other.dNI.copy();
         this.telefono = other.telefono == null ? null : other.telefono.copy();
         this.correo = other.correo == null ? null : other.correo.copy();
-        this.vehiculoId = other.vehiculoId == null ? null : other.vehiculoId.copy();
+        this.mecanicoId = other.mecanicoId == null ? null : other.mecanicoId.copy();
     }
 
     @Override
@@ -145,19 +145,19 @@ public class MecanicoCriteria implements Serializable, Criteria {
         this.correo = correo;
     }
 
-    public LongFilter getVehiculoId() {
-        return vehiculoId;
+    public LongFilter getMecanicoId() {
+        return mecanicoId;
     }
 
-    public LongFilter vehiculoId() {
-        if (vehiculoId == null) {
-            vehiculoId = new LongFilter();
+    public LongFilter mecanicoId() {
+        if (mecanicoId == null) {
+            mecanicoId = new LongFilter();
         }
-        return vehiculoId;
+        return mecanicoId;
     }
 
-    public void setVehiculoId(LongFilter vehiculoId) {
-        this.vehiculoId = vehiculoId;
+    public void setMecanicoId(LongFilter mecanicoId) {
+        this.mecanicoId = mecanicoId;
     }
 
     @Override
@@ -176,13 +176,13 @@ public class MecanicoCriteria implements Serializable, Criteria {
             Objects.equals(dNI, that.dNI) &&
             Objects.equals(telefono, that.telefono) &&
             Objects.equals(correo, that.correo) &&
-            Objects.equals(vehiculoId, that.vehiculoId)
+            Objects.equals(mecanicoId, that.mecanicoId)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, apellido, dNI, telefono, correo, vehiculoId);
+        return Objects.hash(id, nombre, apellido, dNI, telefono, correo, mecanicoId);
     }
 
     // prettier-ignore
@@ -195,7 +195,7 @@ public class MecanicoCriteria implements Serializable, Criteria {
             (dNI != null ? "dNI=" + dNI + ", " : "") +
             (telefono != null ? "telefono=" + telefono + ", " : "") +
             (correo != null ? "correo=" + correo + ", " : "") +
-            (vehiculoId != null ? "vehiculoId=" + vehiculoId + ", " : "") +
+            (mecanicoId != null ? "mecanicoId=" + mecanicoId + ", " : "") +
             "}";
     }
 }

@@ -4,7 +4,8 @@ import es.florida.service.dto.ClienteDTO;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
+
+import javax.transaction.Transactional;
 
 /**
  * Service Interface for managing {@link es.florida.domain.Cliente}.
@@ -49,6 +50,6 @@ public interface ClienteService {
      */
     void delete(Long id);
 
-    @Transactional(readOnly = true)
-    Optional<ClienteDTO> findClienteByIdVehiculo(long idVehiculo);
+
+
 }

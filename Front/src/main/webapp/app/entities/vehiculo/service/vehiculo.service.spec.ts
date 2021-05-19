@@ -3,7 +3,6 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import * as dayjs from 'dayjs';
 
 import { DATE_FORMAT } from 'app/config/input.constants';
-import { EstadoVehiculo } from 'app/entities/enumerations/estado-vehiculo.model';
 import { IVehiculo, Vehiculo } from '../vehiculo.model';
 
 import { VehiculoService } from './vehiculo.service';
@@ -31,7 +30,6 @@ describe('Service Tests', () => {
         marca: 'AAAAAAA',
         modelo: 'AAAAAAA',
         anyo: currentDate,
-        estado: EstadoVehiculo.NoRevisado,
       };
     });
 
@@ -82,7 +80,6 @@ describe('Service Tests', () => {
             marca: 'BBBBBB',
             modelo: 'BBBBBB',
             anyo: currentDate.format(DATE_FORMAT),
-            estado: 'BBBBBB',
           },
           elemDefault
         );
@@ -106,7 +103,6 @@ describe('Service Tests', () => {
           {
             matricula: 'BBBBBB',
             modelo: 'BBBBBB',
-            estado: 'BBBBBB',
           },
           new Vehiculo()
         );
@@ -135,7 +131,6 @@ describe('Service Tests', () => {
             marca: 'BBBBBB',
             modelo: 'BBBBBB',
             anyo: currentDate.format(DATE_FORMAT),
-            estado: 'BBBBBB',
           },
           elemDefault
         );
@@ -192,7 +187,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Vehiculo to an array', () => {
-          const vehiculoArray: IVehiculo[] = [{ id: 123 }, { id: 456 }, { id: 90691 }];
+          const vehiculoArray: IVehiculo[] = [{ id: 123 }, { id: 456 }, { id: 50840 }];
           const vehiculoCollection: IVehiculo[] = [{ id: 123 }];
           expectedResult = service.addVehiculoToCollectionIfMissing(vehiculoCollection, ...vehiculoArray);
           expect(expectedResult).toHaveLength(3);

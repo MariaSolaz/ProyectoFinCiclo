@@ -7,9 +7,14 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Cliente} and its DTO {@link ClienteDTO}.
  */
-@Mapper(componentModel = "spring", uses = { UserMapper.class, VehiculoMapper.class })
+@Mapper(componentModel = "spring", uses = { UserMapper.class })
 public interface ClienteMapper extends EntityMapper<ClienteDTO, Cliente> {
     @Mapping(target = "user", source = "user", qualifiedByName = "login")
-    @Mapping(target = "vehiculo", source = "vehiculo", qualifiedByName = "id")
     ClienteDTO toDto(Cliente s);
+
+    @Named("id")
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "user", source = "user")
+    ClienteDTO toDtoId(Cliente cliente);
 }
