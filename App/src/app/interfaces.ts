@@ -5,7 +5,7 @@ export interface ICliente {
     nombre?: string;
     apellido?: string;
     dNI?: string;
-    telefono?: string;
+    telefono?: number;
     correo?: string;
     vehiculo?: IVehiculo | null;
 }
@@ -15,7 +15,7 @@ export class Cliente implements ICliente{
         public nombre?: string,
         public apellido?: string,
         public dNI?: string,
-        public telefono?: string,
+        public telefono?: number,
         public correo?: string,
         public vehiculo?: IVehiculo | null,
     ){}

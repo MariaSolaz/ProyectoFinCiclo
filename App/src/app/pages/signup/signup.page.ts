@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Cliente, ICliente } from 'src/app/interfaces';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -26,6 +27,8 @@ export class SignupPage implements OnInit {
     langKey: 'en'
   };
 
+
+
   // Our translated text strings
   private signupErrorString: string;
   private signupSuccessString: string;
@@ -50,7 +53,7 @@ export class SignupPage implements OnInit {
 
   doSignup() {
     // set login to same as email
-    this.account.login = this.account.email;
+    this.account.login = this.account.firstName;
     // Attempt to login in through our User service
     this.userService.signup(this.account).subscribe(
       async () => {
@@ -84,4 +87,5 @@ export class SignupPage implements OnInit {
       }
     );
   }
+
 }
