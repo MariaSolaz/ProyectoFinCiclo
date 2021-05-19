@@ -9,7 +9,9 @@ import { VehiculoService } from 'src/app/services/Vehiculo/vehiculo.service';
 
 
 import {ICliente} from '../../../interfaces';
-import {IVehiculo} from '../../../interfaces'
+import {IVehiculo} from '../../../interfaces';
+
+import {LoginService} from '../../../services/login/login.service';
 
 
 
@@ -34,6 +36,7 @@ export class ClientePage implements OnInit{
     constructor(
         protected servicioCliente: ClienteService,
         protected servicioVehiculo: VehiculoService,
+        protected servicioLogin: LoginService,
         protected activatedRoute: ActivatedRoute,
         protected router: Router,
         protected modalService: NgbModal,
@@ -83,6 +86,10 @@ export class ClientePage implements OnInit{
     reset():void{
         this.vehiculos = [];
         this.loadAll();
+    }
+
+    salir():void{
+        this.servicioLogin.logout();
     }
 
     protected pagianteCliente(data: ICliente[] | null):void{

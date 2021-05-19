@@ -6,6 +6,7 @@ import { ClienteComponent } from '../list/cliente.component';
 import { ClienteDetailComponent } from '../detail/cliente-detail.component';
 import { ClienteUpdateComponent } from '../update/cliente-update.component';
 import { ClienteRoutingResolveService } from './cliente-routing-resolve.service';
+import { VehiculoComponent } from 'app/entities/vehiculo/list/vehiculo.component';
 
 const clienteRoute: Routes = [
   {
@@ -40,6 +41,14 @@ const clienteRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+  {
+    path: ':idCliente/vehiculo',
+    component: VehiculoComponent,
+    resolve:{
+      vehiculo: ClienteRoutingResolveService,
+    },
+    canActivate: [UserRouteAccessService],
+  }
 ];
 
 @NgModule({

@@ -2,7 +2,14 @@ ion-app {
     display: flex;
     .header {
         display: flex;
-        flex-flow: row;
+        flex-direction: column;
+        h1 {
+            float: left;
+        }
+        ion-button {
+            float: right;
+            margin-top: 10px;
+        }
     }
     .btn-actualizar {
         overflow: hidden;
@@ -11,13 +18,22 @@ ion-app {
         }
     }
     ion-card {
-        ion-card-title {
-            margin-top: 10px;
-            margin-left: 10px;
+        display: inline-flex;
+        width: 100%;
+        h3 {
+            width: 40%;
+            margin: auto;
+            text-align: center;
+            padding: auto;
         }
-        ul li {
-            text-decoration: none;
-            list-style: none;
+        img {
+            width: 100px;
+            height: 100px;
+        }
+        ion-button {
+            margin: auto;
+            text-align: center;
+            padding: auto;
         }
     }
 }
