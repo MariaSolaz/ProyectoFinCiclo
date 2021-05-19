@@ -3,6 +3,7 @@ package es.florida.web.rest;
 import es.florida.repository.FacturaRepository;
 import es.florida.service.*;
 import es.florida.service.criteria.FacturaCriteria;
+import es.florida.service.dto.ClienteDTO;
 import es.florida.service.dto.FacturaDTO;
 import es.florida.service.dto.MecanicoDTO;
 import es.florida.service.dto.VehiculoDTO;
@@ -14,6 +15,8 @@ import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import javassist.bytecode.Opcode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,13 +56,17 @@ public class FacturaResource {
 
     private final VehiculoService vehiculoService;
 
-    public FacturaResource(FacturaService facturaService, FacturaRepository facturaRepository, FacturaQueryService facturaQueryService, MailService mailService, MecanicoService mecanicoService, VehiculoService vehiculoService) {
+    private final ClienteService clienteService;
+
+
+    public FacturaResource(FacturaService facturaService, FacturaRepository facturaRepository, FacturaQueryService facturaQueryService, MailService mailService, MecanicoService mecanicoService, VehiculoService vehiculoService, ClienteService clienteService) {
         this.facturaService = facturaService;
         this.facturaRepository = facturaRepository;
         this.facturaQueryService = facturaQueryService;
         this.mailService = mailService;
         this.mecanicoService = mecanicoService;
         this.vehiculoService = vehiculoService;
+        this.clienteService = clienteService;
     }
 
     /**
@@ -75,7 +82,21 @@ public class FacturaResource {
         if (facturaDTO.getId() != null) {
             throw new BadRequestAlertException("A new factura cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
         FacturaDTO result = facturaService.save(facturaDTO);
+
+        Optional<VehiculoDTO> vehiculo =  vehiculoService.findOne(facturaDTO.getVehiculo().getId());
+
+        Optional<ClienteDTO> cliente = clienteService.findClienteByIdVehiculo(vehiculo.get().getId());
+        if(!cliente.isPresent()){
+            throw new BadRequestAlertException("No se ha encontrado ningun cliente",ENTITY_NAME,"clienteDoesntExist");
+        }
+
+        String subject = "Notificación Nueva Factura" ;
+        String contenido = "Hola "+ cliente.get().getNombre() +"La nueva factura del vehiculo con matricula " + vehiculo.get().getMatricula() + " ha sido " + facturaDTO.getEstado();
+
+        mailService.sendEmail(cliente.get().getCorreo(),subject,contenido,false, true);
+
         return ResponseEntity
             .created(new URI("/api/facturas/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
@@ -115,7 +136,7 @@ public class FacturaResource {
         if(!mecanicoDTO.isPresent()){
             throw new BadRequestAlertException("No se ha encontrado ningun mecanico",ENTITY_NAME,"mecanicoDoesntExist");
         }
-        String subject = "Notificación Factura Mecanico " + mecanicoDTO.get().getNombre();
+        String subject = "Notificación para " + mecanicoDTO.get().getNombre();
         String contenido = "La factura del vehiculo con matricula " + vehiculo.get().getMatricula() + " ha sido " + facturaDTO.getEstado();
         mailService.sendEmail(mecanicoDTO.get().getCorreo(),subject,contenido,false, true);
         return ResponseEntity
