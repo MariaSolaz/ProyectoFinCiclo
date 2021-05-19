@@ -93,7 +93,7 @@ public class FacturaResource {
         }
 
         String subject = "Notificación Nueva Factura" ;
-        String contenido = "Hola "+ cliente.get().getNombre() +"La nueva factura del vehiculo con matricula " + vehiculo.get().getMatricula() + " ha sido " + facturaDTO.getEstado();
+        String contenido = "Hola "+ cliente.get().getNombre() +"la nueva factura del vehiculo con matricula " + vehiculo.get().getMatricula() + " ha sido ya está disponible";
 
         mailService.sendEmail(cliente.get().getCorreo(),subject,contenido,false, true);
 
