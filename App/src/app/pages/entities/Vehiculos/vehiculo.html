@@ -4,6 +4,7 @@
             <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-title>DATOS COCHE</ion-title>
+
     </ion-toolbar>
 </ion-header>
 
@@ -18,10 +19,9 @@
                     <li>Año: {{vehiculo.anyo}}</li>
                 </ul>
             </div>
-            <div class="btn-actualizar">
-                <ion-button color="tertiary" (click)="reset()">Actualizar</ion-button>
-            </div>
-
+        </div>
+        <div class="btn-actualizar">
+            <ion-button color="tertiary" (click)="reset()">Actualizar</ion-button>
         </div>
         <div class="menu">
             <ion-toolbar>
@@ -35,17 +35,6 @@
                 </ion-segment>
             </ion-toolbar>
         </div>
-        <!-- <div *ngIf="hideMeEstado">
-            <ion-card *ngFor="let registro of registros">
-                <ion-card-title>Registro: {{registro.id}}</ion-card-title>
-                <ul>
-                    <li>Fecha: {{registro.fecha}}</li>
-                    <li>Estado: {{registro.estadoActual}}</li>
-                </ul>
-                <ion-button color="primary">VER</ion-button>
-
-            </ion-card>
-        </div> -->
 
         <div *ngIf="hideMeEstado">
             <ion-list>
@@ -56,7 +45,6 @@
                 </ion-item>
             </ion-list>
         </div>
-
 
         <div *ngIf="hideMeFactura">
             <ion-card *ngFor="let factura of facturas">

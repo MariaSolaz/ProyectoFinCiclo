@@ -109,7 +109,9 @@ export class VehiculoUpdateComponent implements OnInit {
 
   protected loadRelationshipsOptions(): void {
     this.clienteService
-      .query()
+      .query({
+        sort: ['nombre','asc']
+      })
       .pipe(map((res: HttpResponse<ICliente[]>) => res.body ?? []))
       .pipe(
         map((clientes: ICliente[]) => this.clienteService.addClienteToCollectionIfMissing(clientes, this.editForm.get('cliente')!.value))
@@ -117,7 +119,9 @@ export class VehiculoUpdateComponent implements OnInit {
       .subscribe((clientes: ICliente[]) => (this.clientesSharedCollection = clientes));
 
     this.mecanicoService
-      .query()
+      .query({
+        sort: ['nombre','asc'],
+      })
       .pipe(map((res: HttpResponse<IMecanico[]>) => res.body ?? []))
       .pipe(
         map((mecanicos: IMecanico[]) =>

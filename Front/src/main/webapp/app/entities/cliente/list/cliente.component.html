@@ -33,16 +33,13 @@
                     <th scope="col" jhiSortBy="apellido"><span>Apellido</span>
                         <fa-icon icon="sort"></fa-icon>
                     </th>
-                    <th scope="col" jhiSortBy="dNI"><span>D NI</span>
+                    <th scope="col" jhiSortBy="dNI"><span>DNI</span>
                         <fa-icon icon="sort"></fa-icon>
                     </th>
                     <th scope="col" jhiSortBy="telefono"><span>Telefono</span>
                         <fa-icon icon="sort"></fa-icon>
                     </th>
                     <th scope="col" jhiSortBy="correo"><span>Correo</span>
-                        <fa-icon icon="sort"></fa-icon>
-                    </th>
-                    <th scope="col" jhiSortBy="user.login"><span>User</span>
                         <fa-icon icon="sort"></fa-icon>
                     </th>
                     <th scope="col"></th>
@@ -55,9 +52,6 @@
                     <td>{{ cliente.dNI }}</td>
                     <td>{{ cliente.telefono }}</td>
                     <td>{{ cliente.correo }}</td>
-                    <td>
-                        {{ cliente.user?.login }}
-                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit" [routerLink]="['/cliente', cliente.id, 'vehiculo']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import {IFactura, Factura} from '../../../../interfaces';
 import { FacturaService } from 'src/app/services/Factura/factura.service';
 import { VehiculoService } from 'src/app/services/Vehiculo/vehiculo.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-factura-update',
@@ -17,6 +18,7 @@ export class FacturaUpdate implements OnInit {
     protected facturaService: FacturaService,
     protected vehiculoService: VehiculoService,
     protected activatedRoute: ActivatedRoute,
+    public navController: NavController
   ) {}
 
   ngOnInit(): void {
@@ -48,6 +50,6 @@ export class FacturaUpdate implements OnInit {
   }
 
   previousState(): void {
-    window.history.back();
+    this.navController.navigateRoot('/vehiculo/'+this.factura.vehiculo.id);
   }
 }

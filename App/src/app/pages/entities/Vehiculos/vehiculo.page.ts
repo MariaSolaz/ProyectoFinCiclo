@@ -49,9 +49,7 @@ export class VehiculoPage implements OnInit{
             filter: filtros
         }).subscribe(
             (res: HttpResponse<IVehiculo[]>) => {
-
-                this.pagianteVehiculo(res.body);
-                console.log(res.body);
+                this.pagianteVehiculo(res.body); 
             },
             (error) =>{
                 console.error(error);
@@ -62,18 +60,17 @@ export class VehiculoPage implements OnInit{
     cargarRegistros(){
         this.isLoading = true;
         const filtros:Map<string,any> = new Map();
-       filtros.set('vehiculoId.equals', this.idVehiculo)
-       this.servicioRegistro.obtenerRegistros({
+        filtros.set('vehiculoId.equals', this.idVehiculo)
+        this.servicioRegistro.obtenerRegistros({
            filter: filtros,
-       }).subscribe(
+        }).subscribe(
            (res: HttpResponse<IRegistro[]>) => {
                this.pagianteRegistro(res.body);
                console.log(res.body);
            },
            (error) =>{
             console.log(error);
-        }
-       )
+        })
     }
 
     cargarFacturas(){
@@ -148,4 +145,5 @@ export class VehiculoPage implements OnInit{
             }
         }
     }
+
 }

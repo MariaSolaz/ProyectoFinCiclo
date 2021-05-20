@@ -23,7 +23,6 @@ import {LoginService} from '../../../services/login/login.service';
 })
 
 export class ClientePage implements OnInit{
-    clientes: ICliente[] = [] ;
     cliente:ICliente;
     vehiculos: IVehiculo[] =[];
     nameUser?:string;
@@ -31,7 +30,7 @@ export class ClientePage implements OnInit{
     isLoading = false;
     totalItems: number;
 
-    idDuenyo?:IVehiculo;
+    idDuenyo:number;
   
     constructor(
         protected servicioCliente: ClienteService,
@@ -40,7 +39,9 @@ export class ClientePage implements OnInit{
         protected activatedRoute: ActivatedRoute,
         protected router: Router,
         protected modalService: NgbModal,
-    ){}
+    ){
+       
+    }
 
     cargarUsuario(){
         this.isLoading = true;
@@ -62,7 +63,12 @@ export class ClientePage implements OnInit{
 
     cargarVehiculos(){
         this.isLoading = true;
-        this.servicioVehiculo.obtenerVehiculos().subscribe(
+        const filtros:Map<string,any> = new Map();
+        
+        filtros.set("clienteId.equals", this.idDuenyo)
+        this.servicioVehiculo.obtenerVehiculos({
+            filter: filtros,
+        }).subscribe(
             (res: HttpResponse<IVehiculo[]>) => {
                 console.log(res.body);
                 this.pagianteVehiculo(res.body);
@@ -95,19 +101,16 @@ export class ClientePage implements OnInit{
     protected pagianteCliente(data: ICliente[] | null):void{
         if(data){
             for(const d of data){
-                this.cliente =  d;
-                console.log(this.cliente)
-                
-            }
+                this.idDuenyo = d.id; 
+            }   
+            console.log(this.idDuenyo)
         }
     }
 
     protected pagianteVehiculo(data: IVehiculo[] | null):void{
         if(data){
             for(const d of data){
-                if (d.id === this.cliente.vehiculo.id){
-                    this.vehiculos.push(d);
-                }
+                this.vehiculos.push(d);
             }
         }
     }
