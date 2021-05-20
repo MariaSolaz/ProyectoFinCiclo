@@ -1,0 +1,61 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>DATOS COCHE</ion-title>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content *ngFor="let vehiculo of vehiculos">
+    <div class="datos-coche">
+        <div class="info-coche">
+            <img src="../../../../assets/img/iconocoche.jpg" />
+            <div class="datos">
+                <ul>
+                    <li>Marca: {{vehiculo.marca}}</li>
+                    <li>Modelo: {{vehiculo.modelo}}</li>
+                    <li>Año: {{vehiculo.anyo}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="btn-actualizar">
+            <ion-button color="tertiary" (click)="reset()">Actualizar</ion-button>
+        </div>
+        <div class="menu">
+            <ion-toolbar>
+                <ion-segment value="estado">
+                    <ion-segment-button value="estado" (click)="hideEstado()">
+                        ESTADO
+                    </ion-segment-button>
+                    <ion-segment-button value="facturas" (click)="hideFactura()">
+                        FACTURAS
+                    </ion-segment-button>
+                </ion-segment>
+            </ion-toolbar>
+        </div>
+
+        <div *ngIf="hideMeEstado">
+            <ion-list>
+                <ion-item *ngFor="let registro of registros">
+                    <ion-label>Registro Nº {{registro.id}}</ion-label>
+                    <ion-label>{{registro.fecha}}</ion-label>
+                    <ion-label>{{registro.estadoActual}}</ion-label>
+                </ion-item>
+            </ion-list>
+        </div>
+
+        <div *ngIf="hideMeFactura">
+            <ion-card *ngFor="let factura of facturas">
+                <ion-card-title>Factura: {{factura.id}}</ion-card-title>
+                <ul>
+                    <li>Fecha: {{factura.fecha}}</li>
+                    <li>Estado: {{factura.estado}}</li>
+                </ul>
+                <ion-button color="primary" routerLink="/factura/{{factura.id}}">VER</ion-button>
+
+            </ion-card>
+        </div>
+    </div>
+</ion-content>

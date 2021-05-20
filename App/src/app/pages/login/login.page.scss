@@ -1,0 +1,34 @@
+ion-card {
+    display: flex;
+    width: 95%;
+    height: 50%;
+    margin: auto;
+    flex-wrap: wrap;
+    .logo {
+        justify-content: center;
+        width: 347px;
+        height: 100px;
+        margin: auto;
+        background: url('../../../assets/img/logo.png') no-repeat center top;
+        background-size: contain;
+    }
+    form {
+        margin: auto;
+        width: 100%;
+    }
+}
+
+
+/* wait autoprefixer update to allow simple generation of high pixel density media query */
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min--moz-device-pixel-ratio: 2),
+only screen and (-o-min-device-pixel-ratio: 2/1),
+only screen and (min-device-pixel-ratio: 2),
+only screen and (min-resolution: 192dpi),
+only screen and (min-resolution: 2dppx) {
+    .logo {
+        background: url('../../../assets/img/logo.png') no-repeat center top;
+        background-size: contain;
+    }
+}

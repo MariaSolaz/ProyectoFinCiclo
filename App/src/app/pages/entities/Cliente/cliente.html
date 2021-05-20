@@ -1,0 +1,19 @@
+<ion-app>
+    <ion-header class="header">
+        <div class="title">
+            <h1>Tus Vehículos</h1>
+            <ion-button color="tertiary" (click)="salir()" routerLink="">Cerrar Sesión</ion-button>
+        </div>
+    </ion-header>
+    <ion-content>
+        <div class="btn-actualizar">
+            <ion-button color="tertiary" (click)="reset()">Actualizar</ion-button>
+        </div>
+
+        <ion-card *ngFor="let vehiculo of vehiculos">
+            <img src="../../../../assets/img/iconocoche.jpg" />
+            <h3><strong>Coche: {{vehiculo.matricula}}</strong></h3>
+            <ion-button color="tertiary" routerLink="/vehiculo/{{vehiculo.id}}">VER</ion-button>
+        </ion-card>
+    </ion-content>
+</ion-app>

@@ -1,0 +1,82 @@
+<div>
+    <h2 id="page-heading" data-cy="FacturaHeading">
+        <span>Facturas de {{vehiculo?.matricula}}</span>
+
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-info mr-2" (click)="reset()" [disabled]="isLoading">
+      <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+      <span>Actualizar</span>
+    </button>
+
+            <button id="jh-create-entity" data-cy="entityCreateButton" class="btn btn-primary jh-create-entity create-factura" [routerLink]="['/vehiculo/' + vehiculo?.id + '/facturas/new']">
+      <fa-icon icon="plus"></fa-icon>
+      <span> Nueva factura </span>
+    </button>
+        </div>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+
+    <div class="alert alert-warning" id="no-result" *ngIf="facturas?.length === 0">
+        <span>No se han encontrado facturas</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="facturas && facturas.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
+                    <th scope="col" jhiSortBy="id"><span>ID</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="fecha"><span>Fecha</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="diagnostico"><span>Diagnostico</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="precio"><span>Precio</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="estado"><span>Estado</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let factura of facturas; trackBy: trackId" data-cy="entityTable">
+                    <td>
+                        <a [routerLink]="['/factura', factura.id, 'edit']">{{ factura.id }}</a>
+                    </td>
+                    <td>{{ factura.fecha | formatMediumDate }}</td>
+                    <td>{{ factura.diagnostico }}</td>
+                    <td>{{ factura.precio }}</td>
+                    <td>{{ factura.estado }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+
+
+                            <button type="submit" [routerLink]="['/factura', factura.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+              <fa-icon icon="pencil-alt"></fa-icon>
+              
+            </button>
+
+                            <button type="submit" (click)="delete(factura)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <fa-icon icon="times"></fa-icon>
+              
+            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <button type="submit" [routerLink]="['/vehiculo']" class="btn btn-primary ">
+      <span>Volver</span>
+      
+  </button>
+</div>

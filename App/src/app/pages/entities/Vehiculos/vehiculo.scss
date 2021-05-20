@@ -1,0 +1,42 @@
+ion-content {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 100%;
+    .btn-actualizar {
+        float: right;
+    }
+    .datos-coche {
+        .info-coche {
+            flex-direction: row;
+            height: fit-content;
+            img {
+                width: 100px;
+                border-radius: 50%;
+            }
+            .datos {
+                float: right;
+                width: 70%;
+                height: auto;
+                ul li {
+                    list-style: none;
+                }
+            }
+            ion-button {
+                float: right;
+                margin-top: -80px;
+            }
+        }
+        .menu {
+            width: 100%;
+            text-align: center;
+            border-top: solid lightblue 1px;
+            ul li {
+                list-style: none;
+                display: inline;
+                margin-left: 10px;
+                text-decoration: none;
+            }
+        }
+    }
+}

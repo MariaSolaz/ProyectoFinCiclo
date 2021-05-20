@@ -1,0 +1,11 @@
+id;fecha;diagnostico;precio;estado
+1;2021-05-19;../fake-data/blob/hipster.txt;66735;Pendiente
+2;2021-05-18;../fake-data/blob/hipster.txt;25896;Aceptada
+3;2021-05-19;../fake-data/blob/hipster.txt;17222;Declinada
+4;2021-05-19;../fake-data/blob/hipster.txt;97186;Declinada
+5;2021-05-18;../fake-data/blob/hipster.txt;26606;Declinada
+6;2021-05-19;../fake-data/blob/hipster.txt;87056;Declinada
+7;2021-05-19;../fake-data/blob/hipster.txt;23235;Pendiente
+8;2021-05-19;../fake-data/blob/hipster.txt;11237;Declinada
+9;2021-05-18;../fake-data/blob/hipster.txt;67822;Pendiente
+10;2021-05-19;../fake-data/blob/hipster.txt;99908;Pendiente

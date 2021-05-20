@@ -1,0 +1,91 @@
+<div>
+    <h2 id="page-heading" data-cy="VehiculoHeading">
+        <span>Vehículos</span>
+
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-info mr-2" (click)="reset()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Actualizar</span>
+      </button>
+
+            <button id="jh-create-entity" data-cy="entityCreateButton" class="btn btn-primary jh-create-entity create-vehiculo" [routerLink]="['/vehiculo/new']">
+        <fa-icon icon="plus"></fa-icon>
+        <span> Nuevo vehículo</span>
+      </button>
+        </div>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="vehiculos?.length === 0">
+        <span>No se han encontrado vehículos</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="vehiculos && vehiculos.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
+                    <th scope="col" jhiSortBy="matricula"><span>Matricula</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="marca"><span>Marca</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="modelo"><span>Modelo</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="anyo"><span>Anyo</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="cliente.id"><span>Cliente</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="mecanico.id"><span>Mecanico</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+                <tr *ngFor="let vehiculo of vehiculos; trackBy: trackId" data-cy="entityTable">
+                    <td>{{ vehiculo.matricula }}</td>
+                    <td>{{ vehiculo.marca }}</td>
+                    <td>{{ vehiculo.modelo }}</td>
+                    <td>{{ vehiculo.anyo | formatMediumDate }}</td>
+                    <td>
+                        <div *ngIf="vehiculo.cliente">
+                            <a [routerLink]="['/cliente', vehiculo.cliente?.id, 'edit']">{{ vehiculo.cliente?.id }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="vehiculo.mecanico">
+                            <a [routerLink]="['/mecanico', vehiculo.mecanico?.id, 'edit']">{{ vehiculo.mecanico?.id }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit" [routerLink]="['/vehiculo', vehiculo.id, 'facturas']" class="btn btn-secondary btn-sm" data-cy="entityEditButton">
+                                <fa-icon icon="file"></fa-icon>
+                                
+                              </button>
+
+                            <button type="submit" [routerLink]="['/vehiculo', vehiculo.id, 'registro']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                                <fa-icon icon="wrench"></fa-icon>
+                            </button>
+
+                            <button type="submit" [routerLink]="['/vehiculo', vehiculo.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                            <fa-icon icon="pencil-alt"></fa-icon>
+                            </button>
+
+                            <button type="submit" (click)="delete(vehiculo)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                            <fa-icon icon="times"></fa-icon>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

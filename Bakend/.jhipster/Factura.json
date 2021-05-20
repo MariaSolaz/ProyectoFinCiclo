@@ -1,0 +1,44 @@
+{
+  "name": "Factura",
+  "fields": [
+    {
+      "fieldName": "fecha",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "diagnostico",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "precio",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "estado",
+      "fieldType": "EstadoFactura",
+      "fieldValues": "Aceptada,Declinada,Pendiente"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "vehiculo",
+      "otherEntityRelationshipName": "matricula",
+      "relationshipName": "vehiculo"
+    }
+  ],
+  "entityTableName": "factura",
+  "dto": "mapstruct",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210519163817"
+}

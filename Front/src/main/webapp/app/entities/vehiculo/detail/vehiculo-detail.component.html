@@ -1,0 +1,56 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="vehiculo">
+      <h2 data-cy="vehiculoDetailsHeading"><span>Vehiculo</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ vehiculo.id }}</span>
+        </dd>
+        <dt><span>Matricula</span></dt>
+        <dd>
+          <span>{{ vehiculo.matricula }}</span>
+        </dd>
+        <dt><span>Marca</span></dt>
+        <dd>
+          <span>{{ vehiculo.marca }}</span>
+        </dd>
+        <dt><span>Modelo</span></dt>
+        <dd>
+          <span>{{ vehiculo.modelo }}</span>
+        </dd>
+        <dt><span>Anyo</span></dt>
+        <dd>
+          <span>{{ vehiculo.anyo | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Cliente</span></dt>
+        <dd>
+          <div *ngIf="vehiculo.cliente">
+            <a [routerLink]="['/cliente', vehiculo.cliente?.id, 'view']">{{ vehiculo.cliente?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Mecanico</span></dt>
+        <dd>
+          <div *ngIf="vehiculo.mecanico">
+            <a [routerLink]="['/mecanico', vehiculo.mecanico?.id, 'view']">{{ vehiculo.mecanico?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/vehiculo', vehiculo.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
