@@ -89,7 +89,7 @@ public class FacturaResource {
         }
 
         String subject = "Notificación Nueva Factura" ;
-        String contenido = "Hola "+ cliente.get().getNombre() +" la nueva factura del vehiculo con matricula " + vehiculo.get().getMatricula() + " ha sido ya está disponible";
+        String contenido = "Hola "+ cliente.get().getNombre() +" la nueva factura del vehiculo con matricula " + vehiculo.get().getMatricula() + " ya está disponible";
 
         mailService.sendEmail(cliente.get().getCorreo(),subject,contenido,false, true);
         return ResponseEntity
@@ -133,7 +133,7 @@ public class FacturaResource {
             throw new BadRequestAlertException("No se ha encontrado ningun mecanico",ENTITY_NAME,"mecanicoDoesntExist");
         }
         String subject = "Notificación para " + mecanicoDTO.get().getNombre();
-        String contenido = "La factura del vehiculo con matricula " + vehiculo.get().getMatricula() + " ha sido " + facturaDTO.getEstado();
+        String contenido = "La factura del vehiculo con matricula " + vehiculo.get().getMatricula() + " ha cambiado de estado ha: " + facturaDTO.getEstado();
         mailService.sendEmail(mecanicoDTO.get().getCorreo(),subject,contenido,false, true);
         return ResponseEntity
             .ok()
